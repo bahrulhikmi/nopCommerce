@@ -353,6 +353,10 @@ namespace Nop.Web.Infrastructure
                 pattern + "orderdetails/print/{orderId}",
                 new { controller = "Order", action = "PrintOrderDetails" });
 
+            endpointRouteBuilder.MapControllerRoute("UploadTransferReceipt",
+               pattern + "uploadtransferreceipt/{orderId:min(0)}",
+               new { controller = "Order", action = "UploadTransferReceipt" });
+
             //order downloads
             endpointRouteBuilder.MapControllerRoute("GetDownload",
                 pattern + "download/getdownload/{orderItemId:guid}/{agree?}",

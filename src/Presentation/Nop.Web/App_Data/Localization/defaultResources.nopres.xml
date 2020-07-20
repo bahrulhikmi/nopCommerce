@@ -16446,6 +16446,9 @@
   <LocaleResource Name="Order.Notes.Note">
     <Value>Note</Value>
   </LocaleResource>
+  <LocaleResource Name="Order.TransferReceipt">
+    <Value>Transfer Receipt</Value>
+  </LocaleResource>
   <LocaleResource Name="Order.Order#">
     <Value>Order #</Value>
   </LocaleResource>

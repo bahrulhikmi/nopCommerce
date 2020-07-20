@@ -1,3 +1,5 @@
+@using Nop.Core.Domain.Media
+
 @model OrderDetailsModel
 @{
     if (!Model.PrintMode)
@@ -55,9 +57,9 @@
         <div class="order-details-area">
             <div class="billing-info-wrap">
                 <div class="billing-info">
-	                <div class="title">
-	                    <strong>@T("Order.BillingAddress")</strong>
-	                </div>
+                    <div class="title">
+                        <strong>@T("Order.BillingAddress")</strong>
+                    </div>
                     <ul class="info-list">
                         <li class="name">
                             @Model.BillingAddress.FirstName @Model.BillingAddress.LastName
@@ -95,18 +97,18 @@
                                 @Model.BillingAddress.Address2
                             </li>
                         }
-                        @if (Model.BillingAddress.CityEnabled && !string.IsNullOrEmpty(Model.BillingAddress.City)|| 
-                            Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County) || 
-                            Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) || 
-                            Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
+                        @if (Model.BillingAddress.CityEnabled && !string.IsNullOrEmpty(Model.BillingAddress.City) ||
+                           Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County) ||
+                           Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) ||
+                           Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
                         {
                             <li class="city-state-zip">
                                 @if (Model.BillingAddress.CityEnabled && !string.IsNullOrEmpty(Model.BillingAddress.City))
                                 {
                                     @Model.BillingAddress.City
-                                    @if (Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County) || 
-                                        Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) || 
-                                        Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
+                                    @if (Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County) ||
+                                       Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) ||
+                                       Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
                                     {
                                         <text>,</text>
                                     }
@@ -114,8 +116,8 @@
                                 @if (Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County))
                                 {
                                     @Model.BillingAddress.County
-                                    @if (Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) || 
-                                        Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
+                                    @if (Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName) ||
+                                       Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
                                     {
                                         <text>,</text>
                                     }
@@ -204,7 +206,7 @@
                                 @*Complete payment (for redirection payment methods)*@
                                 <li class="repost">
                                     <form asp-route="OrderDetails" method="post">
-                                        <input type="submit" name="repost-payment" value="@T("Order.RetryPayment")" class="button-2 re-order-button"/>
+                                        <input type="submit" name="repost-payment" value="@T("Order.RetryPayment")" class="button-2 re-order-button" />
                                         <p class="hint">
                                             <em>@T("Order.RetryPayment.Hint")</em>
                                         </p>
@@ -219,9 +221,9 @@
             {
                 <div class="shipping-info-wrap">
                     <div class="shipping-info">
-	                    <div class="title">
-	                        <strong>@(Model.PickupInStore ? T("Order.PickupAddress") : T("Order.ShippingAddress"))</strong>
-	                    </div>
+                        <div class="title">
+                            <strong>@(Model.PickupInStore ? T("Order.PickupAddress") : T("Order.ShippingAddress"))</strong>
+                        </div>
                         <ul class="info-list">
                             @if (!Model.PickupInStore)
                             {
@@ -261,18 +263,18 @@
                                         @Model.ShippingAddress.Address2
                                     </li>
                                 }
-                                @if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City)|| 
-                                    Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County) || 
-                                    Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) || 
-                                    Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
+                                @if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City) ||
+                                   Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County) ||
+                                   Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) ||
+                                   Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
                                 {
                                     <li class="city-state-zip">
                                         @if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City))
                                         {
                                             @Model.ShippingAddress.City
-                                            @if (Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County) || 
-                                                Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) || 
-                                                Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
+                                            @if (Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County) ||
+                                               Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) ||
+                                               Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
                                             {
                                                 <text>,</text>
                                             }
@@ -280,8 +282,8 @@
                                         @if (Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County))
                                         {
                                             @Model.ShippingAddress.County
-                                            @if (Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) || 
-                                                Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
+                                            @if (Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName) ||
+                                               Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
                                             {
                                                 <text>,</text>
                                             }
@@ -321,18 +323,18 @@
                                         @Model.PickupAddress.Address1
                                     </li>
                                 }
-                                if (!string.IsNullOrEmpty(Model.PickupAddress.City)|| 
-                                    !string.IsNullOrEmpty(Model.PickupAddress.County) || 
-                                    !string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) || 
+                                if (!string.IsNullOrEmpty(Model.PickupAddress.City) ||
+                                    !string.IsNullOrEmpty(Model.PickupAddress.County) ||
+                                    !string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) ||
                                     !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
                                 {
                                     <li class="city-state-zip">
                                         @if (!string.IsNullOrEmpty(Model.PickupAddress.City))
                                         {
                                             @Model.PickupAddress.City
-                                            @if (!string.IsNullOrEmpty(Model.PickupAddress.County) || 
-                                                !string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) || 
-                                                !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
+                                            @if (!string.IsNullOrEmpty(Model.PickupAddress.County) ||
+                                               !string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) ||
+                                               !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
                                             {
                                                 <text>,</text>
                                             }
@@ -340,8 +342,8 @@
                                         @if (!string.IsNullOrEmpty(Model.PickupAddress.County))
                                         {
                                             @Model.PickupAddress.County
-                                            @if (!string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) || 
-                                                !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
+                                            @if (!string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName) ||
+                                               !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
                                             {
                                                 <text>,</text>
                                             }
@@ -483,6 +485,105 @@
                 <div class="section order-notes">
                     <div class="title">
                         <strong>@T("Order.Notes")</strong>
+                    </div>
+                    <div class="actions">
+                        @{
+                            Download download = null;
+
+                            //register CSS and JS
+                            Html.AddCssFileParts("~/lib/fineuploader/fine-uploader.min.css");
+                            Html.AddScriptParts(ResourceLocation.Footer, "~/lib/fineuploader/jquery.fine-uploader.min.js");
+
+                            var allowedFileExtensions = "'jpg', 'jpeg', 'png', 'pdf'";
+
+                            if (download != null)
+                            {
+                                <input id="transferReceipt" name="transferReceipt" type="hidden" value="@download.DownloadGuid" />
+                            }
+                            else
+                            {
+                                <input id="transferReceipt" name="transferReceipt" type="hidden" />
+                            }
+
+                            @*fine uploader container*@
+                            <div id="transferReceiptuploader"></div>
+                            @*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
+                            <script type="text/template" asp-location="Footer" id="transferReceipt-qq-template">
+                                <div class="qq-uploader-selector qq-uploader">
+                                    <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                                        <span>@T("Common.FileUploader.DropFiles")</span>
+                                    </div>
+                                    <div class="qq-upload-button-selector qq-upload-button">
+                                        <div>@T("Common.FileUploader.Upload")</div>
+                                    </div>
+                                    <span class="qq-drop-processing-selector qq-drop-processing">
+                                        <span>@T("Common.FileUploader.Processing")</span>
+                                        <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                                    </span>
+                                    <ul class="qq-upload-list-selector qq-upload-list">
+                                        <li>
+                                            <div class="qq-progress-bar-container-selector">
+                                                <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                                            </div>
+                                            <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                            <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                                            <span class="qq-upload-file-selector qq-upload-file"></span>
+                                            <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                            <span class="qq-upload-size-selector qq-upload-size"></span>
+                                            <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">@T("Common.FileUploader.Cancel")</a>
+                                            <a class="qq-upload-retry-selector qq-upload-retry" href="#">@T("Common.FileUploader.Retry")</a>
+                                            <a class="qq-upload-delete-selector qq-upload-delete" href="#">@T("Common.FileUploader.Delete")</a>
+                                            <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </script>
+                            <script asp-location="Footer">
+                                    $(document).ready(function() {
+                                        $("#transferReceiptuploader").fineUploader({
+                                            request: {
+                                                endpoint: '@(Url.RouteUrl("UploadTransferReceipt", new {orderId = Model.Id}))'
+                                            },
+                                            template: "transferReceipt-qq-template",
+                                            multiple: false,
+                                            validation: {
+                                                allowedExtensions: [@Html.Raw(allowedFileExtensions)]
+                                            }
+                                        }).on("complete", function(event, id, name, responseJSON, xhr) {
+                                            $("#transferReceipt").val(responseJSON.downloadGuid);
+                                            if (responseJSON.success) {
+                                                $("#transferReceiptdownloadurl").html("<a href='" + responseJSON.downloadUrl + "'>@T("Common.FileUploader.DownloadUploadedFile")</a>");
+                                                $("#transferReceiptremove").show();
+                                            }
+                                            if (responseJSON.message) {
+                                                alert(responseJSON.message);
+                                            }
+                                        });
+
+                                        $("#transferReceiptremove").on("click", function(e) {
+                                            $("#transferReceiptdownloadurl").html("");
+                                            $("#transferReceipt").val('');
+                                            $(this).hide();
+                                        });
+                                    });
+                            </script>
+                            <div id="transferReceiptdownloadurl">
+                                @if (download != null)
+                                {
+                                    <a href="@(Url.Action("GetFileUpload", "Download", new { downloadId = download.DownloadGuid }))" class="download-uploaded-file">@T("Common.FileUploader.DownloadUploadedFile")</a>
+                                }
+                            </div>
+                            <div>
+                                @if (download != null)
+                                {
+                                    <a id="transferReceiptremove" )" class="remove-download-button">@T("Common.FileUploader.RemoveDownload")</a>
+                                }
+                                else
+                                {
+                                    <a id="transferReceiptremove" )" class="remove-download-buttonn" style="display:none;">@T("Common.FileUploader.RemoveDownload")</a>
+                                }
+                            </div>
+                        }
                     </div>
                     <div class="table-wrapper">
                         <table class="data-table">

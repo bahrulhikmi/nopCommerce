@@ -10,11 +10,15 @@ using Nop.Core.Domain.Orders;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Orders;
+using Nop.Core.Infrastructure;
+using Nop.Services.Localization;
+using Nop.Services.Media;
 using Nop.Services.Payments;
 using Nop.Services.Shipping;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
+using Nop.Core.Domain.Media;
 
 namespace Nop.Web.Controllers
 {
@@ -23,6 +27,9 @@ namespace Nop.Web.Controllers
         #region Fields
 
         private readonly ICustomerService _customerService;
+        private readonly IDownloadService _downloadService;
+        private readonly ILocalizationService _localizationService;
+        private readonly INopFileProvider _fileProvider;
         private readonly IOrderModelFactory _orderModelFactory;
         private readonly IOrderProcessingService _orderProcessingService;
         private readonly IOrderService _orderService;
@@ -32,12 +39,15 @@ namespace Nop.Web.Controllers
         private readonly IWebHelper _webHelper;
         private readonly IWorkContext _workContext;
         private readonly RewardPointsSettings _rewardPointsSettings;
-
+        
         #endregion
 
-		#region Ctor
+        #region Ctor
 
         public OrderController(ICustomerService customerService,
+            IDownloadService downloadService,
+            ILocalizationService localizationService,
+            INopFileProvider fileProvider,
             IOrderModelFactory orderModelFactory,
             IOrderProcessingService orderProcessingService, 
             IOrderService orderService, 
@@ -49,6 +59,9 @@ namespace Nop.Web.Controllers
             RewardPointsSettings rewardPointsSettings)
         {
             _customerService = customerService;
+            _downloadService = downloadService;
+            _fileProvider = fileProvider;
+            _localizationService = localizationService;
             _orderModelFactory = orderModelFactory;
             _orderProcessingService = orderProcessingService;
             _orderService = orderService;
@@ -237,6 +250,96 @@ namespace Nop.Web.Controllers
             //if no redirection has been done (to a third-party payment page)
             //theoretically it's not possible
             return RedirectToRoute("OrderDetails", new { orderId = orderId });
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public virtual IActionResult UploadTransferReceipt(int orderId)
+        {
+            //try to get an order with the specified id
+            var order = _orderService.GetOrderById(orderId);
+            if (order == null)
+                return ErrorJson("Order cannot be loaded");
+
+            var httpPostedFile = Request.Form.Files.FirstOrDefault();
+            if (httpPostedFile == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "No file uploaded",
+                    downloadGuid = Guid.Empty
+                });
+            }
+
+            var fileBinary = _downloadService.GetDownloadBits(httpPostedFile);
+
+
+            var qqFileNameParameter = "qqfilename";
+            var fileName = httpPostedFile.FileName;
+            if (string.IsNullOrEmpty(fileName) && Request.Form.ContainsKey(qqFileNameParameter))
+                fileName = Request.Form[qqFileNameParameter].ToString();
+            //remove path (passed in IE)
+            fileName = _fileProvider.GetFileName(fileName);
+
+            var contentType = httpPostedFile.ContentType;
+
+            var fileExtension = _fileProvider.GetFileExtension(fileName);
+            if (!string.IsNullOrEmpty(fileExtension))
+                fileExtension = fileExtension.ToLowerInvariant();
+
+
+            //don't allow file bigger than 10MB
+            var maxFileSizeBytes = 10000;
+            if (fileBinary.Length > maxFileSizeBytes * 1024)
+            {
+                //when returning JSON the mime-type must be set to text/plain
+                //otherwise some browsers will pop-up a "Save As" dialog.
+                return Json(new
+                {
+                    success = false,
+                    message = string.Format(_localizationService.GetResource("ShoppingCart.MaximumUploadedFileSize"), maxFileSizeBytes),
+                    downloadGuid = Guid.Empty
+                });
+            }
+
+
+            var download = new Download
+            {
+                DownloadGuid = Guid.NewGuid(),
+                UseDownloadUrl = false,
+                DownloadUrl = string.Empty,
+                DownloadBinary = fileBinary,
+                ContentType = contentType,
+                //we store filename without extension for downloads
+                Filename = _fileProvider.GetFileNameWithoutExtension(fileName),
+                Extension = fileExtension,
+                IsNew = true
+            };
+            _downloadService.InsertDownload(download);
+
+
+            var orderNote = new OrderNote
+            {
+                OrderId = order.Id,
+                DisplayToCustomer = true,
+                Note = _localizationService.GetResource("Order.TransferReceipt"),
+                DownloadId = download.Id,
+                CreatedOnUtc = DateTime.UtcNow
+            };
+
+            _orderService.InsertOrderNote(orderNote);
+
+
+            //when returning JSON the mime-type must be set to text/plain
+            //otherwise some browsers will pop-up a "Save As" dialog.
+            return Json(new
+            {
+                success = true,
+                message = _localizationService.GetResource("ShoppingCart.FileUploaded"),
+                downloadUrl = Url.Action("GetFileUpload", "Download", new { downloadId = download.DownloadGuid }),
+                downloadGuid = download.DownloadGuid
+            });
         }
 
         //My account / Order details page / Shipment details page
