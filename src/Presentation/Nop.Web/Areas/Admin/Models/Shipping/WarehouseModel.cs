@@ -1,6 +1,7 @@
 ﻿using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
+using Nop.Web.Areas.Admin.Models.Customers;
 
 namespace Nop.Web.Areas.Admin.Models.Shipping
 {
@@ -14,6 +15,7 @@ namespace Nop.Web.Areas.Admin.Models.Shipping
         public WarehouseModel()
         {
             Address = new AddressModel();
+            CustomerWarehouseSearchModel = new CustomerWarehouseSearchModel();
         }
 
         #endregion
@@ -28,6 +30,7 @@ namespace Nop.Web.Areas.Admin.Models.Shipping
 
         [NopResourceDisplayName("Admin.Configuration.Shipping.Warehouses.Fields.Address")]
         public AddressModel Address { get; set; }
+        public CustomerWarehouseSearchModel CustomerWarehouseSearchModel { get; set; }
 
         #endregion
     }

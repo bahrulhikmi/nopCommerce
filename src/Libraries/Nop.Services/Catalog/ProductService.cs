@@ -378,6 +378,7 @@ namespace Nop.Services.Catalog
             return _productRepository.ToCachedGetById(productId);
         }
 
+
         /// <summary>
         /// Get products by identifiers
         /// </summary>
@@ -385,14 +386,44 @@ namespace Nop.Services.Catalog
         /// <returns>Products</returns>
         public virtual IList<Product> GetProductsByIds(int[] productIds)
         {
+            return GetProductsByIds(productIds, "", "");
+        }
+
+        /// <summary>
+        /// Get products by identifiers
+        /// </summary>
+        /// <param name="productIds">Product identifiers</param>
+        /// <returns>Products</returns>
+        public virtual IList<Product> GetProductsByIds(int[] productIds, string productName, string Sku)
+        {
             if (productIds == null || productIds.Length == 0)
                 return new List<Product>();
 
-            var key = _cacheKeyService.PrepareKeyForDefaultCache(NopCatalogDefaults.ProductsByIdsCacheKey, productIds);
+            CacheKey key;
+            IQueryable<Product> query;
 
-            var query = from p in _productRepository.Table
+            if (!String.IsNullOrEmpty(productName) || !String.IsNullOrEmpty(Sku))
+            {
+                if (Sku == null)
+                    Sku = string.Empty;
+                if (productName == null)
+                    productName = string.Empty;
+
+                key = _cacheKeyService.PrepareKeyForDefaultCache(NopCatalogDefaults.ProductsByIdsWithCriteriaCacheKey, productIds, productName, Sku);
+                query = from p in _productRepository.Table
                         where productIds.Contains(p.Id) && !p.Deleted
+                         && p.Name.Contains(productName) && p.Sku.Contains(Sku)
                         select p;
+            }
+            else
+            {
+                key = _cacheKeyService.PrepareKeyForDefaultCache(NopCatalogDefaults.ProductsByIdsCacheKey, productIds);
+                query = from p in _productRepository.Table
+                            where productIds.Contains(p.Id) && !p.Deleted
+                            select p;
+            }
+
+          
 
             var products = query.ToCachedList(key);
 
@@ -407,6 +438,7 @@ namespace Nop.Services.Catalog
 
             return sortedProducts;
         }
+
 
         /// <summary>
         /// Inserts a product
@@ -2477,6 +2509,16 @@ namespace Nop.Services.Catalog
         public virtual IList<ProductWarehouseInventory> GetAllProductWarehouseInventoryRecords(int productId)
         {
             return _productWarehouseInventoryRepository.Table.Where(pwi => pwi.ProductId == productId).ToList();
+        }
+
+
+        /// <summary>
+        /// Get a product warehouse-inventory records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        public virtual IList<ProductWarehouseInventory> GetAllProductWarehouseInventoryRecords(int[] warehouseIds)
+        {
+            return _productWarehouseInventoryRepository.Table.Where(pwi => warehouseIds.Contains(pwi.WarehouseId)).ToList();
         }
 
         /// <summary>

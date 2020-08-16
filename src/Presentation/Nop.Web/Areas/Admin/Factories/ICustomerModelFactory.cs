@@ -1,4 +1,5 @@
-﻿using Nop.Core.Domain.Common;
+﻿using System.Collections.Generic;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Web.Areas.Admin.Models.Customers;
 
@@ -120,6 +121,14 @@ namespace Nop.Web.Areas.Admin.Factories
         /// <param name="searchModel">GDPR request search model</param>
         /// <returns>GDPR request list model</returns>
         GdprLogListModel PrepareGdprLogListModel(GdprLogSearchModel searchModel);
+
+        /// <summary>
+        /// Prepare paged customer warehouse list model
+        /// </summary>
+        /// <param name="searchModel">Customer warehouse search model</param>
+        /// <param name="customer">Customer</param>
+        /// <returns>Customer warehouse list model</returns>
+        CustomerWarehouseListModel PrepareCustomerWarehouseListModel(CustomerWarehouseSearchModel customerWarehouseSearchModel);
 
     }
 }

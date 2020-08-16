@@ -19,6 +19,7 @@ using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
+using Nop.Services.Distribution;
 using Nop.Services.Gdpr;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
@@ -26,6 +27,7 @@ using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Messages;
 using Nop.Services.Orders;
+using Nop.Services.Shipping;
 using Nop.Services.Stores;
 using Nop.Services.Tax;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
@@ -61,6 +63,7 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly ICustomerAttributeParser _customerAttributeParser;
         private readonly ICustomerAttributeService _customerAttributeService;
         private readonly ICustomerService _customerService;
+        private readonly ICustomerWarehouseService _customerWarehouseService;
         private readonly IDateTimeHelper _dateTimeHelper;
         private readonly IExternalAuthenticationService _externalAuthenticationService;
         private readonly IGdprService _gdprService;
@@ -74,6 +77,7 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IProductAttributeFormatter _productAttributeFormatter;
         private readonly IProductService _productService;
         private readonly IRewardPointService _rewardPointService;
+        private readonly IShippingService _shippingService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IStoreContext _storeContext;
@@ -104,6 +108,7 @@ namespace Nop.Web.Areas.Admin.Factories
             ICustomerAttributeParser customerAttributeParser,
             ICustomerAttributeService customerAttributeService,
             ICustomerService customerService,
+            ICustomerWarehouseService customerWarehouseService,
             IDateTimeHelper dateTimeHelper,
             IExternalAuthenticationService externalAuthenticationService,
             IGdprService gdprService,
@@ -117,6 +122,7 @@ namespace Nop.Web.Areas.Admin.Factories
             IProductAttributeFormatter productAttributeFormatter,
             IProductService productService,
             IRewardPointService rewardPointService,
+            IShippingService shippingService,
             IShoppingCartService shoppingCartService,
             IStateProvinceService stateProvinceService,
             IStoreContext storeContext,
@@ -143,6 +149,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _customerAttributeParser = customerAttributeParser;
             _customerAttributeService = customerAttributeService;
             _customerService = customerService;
+            _customerWarehouseService = customerWarehouseService;
             _dateTimeHelper = dateTimeHelper;
             _externalAuthenticationService = externalAuthenticationService;
             _gdprService = gdprService;
@@ -156,6 +163,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _productAttributeFormatter = productAttributeFormatter;
             _productService = productService;
             _rewardPointService = rewardPointService;
+            _shippingService = shippingService;
             _shoppingCartService = shoppingCartService;
             _stateProvinceService = stateProvinceService;
             _storeContext = storeContext;
@@ -725,6 +733,7 @@ namespace Nop.Web.Areas.Admin.Factories
                     model.LastIpAddress = customer.LastIpAddress;
                     model.LastVisitedPage = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastVisitedPageAttribute);
                     model.SelectedCustomerRoleIds = _customerService.GetCustomerRoleIds(customer).ToList();
+                    model.SelectedWarehouseIds = _customerWarehouseService.GetCustomerWarehouseIds(customer.Id).ToList();
                     model.RegisteredInStore = _storeService.GetAllStores()
                         .FirstOrDefault(store => store.Id == customer.RegisteredInStoreId)?.Name ?? string.Empty;
                     model.DisplayRegisteredInStore = model.Id > 0 && !string.IsNullOrEmpty(model.RegisteredInStore) &&
@@ -800,8 +809,20 @@ namespace Nop.Web.Areas.Admin.Factories
             _baseAdminModelFactory.PrepareVendors(model.AvailableVendors,
                 defaultItemText: _localizationService.GetResource("Admin.Customers.Customers.Fields.Vendor.None"));
 
+
+            //prepare available vendors
+            _baseAdminModelFactory.PrepareWarehouses(model.AvailableWarehouses, false);
+
             //prepare model customer attributes
-            PrepareCustomerAttributeModels(model.CustomerAttributes, customer);
+            PrepareCustomerAttributeModels(model.CustomerAttributes, customer);          
+
+            //prepare model warehoues
+            model.AvailableWarehouses = _shippingService.GetAllWarehouses().Select(warehouse => new SelectListItem
+            {
+                Text = warehouse.Name,
+                Value = warehouse.Id.ToString(),
+                Selected = model.SelectedCustomerRoleIds.Contains(warehouse.Id)
+            }).ToList();
 
             //prepare model stores for newsletter subscriptions
             model.AvailableNewsletterSubscriptionStores = _storeService.GetAllStores().Select(store => new SelectListItem
@@ -811,8 +832,8 @@ namespace Nop.Web.Areas.Admin.Factories
                 Selected = model.SelectedNewsletterSubscriptionStoreIds.Contains(store.Id)
             }).ToList();
 
-            //prepare model customer roles
-            _aclSupportedModelFactory.PrepareModelCustomerRoles(model);
+        //prepare model customer roles
+        _aclSupportedModelFactory.PrepareModelCustomerRoles(model);
 
             //prepare available time zones
             _baseAdminModelFactory.PrepareTimeZones(model.AvailableTimeZones, false);
@@ -1244,6 +1265,29 @@ namespace Nop.Web.Areas.Admin.Factories
 
                     return requestModel;
                 });
+            });
+
+            return model;
+        }
+
+        public CustomerWarehouseListModel PrepareCustomerWarehouseListModel(CustomerWarehouseSearchModel customerWarehouseSearchModel)
+        {
+            //try to get a customer with the specified id
+            var customer = _customerWarehouseService.GetCustomersManagingWarehouse(customerWarehouseSearchModel.WarehouseId)
+                .ToPagedList(customerWarehouseSearchModel);
+            var model = new CustomerWarehouseListModel().PrepareToGrid(customerWarehouseSearchModel, customer, () =>
+            {
+                return customer.Select(cust =>
+                    {
+
+                        var requestModel = cust.ToModel<CustomerModel>();
+
+                        requestModel.Email = _customerService.IsRegistered(cust) ? cust.Email : _localizationService.GetResource("Admin.Customers.Guest");
+                        requestModel.FullName = _customerService.GetCustomerFullName(cust);
+                        requestModel.Company = _genericAttributeService.GetAttribute<string>(cust, NopCustomerDefaults.CompanyAttribute);
+
+                        return requestModel;
+                    });
             });
 
             return model;

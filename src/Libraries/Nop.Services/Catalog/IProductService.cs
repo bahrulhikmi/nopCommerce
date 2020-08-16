@@ -49,6 +49,12 @@ namespace Nop.Services.Catalog
         IList<Product> GetProductsByIds(int[] productIds);
 
         /// <summary>
+        /// Gets products by identifier
+        /// </summary>
+        /// <returns>Products</returns>
+        IList<Product> GetProductsByIds(int[] productIds, string productName, string Sku);
+
+        /// <summary>
         /// Inserts a product
         /// </summary>
         /// <param name="product">Product</param>
@@ -759,6 +765,13 @@ namespace Nop.Services.Catalog
         /// </summary>
         /// <param name="productId">Product identifier</param>
         IList<ProductWarehouseInventory> GetAllProductWarehouseInventoryRecords(int productId);
+
+        /// <summary>
+        /// Get a product warehouse-inventory records by product identifier
+        /// </summary>
+        /// <param name="productId">Warehouse Identifiers</param>
+        IList<ProductWarehouseInventory> GetAllProductWarehouseInventoryRecords(int[] warehouseIds);
+
 
         /// <summary>
         /// Gets a warehouse by identifier

@@ -215,6 +215,14 @@ namespace Nop.Services.Catalog
         /// <summary>
         /// Gets a key pattern to clear cache
         /// </summary>
+        /// <remarks>
+        /// {0} : product IDs hash
+        /// </remarks>
+        public static CacheKey ProductsByIdsWithCriteriaCacheKey => new CacheKey("Nop.product.ids-{0}-{1}-{2}", ProductsByIdsPrefixCacheKey);
+
+        /// <summary>
+        /// Gets a key pattern to clear cache
+        /// </summary>
         public static string ProductsByIdsPrefixCacheKey => "Nop.product.ids";
 
         /// <summary>

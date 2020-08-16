@@ -358,6 +358,40 @@
     </div>
     <div class="form-group">
         <div class="col-md-3">
+            <nop-label asp-for="SelectedWarehouseIds" />
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <nop-select asp-for="SelectedWarehouseIds" asp-items="Model.AvailableWarehouses" asp-multiple="true" />
+                <div class="input-group-btn">
+                    <nop-required />
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    var customerWarehouseIdsInput = $('#@Html.IdFor(model => model.SelectedWarehouseIds)').data("kendoMultiSelect");
+                    customerWarehouseIdsInput.setOptions({
+                        customerWarehouseIdsInput: false,
+                        filter: "contains"
+                    });
+
+                    @if (Model.AvailableWarehouses.Count == 0)
+                    {
+                        <text>
+                        customerWarehouseIdsInput.setOptions({
+                                enable: false,
+                                placeholder: '@T("Admin.Common.All")'
+                            });
+                        customerWarehouseIdsInput._placeholder();
+                        customerWarehouseIdsInput._enable();
+                        </text>
+                    }
+                });
+            </script>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
             <nop-label asp-for="VendorId" />
         </div>
         <div class="col-md-9">

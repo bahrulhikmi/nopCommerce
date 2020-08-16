@@ -17,6 +17,7 @@ using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Security;
 using Nop.Core.Infrastructure;
 using Nop.Data;
+using Nop.Data.Migrations;
 using Nop.Services.Authentication;
 using Nop.Services.Common;
 using Nop.Services.Installation;
@@ -63,8 +64,12 @@ namespace Nop.Web.Framework.Infrastructure.Extensions
                 //install plugins
                 pluginService.InstallPlugins();
 
+                var migrationManager = EngineContext.Current.Resolve<IMigrationManager>();
+                migrationManager.ApplyUpMigrations();
+
                 //update plugins
                 pluginService.UpdatePlugins();
+
             }
         }
 

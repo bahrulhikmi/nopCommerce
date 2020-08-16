@@ -25,14 +25,17 @@ using Nop.Services.Logging;
 using Nop.Services.Messages;
 using Nop.Services.Orders;
 using Nop.Services.Security;
+using Nop.Services.Distribution;
 using Nop.Services.Stores;
 using Nop.Services.Tax;
 using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Customers;
+using Nop.Web.Areas.Admin.Models.Shipping;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
+using Nop.Services.Shipping;
 
 namespace Nop.Web.Areas.Admin.Controllers
 {
@@ -53,6 +56,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly ICustomerModelFactory _customerModelFactory;
         private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly ICustomerService _customerService;
+        private readonly ICustomerWarehouseService _customerWarehouseService;
         private readonly IDateTimeHelper _dateTimeHelper;
         private readonly IEmailAccountService _emailAccountService;
         private readonly IExportManager _exportManager;
@@ -65,6 +69,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly IPermissionService _permissionService;
         private readonly IQueuedEmailService _queuedEmailService;
         private readonly IRewardPointService _rewardPointService;
+        private readonly IShippingService _shippingService;
         private readonly IStoreContext _storeContext;
         private readonly IStoreService _storeService;
         private readonly ITaxService _taxService;
@@ -87,6 +92,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             ICustomerAttributeParser customerAttributeParser,
             ICustomerAttributeService customerAttributeService,
             ICustomerModelFactory customerModelFactory,
+            ICustomerWarehouseService customerWarehouseService,
             ICustomerRegistrationService customerRegistrationService,
             ICustomerService customerService,
             IDateTimeHelper dateTimeHelper,
@@ -101,6 +107,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             IPermissionService permissionService,
             IQueuedEmailService queuedEmailService,
             IRewardPointService rewardPointService,
+            IShippingService shippingService,
             IStoreContext storeContext,
             IStoreService storeService,
             ITaxService taxService,
@@ -118,6 +125,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService = customerActivityService;
             _customerAttributeParser = customerAttributeParser;
             _customerAttributeService = customerAttributeService;
+            _customerWarehouseService = customerWarehouseService;
             _customerModelFactory = customerModelFactory;
             _customerRegistrationService = customerRegistrationService;
             _customerService = customerService;
@@ -133,6 +141,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _permissionService = permissionService;
             _queuedEmailService = queuedEmailService;
             _rewardPointService = rewardPointService;
+            _shippingService = shippingService;
             _storeContext = storeContext;
             _storeService = storeService;
             _taxService = taxService;
@@ -713,6 +722,24 @@ namespace Nop.Web.Areas.Admin.Controllers
                             if (currentCustomerRoleIds.Any(roleId => roleId == customerRole.Id))
                                 _customerService.RemoveCustomerRoleMapping(customer, customerRole);
                         }
+                    }
+
+                    var allWarehouse = _shippingService.GetAllWarehouses();
+                    var currentCustomerWarehouseIds = _customerWarehouseService.GetCustomerWarehouseIds(customer.Id);
+                    foreach (var warehouse in allWarehouse)
+                    {                        
+                        if(model.SelectedWarehouseIds != null && model.SelectedWarehouseIds.Contains(warehouse.Id))
+                        {
+                            if (currentCustomerWarehouseIds.All(warehouseId => warehouseId != warehouse.Id))
+                                _customerWarehouseService.AddCustomerWarehouseMapping(customer.Id, warehouse.Id);
+                        }
+                        else
+                        {
+ 
+                            if (currentCustomerWarehouseIds.Any(warehouseId => warehouseId == warehouse.Id))
+                                _customerWarehouseService.DeleteCustomerWarehouseMapping(customer.Id, warehouse.Id);
+                        }                        
+
                     }
 
                     _customerService.UpdateCustomer(customer);
@@ -1697,6 +1724,20 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
         }
 
+        #endregion
+
+        #region "Warehouse"
+        [HttpPost]
+        public virtual IActionResult ManagedWarehousesSelect(CustomerWarehouseSearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                return AccessDeniedDataTablesJson();
+       
+            //prepare model
+            var model = _customerModelFactory.PrepareCustomerWarehouseListModel(searchModel);
+
+            return Json(model);
+        }
         #endregion
     }
 }

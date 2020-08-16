@@ -32,6 +32,12 @@
         /// </summary>
         public static string VendorsRoleName => "Vendors";
 
+        /// <summary>
+        /// Gets a system name of 'vendors' customer role
+        /// </summary>
+        public static string DistributorsRoleName => "Distributors";
+
+
         #endregion
 
         #region System customers

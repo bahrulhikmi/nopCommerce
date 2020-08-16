@@ -331,6 +331,24 @@ namespace Nop.Services.Shipping
         }
 
         /// <summary>
+        /// Gets warehouses
+        /// </summary>
+        /// <param name="warehouseId">The warehouse identifiesr</param>
+        /// <returns>Warehouse</returns>
+        public virtual IList<Warehouse> GetWarehousesByIds(int[] warehouseIds)
+        {
+
+            var query = from wh in _warehouseRepository.Table
+                        where warehouseIds.Contains(wh.Id)
+                        orderby wh.Name
+                        select wh;
+
+            var warehouses = query.ToCachedList(_cacheKeyService.PrepareKeyForDefaultCache(NopShippingDefaults.WarehousesByIdsCacheKey, warehouseIds));
+
+            return warehouses;
+        }
+
+        /// <summary>
         /// Gets all warehouses
         /// </summary>
         /// <param name="name">Warehouse name</param>

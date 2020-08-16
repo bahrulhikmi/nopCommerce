@@ -26,6 +26,7 @@ using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Discounts;
+using Nop.Services.Distribution;
 using Nop.Services.Events;
 using Nop.Services.ExportImport;
 using Nop.Services.Forums;
@@ -126,7 +127,7 @@ namespace Nop.Web.Framework.Infrastructure
             builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
             builder.RegisterType<CompareProductsService>().As<ICompareProductsService>().InstancePerLifetimeScope();
             builder.RegisterType<RecentlyViewedProductsService>().As<IRecentlyViewedProductsService>().InstancePerLifetimeScope();
-            builder.RegisterType<ManufacturerService>().As<IManufacturerService>().InstancePerLifetimeScope();
+            builder.RegisterType<ManufacturerService>().As<IManufacturerService>().InstancePerLifetimeScope();         
             builder.RegisterType<PriceFormatter>().As<IPriceFormatter>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeFormatter>().As<IProductAttributeFormatter>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeParser>().As<IProductAttributeParser>().InstancePerLifetimeScope();
@@ -156,6 +157,7 @@ namespace Nop.Web.Framework.Infrastructure
             builder.RegisterType<CustomerAttributeParser>().As<ICustomerAttributeParser>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerAttributeService>().As<ICustomerAttributeService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerWarehouseService>().As<ICustomerWarehouseService>().InstancePerLifetimeScope();            
             builder.RegisterType<CustomerRegistrationService>().As<ICustomerRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerReportService>().As<ICustomerReportService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionService>().As<IPermissionService>().InstancePerLifetimeScope();

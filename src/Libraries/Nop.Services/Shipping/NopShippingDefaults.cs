@@ -35,6 +35,20 @@ namespace Nop.Services.Shipping
         /// </remarks>
         public static CacheKey WarehousesAllCacheKey => new CacheKey("Nop.warehouse.all");
 
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : customer identifier
+        /// {1} : address identifier
+        /// </remarks>
+        public static CacheKey WarehousesByIdsCacheKey => new CacheKey("Nop.warehouses.by.ids-{0}", WarehousesPrefixCacheKey);
+
+        /// <summary>
+        /// Gets a key pattern to clear cache
+        /// </summary>
+        public static string WarehousesPrefixCacheKey => "Nop.warehouse";
+
         #endregion
 
         #region Date

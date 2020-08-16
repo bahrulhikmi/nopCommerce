@@ -3,6 +3,13 @@
 <div asp-validation-summary="All"></div>
 <input asp-for="Id" type="hidden" />
 
+@{
+    const string hideCustomerWarehouseBlockName = "WarehousePage.HideCustomerWareHouseBlock";
+    var hideCustomerWarehouseBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideCustomerWarehouseBlockName, defaultValue: true);
+
+
+}
+
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
@@ -33,4 +40,6 @@
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.WarehouseDetailsBottom, additionalData = Model })
         </div>
     </div>
+
+    <nop-panel asp-name="warehouse-manager" asp-icon="fa fa-address-book-o" asp-title="@T("Admin.Configuration.Shipping.Warehouses.Managers")"  asp-hide-block-attribute-name="@hideCustomerWarehouseBlockName" asp-hide="@hideCustomerWarehouseBlock"  asp-advanced="true">@await Html.PartialAsync("_WarehouseManagerSearch", Model)</nop-panel>
 </div>

@@ -479,6 +479,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 if (model == null)
                 {
                     model = warehouse.ToModel<WarehouseModel>();
+                    model.CustomerWarehouseSearchModel.WarehouseId = warehouse.Id;
                 }
             }
 

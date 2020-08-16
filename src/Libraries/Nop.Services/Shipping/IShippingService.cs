@@ -93,6 +93,13 @@ namespace Nop.Services.Shipping
         Warehouse GetWarehouseById(int warehouseId);
 
         /// <summary>
+        /// Gets warehouses
+        /// </summary>
+        /// <param name="warehouseId">The warehouse identifiers</param>
+        /// <returns>Warehouse</returns>
+        IList<Warehouse> GetWarehousesByIds(int[] warehouseId);
+
+        /// <summary>
         /// Gets all warehouses
         /// </summary>
         /// <param name="name">Warehouse name</param>

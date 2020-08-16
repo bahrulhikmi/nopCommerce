@@ -42,6 +42,7 @@ using Nop.Web.Areas.Admin.Models.Directory;
 using Nop.Web.Areas.Admin.Models.Discounts;
 using Nop.Web.Areas.Admin.Models.ExternalAuthentication;
 using Nop.Web.Areas.Admin.Models.Forums;
+using Nop.Web.Areas.Admin.Models.Inventory;
 using Nop.Web.Areas.Admin.Models.Localization;
 using Nop.Web.Areas.Admin.Models.Logging;
 using Nop.Web.Areas.Admin.Models.Messages;
@@ -102,6 +103,7 @@ namespace Nop.Web.Areas.Admin.Infrastructure.Mapper
             CreateTopicsMaps();
             CreateVendorsMaps();
             CreateWarehouseMaps();
+            CreateDistributionMaps();
 
             //add some generic mapping rules
             ForAllMaps((mapConfiguration, map) =>
@@ -1586,6 +1588,12 @@ namespace Nop.Web.Areas.Admin.Infrastructure.Mapper
                 .ForMember(entity => entity.Address, options => options.Ignore());
             CreateMap<WarehouseModel, Warehouse>()
                 .ForMember(entity => entity.AddressId, options => options.Ignore());
+        }
+
+        protected virtual void CreateDistributionMaps()
+        {
+            CreateMap<ProductWarehouseInventory, InventoryModel>();
+            CreateMap<InventoryModel, ProductWarehouseInventory>();
         }
 
         #endregion
