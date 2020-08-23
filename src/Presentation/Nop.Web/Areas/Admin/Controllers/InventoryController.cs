@@ -60,5 +60,14 @@ namespace Nop.Web.Areas.Admin.Controllers
             return Json(model);
         }
 
+        public virtual IActionResult GetUnfinalisedPurchaseRecord()
+        {
+            var searchModel = new InventoryPurchaseSearchModel();
+            searchModel.CustomerId = _workContext.CurrentCustomer.Id;
+
+            var model = _distributionModelFactory.PrepareInventoryPurchaseSearchListModel(searchModel);
+
+            return Json(model);
+        }
     }
 }

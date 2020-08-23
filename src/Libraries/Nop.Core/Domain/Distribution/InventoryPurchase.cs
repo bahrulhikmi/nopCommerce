@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Nop.Web.Framework.Models;
+using System.Text;
 
-namespace Nop.Web.Areas.Admin.Models.Inventory
+namespace Nop.Core.Domain.Distribution
 {
-    public class InventoryPurchaseModel: BaseNopEntityModel
+    public class InventoryPurchase: BaseEntity
     {
         public int ProductId { get; set; }
 
@@ -17,7 +15,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public long PriceInclTax { get; set; }
 
         public long PriceExclTax { get; set; }
-      
+
         public long TotalDiscount { get; set; }
 
         public DateTime? PurchasedDate { get; set; }

@@ -3,7 +3,7 @@
 <div class="panel-body">
     @await Html.PartialAsync("Table", new DataTablesModel
     {
-        Name = "customer-addresses-grid",
+        Name = "customer-warehousemanagers-grid",
         UrlRead = new DataUrl("ManagedWarehousesSelect", "Customer", new RouteValueDictionary { [nameof(Model.CustomerWarehouseSearchModel.WarehouseId)] = Model.CustomerWarehouseSearchModel.WarehouseId }),
         UrlDelete = new DataUrl("AddressDelete", "Customer", new RouteValueDictionary { [nameof(Model.CustomerWarehouseSearchModel.WarehouseId)] = Model.CustomerWarehouseSearchModel.WarehouseId }),
         Length = Model.CustomerWarehouseSearchModel.PageSize,

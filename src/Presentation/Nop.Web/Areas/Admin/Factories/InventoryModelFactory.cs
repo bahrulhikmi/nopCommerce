@@ -17,18 +17,23 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
         private readonly IShipmentService _shipmentService;
+        private readonly IInventoryPurchaseService _inventoryPurchaseService;
         public InventoryModelFactory(ICustomerWarehouseService customerWarehouseService,
+                                        IInventoryPurchaseService inventoryPurchaseService,
                                         IProductService productService,
                                         IShippingService shippingService,
                                         IShipmentService shipmentService)
         {
             _customerWarehouseService = customerWarehouseService;
+            _inventoryPurchaseService = inventoryPurchaseService;
             _productService = productService;
             _shippingService = shippingService;
             _shipmentService = shipmentService;
 
 
         }
+
+
         public InventoryListModel PrepareProductInventoryListModel(InventorySearchModel searchModel)
         {
             if (searchModel == null)
@@ -87,6 +92,28 @@ namespace Nop.Web.Areas.Admin.Factories
             return inventorySearchModel;
         }
 
- 
+        public InventoryPurchaseListModel PrepareInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel searchModel)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+
+            var inventoriesPurchased = _inventoryPurchaseService.GetInventoryPurchases("Pending").ToPagedList(searchModel);
+
+
+            var model = new InventoryPurchaseListModel().PrepareToGrid(searchModel, inventoriesPurchased, () =>
+            {
+                return inventoriesPurchased.Select(inventory =>
+                {
+                    var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();                   
+                    return inventoryModel;
+                }
+                );
+
+            });
+
+            return model;
+        }
+
     }
 }

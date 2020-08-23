@@ -13,6 +13,8 @@ namespace Nop.Web.Areas.Admin.Factories
     {
         public InventorySearchModel PrepareProductInventorySearchModel(InventorySearchModel inventorySearchModel);
 
-        public InventoryListModel PrepareProductInventoryListModel(InventorySearchModel inventoryListModel);
+        public InventoryListModel PrepareProductInventoryListModel(InventorySearchModel inventorySearchModel);
+
+        public InventoryPurchaseListModel PrepareInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);
     }
 }
