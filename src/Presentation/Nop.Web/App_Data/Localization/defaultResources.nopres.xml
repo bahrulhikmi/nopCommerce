@@ -2232,6 +2232,9 @@
   <LocaleResource Name="Admin.Catalog.Inventories">
     <Value>Inventories</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.InventoriesApproval">
+    <Value>Inventories Approval</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Inventories.ProductName">
     <Value>Product Name</Value>
   </LocaleResource>
@@ -2250,9 +2253,27 @@
   <LocaleResource Name="Admin.Catalog.Inventories.PlannedQty">
     <Value>Planned Qty</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.Qty">
+        <Value>Quantity</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.PriceInclTax">
+        <Value>Price</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.PriceExclTax">
+        <Value>Price Exclude Tax</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.PurchaseStatus">
+        <Value>Status</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.PurchaseNote">
+        <Value>Note</Value>
+    </LocaleResource>
     <LocaleResource Name="Admin.Catalog.Inventories.AddPurchasingRecord">
-    <Value>AddPurchasingRecord</Value>
+    <Value>Add Purchasing Record</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Catalog.Inventories.UnpaidPurchasingRecord">
+        <Value>Unpaid Purchasing Record</Value>
+    </LocaleResource>    
   <LocaleResource Name="Admin.Catalog.Manufacturers">
     <Value>Manufacturers</Value>
   </LocaleResource>
@@ -4103,12 +4124,15 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Alert.Save.Ok">
     <Value>Successfully saved.</Value>
-  </LocaleResource>
+  </LocaleResource>    
   <LocaleResource Name="Admin.Common.Alert.States.Failed">
     <Value>Failed to retrieve states.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.All">
     <Value>All</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Approve">
+     <Value>Approve</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.AreYouSure">
     <Value>Are you sure?</Value>
@@ -4214,6 +4238,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Ok">
     <Value>Ok</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Pay">
+        <Value>Pay</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Preview">
     <Value>Preview</Value>

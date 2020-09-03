@@ -1,15 +1,13 @@
-@model InventorySearchModel
+@model ManageInventoryModel
 
 @{
     //page title
     ViewBag.PageTitle = T("Admin.Catalog.Inventories").Text;
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Inventories");
-}
 
-@{
-    const string hideSearchBlockAttributeName = "InventoriesPage.HideSearchBlock";
-    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+    const string hidePurchasingRecordKey = "Inventories.HidePurchasingRecordKey";
+    var hidePurchasingRecord = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePurchasingRecordKey, defaultValue: false);
 }
 
 <div class="content-header clearfix">
@@ -17,157 +15,59 @@
         @T("Admin.Catalog.Inventories")
     </h1>
     <div class="pull-right">
-        <a asp-action="UpdatePurchase" class="btn bg-blue">
+        <a class="btn bg-blue" id="add-purchase">
             <i class="fa fa-plus-square"></i>
             @T("Admin.Catalog.Inventories.AddPurchasingRecord")
         </a>
+
+        <nop-editor asp-for="Amount" />
+
     </div>
 </div>
 
 <div class="content">
-    <div class="form-horizontal">
-        <div class="panel-group">
-            <div class="panel panel-default panel-search">
-                <div class="panel-body">
-                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
-                        <div class="search-text">@T("Admin.Common.Search")</div>
-                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
-                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
-                    </div>
+    @await Html.PartialAsync("_InventorySearch", Model.InventorySearchModel)
 
-                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="ProductName" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-editor asp-for="ProductName" />
-                                    </div>
-                                </div>       
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="Sku" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-editor asp-for="Sku" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-7 col-md-offset-5">
-                                <button type="button" id="search-inventories" class="btn btn-primary btn-search">
-                                    <i class="fa fa-search"></i>
-                                    @T("Admin.Common.Search")
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="panel-body">
+        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Payment","Inventory")'">
+            @T("Admin.Common.Pay")
+        </button>
+    </div>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                @await Html.PartialAsync("Table", new DataTablesModel
-           {
-               Name = "inventories-grid",
-               UrlRead = new DataUrl("List", "Inventory", null),
-               SearchButtonId = "search-inventories",
-               Length = Model.PageSize,
-               LengthMenu = Model.AvailablePageSizes,
-               Filters = new List<FilterParameter>
-                    {
-                        new FilterParameter(nameof(Model.ProductName)),
-                        new FilterParameter(nameof(Model.Sku))
-                    },
-               ColumnCollection = new List<ColumnProperty>
-                    {
-                        new ColumnProperty(nameof(InventoryModel.Id))
-                        {
-                            IsMasterCheckBox = true,
-                            Render = new RenderCheckBox("checkbox_manufacturers"),
-                            ClassName =  NopColumnClassDefaults.CenterAll,
-                            Width = "50"
-                        },
-                        new ColumnProperty(nameof(InventoryModel.ProductName))
-                        {
-                            Title = T("Admin.Catalog.Inventories.ProductName").Text
-                        },
-                        new ColumnProperty(nameof(InventoryModel.Sku))
-                        {
-                            Title = T("Admin.Catalog.Inventories.Sku").Text,
-                            Width = "100",
-                            ClassName =  NopColumnClassDefaults.CenterAll
-                        },
-                        new ColumnProperty(nameof(InventoryModel.WarehouseName))
-                        {
-                            Title = T("Admin.Catalog.Inventories.WarehouseName").Text,
-                            Width = "150",
-                            ClassName = NopColumnClassDefaults.CenterAll,
-                            Visible = Model.MultipleWarehouses
+    <nop-panel asp-name="inventory-purchase" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.UnpaidPurchasingRecord")" asp-hide-block-attribute-name="@hidePurchasingRecordKey" asp-hide="@hidePurchasingRecord" asp-advanced="false">
+        @await Html.PartialAsync("_InventoryPurchase", Model.InventoryPurchaseSearchModel)
+    </nop-panel>
+</div>
 
-                        },
-                          new ColumnProperty(nameof(InventoryModel.StockQuantity))
-                        {
-                            Title = T("Admin.Catalog.Inventories.StockQty").Text,
-                            Width = "150",
-                            ClassName = NopColumnClassDefaults.CenterAll
-                        },
-                            new ColumnProperty(nameof(InventoryModel.ReservedQuantity))
-                        {
-                            Title = T("Admin.Catalog.Inventories.ReservedQty").Text,
-                            Width = "150",
-                            ClassName = NopColumnClassDefaults.CenterAll
-                        },
-                              new ColumnProperty(nameof(InventoryModel.PlannedQuantity))
-                        {
-                            Title = T("Admin.Catalog.Inventories.PlannedQty").Text,
-                            Width = "150",
-                            ClassName = NopColumnClassDefaults.CenterAll
-                        },
-                        new ColumnProperty(nameof(InventoryModel.Id))
-                        {
-                            Title = T("Admin.Common.Edit").Text,
-                            Width = "100",
-                            ClassName =  NopColumnClassDefaults.Button,
-                            Render = new RenderButtonEdit(new DataUrl("Edit"))
-                        }
-                    }
-           })
-
-                <script>
+    <script>
                         $(document).ready(function () {
-                            $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
+                            $('#add-purchase').bind('click', function () {
+                                var quantity = $('#Amount').val();
+                                var inventoryTable = $('#inventories-grid').DataTable();
+                                var selectedInventories = inventoryTable.rows().data().filter(row => selectedIds.indexOf(""+row.Id) >= 0);
                                 var postData = {
-                                    selectedIds: selectedIds
+                                    selectedInventories: selectedInventories.toArray(),
+                                    quantity: quantity
                                 };
                                 addAntiForgeryToken(postData);
                                 $.ajax({
                                     cache: false,
                                     type: "POST",
-                                    url: "@(Url.Action("DeleteSelected", "Manufacturer"))",
+                                    url: "@(Url.Action("PurchaseInventories", "Inventory"))",
                                     data: postData,
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        $('#deleteSelectedFailed-info').text(errorThrown);
-                                        $('#deleteSelectedFailed').click();
+                                        display_nop_error(textStatus);
                                     },
-                                    complete: function (jqXHR, textStatus) {
-                                        updateTable('#manufacturers-grid');
+                                    complete: function (jqXHR, textStatus, error) {
+                                        error && display_nop_error(error);
+                                        updateTable('#inventory-purchase-grid');
+                                        updateTable('#inventories-grid');
                                     }
-                                });
-                                $('#delete-selected-action-confirmation').modal('toggle');
+                                });                                
                                 return false;
                             });
                         });
 
-                </script>
-                <nop-alert asp-alert-id="deleteSelectedFailed" />
-            </div>
-        </div>
-    </div>
-</div>
+    </script>
+
+

@@ -2516,6 +2516,16 @@ namespace Nop.Services.Catalog
         /// Get a product warehouse-inventory records by product identifier
         /// </summary>
         /// <param name="productId">Product identifier</param>
+        public virtual ProductWarehouseInventory GeProductWarehouseInventoryRecord(int productId, int warehouseId)
+        {
+            return _productWarehouseInventoryRepository.Table.Where(pwi => pwi.ProductId == productId && pwi.WarehouseId == warehouseId).SingleOrDefault();
+        }
+
+
+        /// <summary>
+        /// Get a product warehouse-inventory records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
         public virtual IList<ProductWarehouseInventory> GetAllProductWarehouseInventoryRecords(int[] warehouseIds)
         {
             return _productWarehouseInventoryRepository.Table.Where(pwi => warehouseIds.Contains(pwi.WarehouseId)).ToList();
@@ -2590,6 +2600,7 @@ namespace Nop.Services.Catalog
             //event notification
             _eventPublisher.EntityUpdated(pwi);
         }
+        
 
         /// <summary>
         /// Updates a records to manage product inventory per warehouse

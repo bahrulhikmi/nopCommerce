@@ -1,0 +1,52 @@
+﻿@model ManageInventoryModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Catalog.Inventories").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("InventoriesApproval");
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.Catalog.Inventories")
+    </h1>
+    <div class="pull-right">
+        <a class="btn bg-blue" id="add-purchase">
+            <i class="fa fa-check-square"></i>
+            @T("Admin.Common.Approve")
+        </a>      
+    </div>
+</div>
+
+<div class="content">
+        @await Html.PartialAsync("_InventoryPurchaseApproval", Model.InventoryPurchaseSearchModel)
+</div>
+
+<script>
+                        $(document).ready(function () {
+                            $('#add-purchase').bind('click', function () {                                           
+                                var postData = {
+                                    selectedIds: selectedIds
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ApproveSelectedPurchases", "Inventory"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        display_nop_error(textStatus);
+                                    },
+                                    complete: function (jqXHR, textStatus, error) {
+                                        error && display_nop_error(error);
+                                        updateTable('#inventory-purchase-grid');
+                                    }
+                                });
+                                return false;
+                            });
+                        });
+
+</script>
+
+

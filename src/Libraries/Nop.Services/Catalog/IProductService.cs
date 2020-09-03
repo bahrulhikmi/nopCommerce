@@ -805,6 +805,14 @@ namespace Nop.Services.Catalog
         /// <param name="pwi">Record to manage product inventory per warehouse</param>
         void UpdateProductWarehouseInventory(ProductWarehouseInventory pwi);
 
+        /// <summary>
+        /// Updates record to manage product inventory per warehouse
+        /// </summary>
+        /// <param name="pwi">Record to manage product inventory per warehouse</param>
+        void UpdateProductWarehouseInventory(IList<ProductWarehouseInventory> pwi);
+
+        ProductWarehouseInventory GeProductWarehouseInventoryRecord(int productId, int warehouseId);
+
         #endregion
 
         #region Stock quantity history

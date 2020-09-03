@@ -2,28 +2,28 @@
 @using System.Net;
 @functions
 {
-    string GetUrl(DataUrl dataUrl)
-    {
+        string GetUrl(DataUrl dataUrl)
+{
         return !string.IsNullOrEmpty(dataUrl?.ActionName) && !string.IsNullOrEmpty(dataUrl.ControllerName)
             ? Url.Action(dataUrl.ActionName, dataUrl.ControllerName, dataUrl.RouteValues)
             : !string.IsNullOrEmpty(dataUrl.Url)
             ? $"{(dataUrl.Url.StartsWith("~/", StringComparison.Ordinal) ? Url.Content(dataUrl.Url) : dataUrl.Url).TrimEnd('/')}" + (!dataUrl.TrimEnd ? "/" : "")
             : string.Empty;
-    }
+}
 
-    string ReplaceName(string str)
-    {
+string ReplaceName(string str)
+{
         return str.Replace("-", "_");
-    }
+}
 
-    void GetAllModels(DataTablesModel model, List<DataTablesModel> models)
-    {
+void GetAllModels(DataTablesModel model, List<DataTablesModel> models)
+{
         models.Add(model);
         if (!string.IsNullOrEmpty(model.ChildTable?.Name))
         {
             GetAllModels(model.ChildTable, models);
         }
-    }
+}
 }
 <table class="table table-bordered table-hover table-striped dataTable" width="100%" id="@Model.Name">
     @if (Model.FooterColumns > 0)
@@ -93,7 +93,7 @@
         var dataSrc = $(tableSelector).DataTable().data();
         $(tableSelector).DataTable().clear().rows.add(dataSrc).draw();
         $(tableSelector).DataTable().columns.adjust();
-        
+
         @if (isMasterCheckBoxUsed)
         {
             <text>clearMasterCheckbox();</text>
@@ -101,13 +101,13 @@
     }
 
     function updateTable(tableSelector) {
-        $(tableSelector).DataTable().ajax.reload();     
+        $(tableSelector).DataTable().ajax.reload();
         $(tableSelector).DataTable().columns.adjust();
-        
+
         @if (isMasterCheckBoxUsed)
         {
             <text>clearMasterCheckbox();</text>
-        }    
+        }
     }
 
     function updateTableWidth(tableSelector) {
@@ -198,6 +198,9 @@
                             if (data) {
                                 display_nop_error(data);
                             }
+
+                           @Html.Raw(Model.AfterDeleteScript);
+
                             //refresh grid
                             $('#@Model.Name').DataTable().draw(false);
                         },
@@ -220,8 +223,8 @@
     foreach (var curModel in listOfTables)
     {
         var tableName = ReplaceName(curModel.Name);
-        <text>
-            <script>
+    <text>
+        <script>
         var editIndexTable_@(tableName) = -1;
         var editRowData_@(tableName) = [];
         var columnData_@(tableName) = [];
@@ -392,10 +395,10 @@
                 }
             });
         }
-            </script>
-            </text>
-        }
-    }
+        </script>
+        </text>
+                }
+            }
 
 @if (Model.ChildTable != null)
 {

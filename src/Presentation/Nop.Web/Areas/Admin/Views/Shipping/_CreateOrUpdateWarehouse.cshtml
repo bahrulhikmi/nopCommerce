@@ -41,5 +41,7 @@
         </div>
     </div>
 
-    <nop-panel asp-name="warehouse-manager" asp-icon="fa fa-address-book-o" asp-title="@T("Admin.Configuration.Shipping.Warehouses.Managers")"  asp-hide-block-attribute-name="@hideCustomerWarehouseBlockName" asp-hide="@hideCustomerWarehouseBlock"  asp-advanced="true">@await Html.PartialAsync("_WarehouseManagerSearch", Model)</nop-panel>
+    <nop-panel asp-name="warehouse-manager" asp-icon="fa fa-address-book-o" asp-title="@T("Admin.Configuration.Shipping.Warehouses.Managers")"  asp-hide-block-attribute-name="@hideCustomerWarehouseBlockName" asp-hide="@hideCustomerWarehouseBlock"  asp-advanced="true">
+    @await Html.PartialAsync("_WarehouseManagerSearch", Model)
+    </nop-panel>
 </div>

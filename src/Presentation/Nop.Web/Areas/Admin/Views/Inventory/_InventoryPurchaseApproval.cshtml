@@ -1,0 +1,154 @@
+﻿@model InventoryPurchaseSearchModel
+
+@{
+    const string hideSearchBlockAttributeName = "InventoriesPage.Approval.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<div class="form-horizontal">
+    <div class="panel-group">
+        <div class="panel panel-default panel-search">
+            <div class="panel-body">
+                <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                    <div class="search-text">@T("Admin.Common.Search")</div>
+                    <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="WarehouseName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="WarehouseName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="UnapprovedOnly" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="UnapprovedOnly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-offset-5">
+                            <button type="button" id="search-purchase" class="btn btn-primary btn-search">
+                                <i class="fa fa-search"></i>
+                                @T("Admin.Common.Search")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        @await Html.PartialAsync("Table", new DataTablesModel
+   {
+       Name = "inventory-purchase-grid",
+       UrlRead = new DataUrl("GetPurchaseRecordForApproval", "Inventory"),
+       UrlDelete = new DataUrl("DeletePurchaseRecord", "Inventory", null),
+       SearchButtonId = "search-purchase",
+       Length = Model.PageSize,
+       LengthMenu = Model.AvailablePageSizes,
+       Filters = new List<FilterParameter>
+                   {
+                        new FilterParameter(nameof(Model.WarehouseName)),
+                        new FilterParameter(nameof(Model.UnapprovedOnly), typeof(bool))
+                    },
+       ColumnCollection = new List<ColumnProperty>
+       {
+            new ColumnProperty(nameof(InventoryModel.Id))
+                        {
+                            IsMasterCheckBox = true,
+                            Render = new RenderCheckBox("checkbox_inventories"),
+                            ClassName =  NopColumnClassDefaults.CenterAll,
+                            Width = "50"
+                        },
+           new ColumnProperty(nameof(InventoryPurchaseModel.ProductName))
+            {
+                Title = T("Admin.Catalog.Inventories.ProductName").Text
+            },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Sku))
+       {
+           Title = T("Admin.Catalog.Inventories.Sku").Text
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.WarehouseName))
+       {
+           Title = T("Admin.Catalog.Inventories.WarehouseName").Text,
+           Width = "150",
+           ClassName = NopColumnClassDefaults.CenterAll,
+           Visible = Model.MultipleWarehouses
+
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Quantity))
+       {
+           Title = T("Admin.Catalog.Inventories.Qty").Text
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.PriceInclTax))
+       {
+           Title = T("Admin.Catalog.Inventories.PriceInclTax").Text
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Status))
+       {
+           Title = T("Admin.Catalog.Inventories.PurchaseStatus").Text
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Note))
+       {
+           Title = T("Admin.Catalog.Inventories.PurchaseNote").Text
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+       {
+           Width = "100",
+           Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+           ClassName = NopColumnClassDefaults.Button,
+           Visible = !Model.ApprovalMode
+       },
+       new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+       {
+           Title = "100",
+           Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Approve").Text)
+           {
+               OnClickFunctionName = "approveSelectedPurchase"
+           },
+           ClassName = NopColumnClassDefaults.Button,
+           Visible = Model.ApprovalMode
+       }
+   }
+   })
+    </div>
+</div>
+
+<script>
+                           function approveSelectedPurchase(id) {
+
+                                var postData = {
+                                    id: id
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ApproveSelectedPurchase", "Inventory"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        display_nop_error(textStatus);
+                                    },
+                                    complete: function (jqXHR, textStatus, error) {
+                                        error && display_nop_error(error);
+                                        updateTable('#inventory-purchase-grid');
+                                    }
+                                });
+                                return false;
+                            }
+
+</script>

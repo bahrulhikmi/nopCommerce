@@ -7,6 +7,7 @@ using Nop.Core.Domain.Configuration;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Discounts;
+using Nop.Core.Domain.Distribution;
 using Nop.Core.Domain.Forums;
 using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Localization;
@@ -1594,6 +1595,8 @@ namespace Nop.Web.Areas.Admin.Infrastructure.Mapper
         {
             CreateMap<ProductWarehouseInventory, InventoryModel>();
             CreateMap<InventoryModel, ProductWarehouseInventory>();
+            CreateMap<InventoryPurchase, InventoryPurchaseModel>();
+            CreateMap<InventoryPurchaseModel, InventoryPurchase>();
         }
 
         #endregion

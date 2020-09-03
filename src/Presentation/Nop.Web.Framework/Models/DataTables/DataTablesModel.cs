@@ -51,6 +51,8 @@ namespace Nop.Web.Framework.Models.DataTables
         /// </summary>
         public DataUrl UrlDelete { get; set; }
 
+        public string AfterDeleteScript { get; set; }
+
         /// <summary>
         /// Gets or sets URL for update action (ajax)
         /// </summary>

@@ -228,6 +228,8 @@ namespace Nop.Web.Framework.Infrastructure
             builder.RegisterType<ExternalAuthenticationService>().As<IExternalAuthenticationService>().InstancePerLifetimeScope();
             builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
+            builder.RegisterType<InventoryPurchaseService>().As<IInventoryPurchaseService>().InstancePerLifetimeScope();        
+
             //slug route transformer
             builder.RegisterType<SlugRouteTransformer>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<ReviewTypeService>().As<IReviewTypeService>().SingleInstance();
