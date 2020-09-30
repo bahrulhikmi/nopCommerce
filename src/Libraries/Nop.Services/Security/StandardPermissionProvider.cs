@@ -14,6 +14,7 @@ namespace Nop.Services.Security
         public static readonly PermissionRecord AllowCustomerImpersonation = new PermissionRecord { Name = "Admin area. Allow Customer Impersonation", SystemName = "AllowCustomerImpersonation", Category = "Customers" };
         public static readonly PermissionRecord ManageProducts = new PermissionRecord { Name = "Admin area. Manage Products", SystemName = "ManageProducts", Category = "Catalog" };
         public static readonly PermissionRecord ManageInventories = new PermissionRecord { Name = "Admin area. Manage Inventories", SystemName = "ManageInventories", Category = "Catalog" };
+        public static readonly PermissionRecord ManageInventoriesApproval = new PermissionRecord { Name = "Admin area. Manage Inventories Approval", SystemName = "ManageInventoriesApproval", Category = "Catalog" };
         public static readonly PermissionRecord ManageCategories = new PermissionRecord { Name = "Admin area. Manage Categories", SystemName = "ManageCategories", Category = "Catalog" };
         public static readonly PermissionRecord ManageManufacturers = new PermissionRecord { Name = "Admin area. Manage Manufacturers", SystemName = "ManageManufacturers", Category = "Catalog" };
         public static readonly PermissionRecord ManageProductReviews = new PermissionRecord { Name = "Admin area. Manage Product Reviews", SystemName = "ManageProductReviews", Category = "Catalog" };
@@ -122,7 +123,8 @@ namespace Nop.Services.Security
                 EnableShoppingCart,
                 EnableWishlist,
                 PublicStoreAllowNavigation,
-                AccessClosedStore
+                AccessClosedStore,
+                ManageInventoriesApproval
             };
         }
 
@@ -143,6 +145,7 @@ namespace Nop.Services.Security
                         ManageProducts,
                         ManageCategories,
                         ManageInventories,
+                        ManageInventoriesApproval,
                         ManageManufacturers,
                         ManageProductReviews,
                         ManageProductTags,
@@ -236,7 +239,8 @@ namespace Nop.Services.Security
                     new[]
                     {
                         AccessAdminPanel,
-                        ManageInventories
+                        ManageInventories,
+                        ManageInventoriesApproval
                     }
                 )
             };

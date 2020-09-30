@@ -10,6 +10,8 @@ namespace Nop.Core.Domain.Distribution
 
         public int WarehouseId { get; set; }
 
+        public int PaymentId { get; set; }
+
         public int Quantity { get; set; }
 
         public decimal PriceInclTax { get; set; }
@@ -18,10 +20,8 @@ namespace Nop.Core.Domain.Distribution
 
         public decimal TotalDiscount { get; set; }
 
-        public DateTime? PurchasedDate { get; set; }
+        public DateTime PurchasedDateUtc { get; set; }
 
         public string Note { get; set; }
-
-        public string Status { get; set; }
     }
 }

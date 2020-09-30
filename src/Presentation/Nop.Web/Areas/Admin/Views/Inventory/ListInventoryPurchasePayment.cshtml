@@ -1,4 +1,4 @@
-﻿@model ManageInventoryModel
+﻿@model InventoryPurchasePaymentSearchModel
 
 @{
     //page title
@@ -9,7 +9,7 @@
 
 <div class="content-header clearfix">
     <h1 class="pull-left">
-        @T("Admin.Catalog.Inventories")
+        @T("Admin.Catalog.InventoriesApproval")
     </h1>
     <div class="pull-right">
         <a class="btn bg-blue" id="add-purchase">
@@ -20,7 +20,7 @@
 </div>
 
 <div class="content">
-        @await Html.PartialAsync("_InventoryPurchaseApproval", Model.InventoryPurchaseSearchModel)
+        @await Html.PartialAsync("_InventoryPurchasePayment", Model)
 </div>
 
 <script>

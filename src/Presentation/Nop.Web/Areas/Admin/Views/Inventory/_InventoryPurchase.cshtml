@@ -1,16 +1,34 @@
 ﻿@model InventoryPurchaseSearchModel
 
+
 <div class="panel-body">
+
+   <input type="hidden" asp-for="PaymentId" />
+
     @await Html.PartialAsync("Table", new DataTablesModel
-    {
+{
     Name = "inventory-purchase-grid",
-    UrlRead = new DataUrl(Model.ApprovalMode ? "GetPurchaseRecordForApproval" : "GetUnfinalisedPurchaseRecord", "Inventory"),
+    UrlRead = new DataUrl("GetUnfinalisedPurchaseRecord", "Inventory", null),
     UrlDelete = new DataUrl("DeletePurchaseRecord", "Inventory", null),
     Length = Model.PageSize,
     AfterDeleteScript = "updateTable('#inventories-grid');",
     LengthMenu = Model.AvailablePageSizes,
+    Filters = new List<FilterParameter>
+                    {
+                        new FilterParameter(nameof(Model.PaymentId))
+                    },
     ColumnCollection = new List<ColumnProperty>
         {
+          new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+           {
+              Visible = false
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.Status))
+            {
+                    Title = T("Admin.Common.PaymentStatus").Text,
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderCustom("renderInventoryPurchaseStatus")
+            },
             new ColumnProperty(nameof(InventoryPurchaseModel.ProductName))
             {
                 Title = T("Admin.Catalog.Inventories.ProductName").Text
@@ -33,59 +51,79 @@
             },
             new ColumnProperty(nameof(InventoryPurchaseModel.PriceInclTax))
             {
-                Title = T("Admin.Catalog.Inventories.PriceInclTax").Text
+                Title = T("Admin.Catalog.Inventories.PriceInclTax").Text,
             },
-            new ColumnProperty(nameof(InventoryPurchaseModel.Status))
-            {
-                Title = T("Admin.Catalog.Inventories.PurchaseStatus").Text
-            },
-            new ColumnProperty(nameof(InventoryPurchaseModel.Note))
-            {
-                Title = T("Admin.Catalog.Inventories.PurchaseNote").Text
-            },
-             new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+              new ColumnProperty(nameof(InventoryPurchaseModel.Id))
             {
                 Width = "100",
-                Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
-                ClassName =  NopColumnClassDefaults.Button,
-                Visible = !Model.ApprovalMode
-            },
-
-               new ColumnProperty(nameof(InventoryPurchaseModel.Id))
-            {
-                Width = "100",
-                Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Approve").Text)
+                Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Add").Text)
                        {
                           OnClickFunctionName = "approveSelectedPurchase"
                        },
                 ClassName =  NopColumnClassDefaults.Button,
-                Visible = Model.ApprovalMode
-            }
+                Visible = !(Model.PaymentId==0)
+            },
+             new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+            {
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderCustom("renderInventoryPurchaseActionButton")
+            },
+
+              new ColumnProperty(nameof(InventoryPurchaseModel.PaymentId)){Visible= false}
     }
 })
 </div>
 
 <script>
-                           function approveSelectedPurchase(id) {
-                                 
-                                var postData = {
-                                    id: id                                    
-                                };
-                                addAntiForgeryToken(postData);
-                                $.ajax({
-                                    cache: false,
-                                    type: "POST",
-                                    url: "@(Url.Action("ApproveSelectedPurchase", "Inventory"))",
-                                    data: postData,
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        display_nop_error(textStatus);
-                                    },
-                                    complete: function (jqXHR, textStatus, error) {
-                                        error && display_nop_error(error);
-                                        updateTable('#inventory-purchase-grid');                                        
-                                    }
-                                });
-                                return false;
-                            }
+            function approveSelectedPurchase(id) {
 
+                var postData = {
+                    id: id
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ApproveSelectedPurchase", "Inventory"))",
+                    data: postData,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        display_nop_error(textStatus);
+                    },
+                    complete: function (jqXHR, textStatus, error) {
+                        error && display_nop_error(error);
+                        updateTable('#inventory-purchase-grid');
+                    }
+                });
+                return false;
+            }
+
+    function renderInventoryPurchaseActionButton(data, type, row, meta) {
+        if (row.PaymentId == 0)
+            return '<a href="#" class="btn btn-default" ' +
+                'onclick = "table_deletedata_inventory_purchase_grid(\'' + data + '\');return false;" >' +
+        ' <i class="fa fa-remove"></i>@T("Admin.Common.Delete").Text</a > ';
+
+        if (row.StatusId < 30)  return '<a class="btn btn-default" ' +
+                        'href = "@(Url.Action("EditPayment", "Inventory"))/'+row.PaymentId+'" >' +
+                ' <i class="fa fa-eye"></i>@T("Admin.Common.ViewPayment").Text</a > ';
+    }
+
+    function renderInventoryPurchaseStatus(data, type, row, meta) {
+        var color;
+        switch (row.StatusId) {
+            case 0:
+                color = 'yellow';
+                break;
+            case 10:
+                color = 'blue';
+                break;
+            case 20:
+                color = 'green';
+                break;
+            case 30:
+                color = 'red';
+                break;
+        }
+        return '<span class="grid-report-item ' + color + '">' + data + '</span >';
+    }
 </script>

@@ -2232,6 +2232,9 @@
   <LocaleResource Name="Admin.Catalog.Inventories">
     <Value>Inventories</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Inventories.InventoryPurchasePaymentInprocess">
+    <Value>My Inventories Purchase</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.InventoriesApproval">
     <Value>Inventories Approval</Value>
   </LocaleResource>
@@ -4155,6 +4158,15 @@
   <LocaleResource Name="Admin.Common.ConfigurationNotRequired">
     <Value>Configuration is not required</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.ConfirmPayment">
+        <Value>Confirm Payment</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.CancelPayment">
+    <Value>Cancel Payment</Value>
+  </LocaleResource>
+    <LocaleResource Name="Admin.Common.CreatedOn">
+        <Value>Created On</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Common.CsvFile">
     <Value>CSV file</Value>
   </LocaleResource>
@@ -4170,6 +4182,9 @@
   <LocaleResource Name="Admin.Common.DeleteConfirmationParam">
     <Value>Are you sure you want to delete "{0}"?</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.Download">
+        <Value>Download</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Common.Edit">
     <Value>Edit</Value>
   </LocaleResource>
@@ -4230,6 +4245,9 @@
   <LocaleResource Name="Admin.Common.No">
     <Value>No</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.Note">
+        <Value>Note</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Common.None">
     <Value>None</Value>
   </LocaleResource>
@@ -4245,6 +4263,25 @@
   <LocaleResource Name="Admin.Common.Preview">
     <Value>Preview</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus">
+        <Value>Payment Status</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus.None">
+        <Value>Not Added</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus.Pending">
+        <Value>Not Paid</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus.Processing">
+        <Value>Waiting Approval</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus.Complete">
+        <Value>Paid</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.PaymentStatus.Cancelled">
+        <Value>Cancelled</Value>
+    </LocaleResource>
+    
   <LocaleResource Name="Admin.Common.Save">
     <Value>Save</Value>
   </LocaleResource>
@@ -4269,12 +4306,21 @@
   <LocaleResource Name="Admin.Common.Standard">
     <Value>Standard</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.Total">
+        <Value>Total</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Common.ViewPayment">
+        <Value>View Payment</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Common.Update">
     <Value>Update</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.UploadFile">
     <Value>Please upload a file</Value>
   </LocaleResource>
+    <LocaleResource Name="Admin.Common.User">
+        <Value>User</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Common.View">
     <Value>View</Value>
   </LocaleResource>
@@ -11451,8 +11497,11 @@
   <LocaleResource Name="Admin.Help.Topics">
     <Value>Help topics</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Home">
-    <Value>Home</Value>
+    <LocaleResource Name="Admin.Home">
+        <Value>Home</Value>
+    </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Payment">
+      <Value>Payment</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Menu.Search">
     <Value>Search</Value>

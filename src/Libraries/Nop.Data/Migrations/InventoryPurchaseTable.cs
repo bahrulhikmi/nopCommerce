@@ -7,7 +7,7 @@ using Nop.Core.Domain.Distribution;
 namespace Nop.Data.Migrations
 {
     [SkipMigrationOnUpdate]
-    [NopMigration("2020/08/17 11:24:16:2551771", "Inventory Purchase Table")]
+    [NopMigration("2020/08/17 11:24:16:2551771", "Inventory Manager")]
     public class InventoryPurchaseTable : AutoReversingMigration
     {
         private readonly IMigrationManager _migrationManager;
@@ -19,6 +19,8 @@ namespace Nop.Data.Migrations
         public override void Up()
         {
             _migrationManager.BuildTable<InventoryPurchase>(Create);
+            _migrationManager.BuildTable<InventoryPurchasePayment>(Create);
+
         }
     }
 }

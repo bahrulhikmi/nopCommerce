@@ -880,7 +880,12 @@ div.dataTables_wrapper div.dataTables_processing .fa {
     margin-right: 1px;
 }
 .content-header .btn {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.form-horizontal .content-header .k-numerictextbox.k-widget {
+  margin-bottom: 5px;
+  width: 50px !important;
 }
 .content-header .btn-group .dropdown-menu input,
 .content-header .btn-group .dropdown-menu button,

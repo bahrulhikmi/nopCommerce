@@ -1,4 +1,4 @@
-﻿@model InventoryPurchaseSearchModel
+﻿@model InventoryPurchasePaymentSearchModel
 
 @{
     const string hideSearchBlockAttributeName = "InventoriesPage.Approval.HideSearchBlock";
@@ -55,7 +55,7 @@
         @await Html.PartialAsync("Table", new DataTablesModel
    {
        Name = "inventory-purchase-grid",
-       UrlRead = new DataUrl("GetPurchaseRecordForApproval", "Inventory"),
+       UrlRead = new DataUrl("GetPurchasePaymentRecords", "Inventory"),
        UrlDelete = new DataUrl("DeletePurchaseRecord", "Inventory", null),
        SearchButtonId = "search-purchase",
        Length = Model.PageSize,
@@ -67,61 +67,50 @@
                     },
        ColumnCollection = new List<ColumnProperty>
        {
-            new ColumnProperty(nameof(InventoryModel.Id))
+            new ColumnProperty(nameof(InventoryPurchasePaymentModel.Id))
                         {
                             IsMasterCheckBox = true,
                             Render = new RenderCheckBox("checkbox_inventories"),
                             ClassName =  NopColumnClassDefaults.CenterAll,
                             Width = "50"
                         },
-           new ColumnProperty(nameof(InventoryPurchaseModel.ProductName))
+             new ColumnProperty(nameof(InventoryPurchasePaymentModel.User))
             {
-                Title = T("Admin.Catalog.Inventories.ProductName").Text
+                Title = T("Admin.Common.User").Text
             },
-       new ColumnProperty(nameof(InventoryPurchaseModel.Sku))
+           new ColumnProperty(nameof(InventoryPurchasePaymentModel.Note))
+            {
+                Title = T("Admin.Common.Note").Text
+            },
+      new ColumnProperty(nameof(InventoryPurchasePaymentModel.Total))
        {
-           Title = T("Admin.Catalog.Inventories.Sku").Text
+           Title = T("Admin.Common.Total").Text
        },
-       new ColumnProperty(nameof(InventoryPurchaseModel.WarehouseName))
+       new ColumnProperty(nameof(InventoryPurchasePaymentModel.DownloadId))
        {
-           Title = T("Admin.Catalog.Inventories.WarehouseName").Text,
-           Width = "150",
-           ClassName = NopColumnClassDefaults.CenterAll,
-           Visible = Model.MultipleWarehouses
-
+           Title = T("Admin.Orders.OrderNotes.Fields.Download").Text,
+                    Width = "200",
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderCustom("renderColumnDownloadId")
        },
-       new ColumnProperty(nameof(InventoryPurchaseModel.Quantity))
+        new ColumnProperty(nameof(InventoryPurchasePaymentModel.CreatedOn))
        {
-           Title = T("Admin.Catalog.Inventories.Qty").Text
-       },
-       new ColumnProperty(nameof(InventoryPurchaseModel.PriceInclTax))
-       {
-           Title = T("Admin.Catalog.Inventories.PriceInclTax").Text
-       },
-       new ColumnProperty(nameof(InventoryPurchaseModel.Status))
-       {
-           Title = T("Admin.Catalog.Inventories.PurchaseStatus").Text
-       },
-       new ColumnProperty(nameof(InventoryPurchaseModel.Note))
-       {
-           Title = T("Admin.Catalog.Inventories.PurchaseNote").Text
-       },
+           Title = T("Admin.Common.CreatedOn").Text
+       },    
        new ColumnProperty(nameof(InventoryPurchaseModel.Id))
        {
-           Width = "100",
-           Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
-           ClassName = NopColumnClassDefaults.Button,
-           Visible = !Model.ApprovalMode
-       },
-       new ColumnProperty(nameof(InventoryPurchaseModel.Id))
-       {
-           Title = "100",
            Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Approve").Text)
            {
                OnClickFunctionName = "approveSelectedPurchase"
            },
-           ClassName = NopColumnClassDefaults.Button,
-           Visible = Model.ApprovalMode
+           ClassName = NopColumnClassDefaults.Button
+
+       },
+           new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+       {
+            ClassName =  NopColumnClassDefaults.Button,
+           Render = new RenderButtonView(new DataUrl("ViewPaymentForApproval"))
+
        }
    }
    })
@@ -149,6 +138,9 @@
                                     }
                                 });
                                 return false;
-                            }
-
+    }
+      
+            function renderColumnDownloadId(data, type, row, meta) {
+                return (row.DownloadId > 0) ? '<a class="btn btn-default" href="@Url.Content("~/Admin/Download/DownloadFile")?downloadGuid=' + row.DownloadGuid + '"><i class="fa fa-download"></i>@T("Admin.Orders.OrderNotes.Fields.Download.Link")</a>' : '@T("Admin.Orders.OrderNotes.Fields.Download.Link.No")';
+            }
 </script>

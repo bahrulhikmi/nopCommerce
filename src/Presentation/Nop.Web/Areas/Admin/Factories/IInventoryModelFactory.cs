@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Nop.Web.Areas.Admin.Models.Inventory;
 
+using Nop.Core.Domain.Distribution;
 namespace Nop.Web.Areas.Admin.Factories
 {
     /// <summary>
@@ -15,6 +16,14 @@ namespace Nop.Web.Areas.Admin.Factories
 
         public InventoryListModel PrepareProductInventoryListModel(InventorySearchModel inventorySearchModel);
 
-        public InventoryPurchaseListModel PrepareInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);        
+        public InventoryPurchasePaymentListModel PrepareInventoryPurchasePaymentSearchListModel(InventoryPurchasePaymentSearchModel inventoryPurchasePaymentSearchModel);
+
+        public InventoryPurchaseListModel PrepareInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);
+
+        public InventoryPurchaseListModel PrepareIncludedInPaymentInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);
+
+        public InventoryPurchaseListModel PrepareNotInPaymentInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);
+
+        public InventoryPurchasePaymentModel PrepareUpdateInventoryPurchasePaymentModel(InventoryPurchasePayment inventoryPurchasePaymentModel);
     }
 }

@@ -52,7 +52,19 @@
             </div>
         </div>
 
+         
+
         <div class="panel panel-default">
+            <div class="content-header clearfix panel-body">
+                <a class="btn bg-blue" id="add-purchase">
+                    <i class="fa fa-plus-square"></i>
+                    @T("Admin.Catalog.Inventories.AddPurchasingRecord")
+                </a>
+
+                <nop-editor asp-for="Amount" />
+
+            </div>
+
             <div class="panel-body">
                 @await Html.PartialAsync("Table", new DataTablesModel
            {
@@ -115,12 +127,14 @@
                             Width = "150",
                             ClassName = NopColumnClassDefaults.CenterAll
                         },
-                              new ColumnProperty(nameof(InventoryModel.PlannedQuantity))
+                        new ColumnProperty(nameof(InventoryModel.PlannedQuantity))
                         {
                             Title = T("Admin.Catalog.Inventories.PlannedQty").Text,
                             Width = "150",
-                            ClassName = NopColumnClassDefaults.CenterAll
-                        },                        
+                            ClassName = NopColumnClassDefaults.CenterAll,
+                            Visible = false
+
+                        }                      
                     }
            })
 
@@ -141,7 +155,7 @@
                                         $('#deleteSelectedFailed').click();
                                     },
                                     complete: function (jqXHR, textStatus) {
-                                        updateTable('#manufacturers-grid');
+                                        updateTable('#inventories-grid');
                                     }
                                 });
                                 $('#delete-selected-action-confirmation').modal('toggle');

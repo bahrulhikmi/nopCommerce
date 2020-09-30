@@ -12,13 +12,12 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         {
             InventorySearchModel = new InventorySearchModel();
             InventoryPurchaseSearchModel = new InventoryPurchaseSearchModel();
+            InventoryPurchasePaymentSearchModel = new InventoryPurchasePaymentSearchModel();
         }
-
-        [NopResourceDisplayName("Admin.Catalog.Inventories.Qty")]
-        public int Amount { get; set; }
         public int CustomerId { get; set; }
         public bool MultipleWarehouses { get; set; }    
         public InventorySearchModel InventorySearchModel { get; set; }
         public InventoryPurchaseSearchModel InventoryPurchaseSearchModel { get; set; }
+        public InventoryPurchasePaymentSearchModel InventoryPurchasePaymentSearchModel { get; set; }
     }
 }

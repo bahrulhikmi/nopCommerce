@@ -7,39 +7,44 @@
     Html.SetActiveMenuItemSystemName("Inventories");
 
     const string hidePurchasingRecordKey = "Inventories.HidePurchasingRecordKey";
+    const string hideInventoryPurchasePaymentInProcessKey = "Inventories.InventoryPurchasePaymentInProcess";
     var hidePurchasingRecord = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePurchasingRecordKey, defaultValue: false);
+    var hideInventoryPurchasePaymentInProcess = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInventoryPurchasePaymentInProcessKey, defaultValue: false);
 }
 
 <div class="content-header clearfix">
     <h1 class="pull-left">
         @T("Admin.Catalog.Inventories")
     </h1>
-    <div class="pull-right">
-        <a class="btn bg-blue" id="add-purchase">
-            <i class="fa fa-plus-square"></i>
-            @T("Admin.Catalog.Inventories.AddPurchasingRecord")
-        </a>
-
-        <nop-editor asp-for="Amount" />
-
-    </div>
 </div>
 
 <div class="content">
+
     @await Html.PartialAsync("_InventorySearch", Model.InventorySearchModel)
 
-    <div class="panel-body">
-        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Payment","Inventory")'">
-            @T("Admin.Common.Pay")
-        </button>
-    </div>
-
     <nop-panel asp-name="inventory-purchase" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.UnpaidPurchasingRecord")" asp-hide-block-attribute-name="@hidePurchasingRecordKey" asp-hide="@hidePurchasingRecord" asp-advanced="false">
+
+        <div class="content-header clearfix">
+            <div class="btn-group">
+                <a class="btn bg-blue" id="pay-inventories">
+                    <i class="fa fa-money"></i>
+                    @T("Admin.Common.Pay")
+                </a>
+            </div>
+        </div>
+
+
         @await Html.PartialAsync("_InventoryPurchase", Model.InventoryPurchaseSearchModel)
+    </nop-panel>
+
+
+    <nop-panel asp-name="inventory-purchase-payment-in-process" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.InventoryPurchasePaymentInProcess")" asp-hide-block-attribute-name="@hideInventoryPurchasePaymentInProcess" asp-hide="@hideInventoryPurchasePaymentInProcess" asp-advanced="false">
+
+        @await Html.PartialAsync("_InventoryPurchasePaymentInProcess", Model.InventoryPurchasePaymentSearchModel)
     </nop-panel>
 </div>
 
-    <script>
+<script>
                         $(document).ready(function () {
                             $('#add-purchase').bind('click', function () {
                                 var quantity = $('#Amount').val();
@@ -58,16 +63,49 @@
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         display_nop_error(textStatus);
                                     },
+                                    success: function (data, textStatus, jqXHR) {
+                                        if (data.result) {
+                                          
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    },
                                     complete: function (jqXHR, textStatus, error) {
-                                        error && display_nop_error(error);
+                                        jqXHR.responseJSON.message && display_nop_error(jqXHR.responseJSON.message);
                                         updateTable('#inventory-purchase-grid');
                                         updateTable('#inventories-grid');
                                     }
-                                });                                
+                                });
                                 return false;
                             });
+
+                            $('#pay-inventories').bind('click', function () {
+                                var purchasedTable = $('#inventory-purchase-grid').DataTable();
+                                var purchasedIds = purchasedTable.rows().data().toArray().map(a => a.Id)
+                                var postData = {
+                                    selectedPaymentIds: purchasedIds
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("Pay", "Inventory"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        display_nop_error(textStatus);
+                                    },
+                                    complete: function (jqXHR, textStatus, error) {
+                                        error && display_nop_error(error);
+                                        if (jqXHR.responseJSON.id)
+                                            window.location.href = "@(Url.Action("EditPayment", "Inventory"))/" + jqXHR.responseJSON.id
+                                    }
+                                });
+                                return false;
+                           });
+
                         });
 
-    </script>
+
+</script>
 
 

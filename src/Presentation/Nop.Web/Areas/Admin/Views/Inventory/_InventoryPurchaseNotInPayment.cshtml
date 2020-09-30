@@ -1,0 +1,85 @@
+﻿@model InventoryPurchasePaymentModel
+
+
+<div class="panel-body">
+
+   <input type="hidden" asp-for="PaymentId" />
+
+    @await Html.PartialAsync("Table", new DataTablesModel
+{
+    Name = "inventory-purchase-grid",
+    UrlRead = new DataUrl("GetNotInPaymentPurchaseRecord", "Inventory", null),
+    Length = Model.AvailableInventoryPurchaseSearchModel.PageSize,
+    LengthMenu = Model.AvailableInventoryPurchaseSearchModel.AvailablePageSizes,
+    ColumnCollection = new List<ColumnProperty>
+        {
+          new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+           {
+              Visible = false
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.ProductName))
+            {
+                Title = T("Admin.Catalog.Inventories.ProductName").Text
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.Sku))
+            {
+                Title = T("Admin.Catalog.Inventories.Sku").Text
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.WarehouseName))
+            {
+                  Title = T("Admin.Catalog.Inventories.WarehouseName").Text,
+                  Width = "150",
+                  ClassName = NopColumnClassDefaults.CenterAll,
+                  Visible = Model.AvailableInventoryPurchaseSearchModel.MultipleWarehouses
+
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.Quantity))
+            {
+                Title = T("Admin.Catalog.Inventories.Qty").Text
+            },
+            new ColumnProperty(nameof(InventoryPurchaseModel.PriceInclTax))
+            {
+                Title = T("Admin.Catalog.Inventories.PriceInclTax").Text,
+            },
+              new ColumnProperty(nameof(InventoryPurchaseModel.Id))
+            {
+                Width = "100",
+                Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Add").Text)
+                       {
+                          OnClickFunctionName = "includeSelectedPurchase"
+                       },
+                ClassName =  NopColumnClassDefaults.Button,
+                Visible = !(Model.AvailableInventoryPurchaseSearchModel.PaymentId==0)
+            },          
+    }
+})
+</div>
+
+<script>
+            function includeSelectedPurchase(id) {
+
+                var paymentId = $("#PaymentId").val();
+                var postData = {
+                    id: id,
+                    paymentId: paymentId
+                   
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("IncludeSelectedPurchase", "Inventory"))",
+                    data: postData,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        display_nop_error(textStatus);
+                    },
+                    complete: function (jqXHR, textStatus, error) {
+                        error && display_nop_error(error);
+                        updateTable('#inventory-purchase-grid');
+                        updateTable('#inventory-purchase-included-grid');
+                    }
+                });
+                return false;
+            }
+
+</script>

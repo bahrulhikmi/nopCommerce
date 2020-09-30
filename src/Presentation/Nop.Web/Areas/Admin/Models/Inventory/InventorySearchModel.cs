@@ -24,5 +24,8 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public int CustomerId { get; set; }
 
         public bool MultipleWarehouses { get; set; }
+
+        [NopResourceDisplayName("Admin.Catalog.Inventories.Qty")]
+        public int Amount { get; set; }
     }
 }

@@ -1597,6 +1597,8 @@ namespace Nop.Web.Areas.Admin.Infrastructure.Mapper
             CreateMap<InventoryModel, ProductWarehouseInventory>();
             CreateMap<InventoryPurchase, InventoryPurchaseModel>();
             CreateMap<InventoryPurchaseModel, InventoryPurchase>();
+            CreateMap<InventoryPurchasePaymentModel, InventoryPurchasePayment>();
+            CreateMap<InventoryPurchasePayment, InventoryPurchasePaymentModel>();
         }
 
         #endregion

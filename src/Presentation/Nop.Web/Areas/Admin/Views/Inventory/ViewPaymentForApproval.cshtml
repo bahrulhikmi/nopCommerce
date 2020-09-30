@@ -1,0 +1,139 @@
+﻿@model InventoryPurchasePaymentModel
+@inject Nop.Services.Catalog.IPriceFormatter priceFormatter
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Catalog.InventoriesUpdatePayment").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("InventoriesUpdatePayment");
+}
+
+<div class="content">
+
+    @if (!(Model.ReadOnly || Model.AvailableInventoryPurchaseSearchModel.Length == 0))
+    {
+        <div class="panel-heading">
+            @T("Admin.Inventories.ExcludedPayment")
+        </div>
+        @await Html.PartialAsync("_InventoryPurchase", Model.AvailableInventoryPurchaseSearchModel)
+    }
+
+    <div class="panel-heading">
+        @T("Admin.Inventories.Payment")
+    </div>
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+
+                <div class="table-wrapper">
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th>
+                                @T("Admin.Orders.Shipments.Products.ProductName")
+                            </th>
+                            <th>
+                                @T("Admin.Orders.Shipments.Products.SKU")
+                            </th>
+                            <th>
+                                @T("Admin.Orders.Shipments.Products.QtyOrdered")
+                            </th>
+                            <th>
+                                @T("Products.Price")
+                            </th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model.AddedInventoryPurchaseSearchModel)
+                            {
+                                <tr class="inventory-purchase-summary-row">
+                                    <td style="width:100px ;">
+                                        @Html.Raw(item.ProductName)
+                                    </td>
+                                    <td style="width:100px ;">
+                                        @Html.Raw(item.Sku)
+                                    </td>
+                                    <td style="width:100px ;">
+                                        @Html.Raw(item.Quantity)
+                                    </td>
+                                    <td style="width:100px ;">
+                                        @Html.Raw(priceFormatter.FormatPrice(item.PriceInclTax))
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="panel-body text-right">
+                        <strong> @T("Admin.Common.Total"):</strong> @priceFormatter.FormatPrice(Model.Total)
+                    </div>
+                </div>
+
+                <form asp-controller="Inventory" asp-action="ConfirmPayment" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <input asp-for="Id" type="hidden" />
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <nop-label asp-for="Note" />
+                        </div>
+                        <div class="col-md-10">
+                            <nop-editor asp-for="Note" asp-disabled="@Model.ReadOnly" />
+                            <span asp-validation-for="Note"></span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="DownloadId" />
+                            </div>
+                            <div class="col-md-10">
+                                <nop-editor asp-for="DownloadId" asp-disabled="@Model.ReadOnly" asp-required="true" />
+                                <span asp-validation-for="DownloadId"></span>
+                            </div>
+                        </div>
+
+                  
+</form>
+</div>
+        </div>
+    </div>
+</div>
+<nop-alert asp-alert-id="statesAlert" asp-alert-message="@T("Admin.Common.Alert.States.Failed")" />
+<script>
+    $(document).ready(function () {
+        $('#confirm-pay-action-confirmation-submit-button').click(function() {
+            var note = $("#@Html.IdFor(model => model.Note)").val();
+            var downloadId = $("#@Html.IdFor(model => model.DownloadId)").val();
+
+            $('#confirm-pay').attr('disabled', true);
+
+            var postData = {
+                id: '@Model.Id',
+                note: note,
+                downloadId: downloadId
+            };
+
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("ConfirmPayment", "Inventory"))",
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                    if (data.Result) {
+                        //reload grid
+                       // updateTable('#ordernotes-grid');
+                    } else {
+                        //display errors if returned
+                        display_nop_error(data);
+                    }
+                },
+               complete: function (jqXHR, textStatus) {
+                   $('#confirm-pay').attr('disabled', false);
+                }
+            });
+            $('#confirm-pay-action-confirmation').modal('toggle');
+            return false;
+        });
+    });
+</script>

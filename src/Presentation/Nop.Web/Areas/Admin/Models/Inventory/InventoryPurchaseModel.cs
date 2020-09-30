@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nop.Core.Domain.Distribution;
 using Nop.Web.Framework.Models;
 
 namespace Nop.Web.Areas.Admin.Models.Inventory
@@ -9,6 +10,8 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
     public class InventoryPurchaseModel: BaseNopEntityModel
     {
         public int ProductId { get; set; }
+
+        public int PaymentId { get; set; }
 
         public string ProductName { get; set; }
 
@@ -30,6 +33,8 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 
         public string Note { get; set; }
 
-        public string Status { get; set; }        
+        public string Status { get; set; }
+
+        public int StatusId { get; set; }
     }
 }
