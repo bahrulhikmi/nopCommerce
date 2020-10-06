@@ -21,15 +21,21 @@
 <div class="content">
     <div class="row">
         <div class="col-md-12">
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardTop })
-            @if (!Model.IsLoggedInAsVendor)
-            {
-                <div class="row">
-                    <div class="col-md-12">
-                        @await Component.InvokeAsync("NopCommerceNews")
-                    </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @await Html.PartialAsync("_UserProfile")
                 </div>
-            }
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @await Html.PartialAsync("_MyInfo")
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardTop })
+         
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardNewsAfter })
             @if (!Model.IsLoggedInAsVendor && canManageOrders && canManageCustomers && canManageProducts && canManageReturnRequests)
             {

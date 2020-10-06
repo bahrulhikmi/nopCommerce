@@ -6,9 +6,9 @@ using Nop.Web.Framework.Mvc.ModelBinding;
 
 namespace Nop.Web.Areas.Admin.Models.Inventory
 {
-    public class ManageInventoryModel
+    public class ManageInventoryPurchasePaymentModel
     {
-        public ManageInventoryModel()
+        public ManageInventoryPurchasePaymentModel()
         {
             InventorySearchModel = new InventorySearchModel();
             InventoryPurchaseSearchModel = new InventoryPurchaseSearchModel();
@@ -19,5 +19,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public InventorySearchModel InventorySearchModel { get; set; }
         public InventoryPurchaseSearchModel InventoryPurchaseSearchModel { get; set; }
         public InventoryPurchasePaymentSearchModel InventoryPurchasePaymentSearchModel { get; set; }
+
+        public string WarehouseName { get; set; }
     }
 }

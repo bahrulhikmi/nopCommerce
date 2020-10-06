@@ -7,9 +7,17 @@
     Html.SetActiveMenuItemSystemName("InventoriesUpdatePayment");
 }
 
-<div class="content">
 
-    <div class="content-header">
+    <div class="content-header clearfix">
+
+        <h1 class="pull-left">
+            @T("Admin.Inventories.Payment")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.Inventories.Inventories.BackToList")</a>
+            </small>
+        </h1>
+
         <div class="btn-group pull-right">
             <a class="btn bg-blue" id="confirm-pay" disabled="@Model.ReadOnly">
                 <i class="fa fa-money"></i>
@@ -27,59 +35,62 @@
 
                 <nop-action-confirmation asp-button-id="cancel-pay" />
             }
-
-
         </div>
     </div>
 
+    <div class="content">
 
-    @if (!(Model.ReadOnly || Model.AvailableInventoryPurchaseSearchModel.Length == 0))
-    {
-        <div class="panel-heading">
-            @T("Admin.Inventories.ExcludedPurchased")
+        @if (!Model.ReadOnly )
+        {
+            <div class="panel">
+                <div class="panel-heading">
+                    @T("Admin.Inventories.ExcludedPurchased")
+                </div>
+                @await Html.PartialAsync("_InventoryPurchaseNotInPayment", Model)
+            </div>
+        }
+
+        <div class="panel">
+            <div class="panel-heading">
+                @T("Admin.Inventories.PaymentSummary")
+            </div>
+
+            @await Html.PartialAsync("_InventoryPurchaseIncluded", Model.IncludedInventoryPurchaseSearchModel)
         </div>
-        @await Html.PartialAsync("_InventoryPurchaseNotInPayment", Model)
-    }
 
-    <div class="panel-heading">
-        @T("Admin.Inventories.PaymentSummary")
-    </div>
-     
-    @await Html.PartialAsync("_InventoryPurchaseIncluded", Model.IncludedInventoryPurchaseSearchModel)
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-body">
 
-    <div class="form-horizontal">
-        <div class="panel-group">
-            <div class="panel panel-default">
+                    <form asp-controller="Inventory" asp-action="ConfirmPayment" method="post">
+                        <div asp-validation-summary="All"></div>
+                        <input asp-for="Id" type="hidden" />
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="Note" />
+                            </div>
+                            <div class="col-md-10">
+                                <nop-editor asp-for="Note" asp-disabled="@Model.ReadOnly" />
+                                <span asp-validation-for="Note"></span>
+                            </div>
+                        </div>
 
-                <form asp-controller="Inventory" asp-action="ConfirmPayment" method="post">
-                    <div asp-validation-summary="All"></div>
-                    <input asp-for="Id" type="hidden" />
-                    <div class="form-group">
-                        <div class="col-md-2">
-                            <nop-label asp-for="Note" />
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="DownloadId" />
+                            </div>
+                            <div class="col-md-10">
+                                <nop-editor asp-for="DownloadId" asp-disabled="@Model.ReadOnly" asp-required="true" />
+                                <span asp-validation-for="DownloadId"></span>
+                            </div>
                         </div>
-                        <div class="col-md-10">
-                            <nop-editor asp-for="Note" asp-disabled="@Model.ReadOnly" />
-                            <span asp-validation-for="Note"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-2">
-                            <nop-label asp-for="DownloadId" />
-                        </div>
-                        <div class="col-md-10">
-                            <nop-editor asp-for="DownloadId" asp-disabled="@Model.ReadOnly" asp-required="true" />
-                            <span asp-validation-for="DownloadId"></span>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<nop-alert asp-alert-id="statesAlert" asp-alert-message="@T("Admin.Common.Alert.States.Failed")" />
-<script>
+    <nop-alert asp-alert-id="statesAlert" asp-alert-message="@T("Admin.Common.Alert.States.Failed")" />
+    <script>
     $(document).ready(function () {
         $('#confirm-pay-action-confirmation-submit-button').click(function() {
             var note = $("#@Html.IdFor(model => model.Note)").val();
@@ -147,5 +158,5 @@
             return false;
     });
     });
-     
-</script>
+
+    </script>

@@ -83,8 +83,10 @@ namespace Nop.Services.Distribution
 
             _inventoryPurchase.Insert(inventoryPurchases);
 
-            //event notification
-            _eventPublisher.EntityInserted(inventoryPurchases[0]);
+            foreach (var item in inventoryPurchases)
+            {
+                _eventPublisher.EntityInserted(item);
+            }
         }
 
         public void DeleteInventoryPurchase(int id)

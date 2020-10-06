@@ -98,14 +98,16 @@
             }
 
     function renderInventoryPurchaseActionButton(data, type, row, meta) {
-        if (row.PaymentId == 0)
+        if (row.PaymentId == 0 && !row.AdditionalFee)
             return '<a href="#" class="btn btn-default" ' +
                 'onclick = "table_deletedata_inventory_purchase_grid(\'' + data + '\');return false;" >' +
         ' <i class="fa fa-remove"></i>@T("Admin.Common.Delete").Text</a > ';
 
-        if (row.StatusId < 30)  return '<a class="btn btn-default" ' +
+        if (row.PaymentId > 0 && row.StatusId < 30)  return '<a class="btn btn-default" ' +
                         'href = "@(Url.Action("EditPayment", "Inventory"))/'+row.PaymentId+'" >' +
-                ' <i class="fa fa-eye"></i>@T("Admin.Common.ViewPayment").Text</a > ';
+            ' <i class="fa fa-eye"></i>@T("Admin.Common.ViewPayment").Text</a > ';
+
+        return '';
     }
 
     function renderInventoryPurchaseStatus(data, type, row, meta) {

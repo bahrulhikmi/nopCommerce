@@ -434,8 +434,10 @@ namespace Nop.Web.Controllers
                             _customerActivityService.InsertActivity(customer, "PublicStore.Login",
                                 _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
 
-                            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                                return RedirectToRoute("Homepage");
+                            if (string.IsNullOrEmpty(returnUrl) || returnUrl.Equals("/") || !Url.IsLocalUrl(returnUrl))
+                                if(_customerService.IsWarehouseManager(customer))
+                                    return RedirectToRoute("Distributor");
+                                else return RedirectToRoute("Homepage");
 
                             return Redirect(returnUrl);
                         }

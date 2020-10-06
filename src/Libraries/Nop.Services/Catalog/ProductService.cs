@@ -2511,6 +2511,14 @@ namespace Nop.Services.Catalog
             return _productWarehouseInventoryRepository.Table.Where(pwi => pwi.ProductId == productId).ToList();
         }
 
+        /// <summary>
+        /// Get a product warehouse-inventory records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        public virtual IList<ProductWarehouseInventory> GetProductWarehouseInventoryRecords(int[] productWarehouseInventoryIds)
+        {
+            return _productWarehouseInventoryRepository.Table.Where(pwi => productWarehouseInventoryIds.Contains(pwi.Id)).ToList();
+        }
 
         /// <summary>
         /// Get a product warehouse-inventory records by product identifier

@@ -1,4 +1,4 @@
-@model ManageInventoryModel
+@model ManageInventoryPurchasePaymentModel
 
 @{
     //page title
@@ -14,37 +14,44 @@
 
 <div class="content-header clearfix">
     <h1 class="pull-left">
-        @T("Admin.Catalog.Inventories")
+        @T("Admin.Catalog.Inventories") - @Model.WarehouseName
     </h1>
-</div>
 
-<div class="content">
-
-    @await Html.PartialAsync("_InventorySearch", Model.InventorySearchModel)
-
-    <nop-panel asp-name="inventory-purchase" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.UnpaidPurchasingRecord")" asp-hide-block-attribute-name="@hidePurchasingRecordKey" asp-hide="@hidePurchasingRecord" asp-advanced="false">
-
-        <div class="content-header clearfix">
-            <div class="btn-group">
-                <a class="btn bg-blue" id="pay-inventories">
-                    <i class="fa fa-money"></i>
-                    @T("Admin.Common.Pay")
-                </a>
-            </div>
+    <div class="pull-right">        
+        <a href="@Url.Action("FeatureComingSoon", "Common")" class="btn bg-green" data-toggle="modal"  >
+            <i class="fa fa-envelope"></i>
+            @T("Admin.Inventories.Inventories.InventoryContact")
+        </a>
         </div>
+    </div>
+
+    <div class="content">
+
+        @await Html.PartialAsync("_InventorySearch", Model.InventorySearchModel)
+
+        <nop-panel asp-name="inventory-purchase" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.UnpaidPurchasingRecord")" asp-hide-block-attribute-name="@hidePurchasingRecordKey" asp-hide="@hidePurchasingRecord" asp-advanced="false">
+
+            <div class="content-header clearfix">
+                <div class="btn-group">
+                    <a class="btn bg-blue" id="pay-inventories">
+                        <i class="fa fa-money"></i>
+                        @T("Admin.Common.Pay")
+                    </a>
+                </div>
+            </div>
 
 
-        @await Html.PartialAsync("_InventoryPurchase", Model.InventoryPurchaseSearchModel)
-    </nop-panel>
+            @await Html.PartialAsync("_InventoryPurchase", Model.InventoryPurchaseSearchModel)
+        </nop-panel>
 
 
-    <nop-panel asp-name="inventory-purchase-payment-in-process" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.InventoryPurchasePaymentInProcess")" asp-hide-block-attribute-name="@hideInventoryPurchasePaymentInProcess" asp-hide="@hideInventoryPurchasePaymentInProcess" asp-advanced="false">
+        <nop-panel asp-name="inventory-purchase-payment-in-process" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.InventoryPurchasePaymentInProcess")" asp-hide-block-attribute-name="@hideInventoryPurchasePaymentInProcess" asp-hide="@hideInventoryPurchasePaymentInProcess" asp-advanced="false">
 
-        @await Html.PartialAsync("_InventoryPurchasePaymentInProcess", Model.InventoryPurchasePaymentSearchModel)
-    </nop-panel>
-</div>
+            @await Html.PartialAsync("_InventoryPurchasePaymentInProcess", Model.InventoryPurchasePaymentSearchModel)
+        </nop-panel>
+    </div>
 
-<script>
+    <script>
                         $(document).ready(function () {
                             $('#add-purchase').bind('click', function () {
                                 var quantity = $('#Amount').val();
@@ -65,7 +72,7 @@
                                     },
                                     success: function (data, textStatus, jqXHR) {
                                         if (data.result) {
-                                          
+
                                         } else {
                                             alert(data.message);
                                         }
@@ -106,6 +113,6 @@
                         });
 
 
-</script>
+    </script>
 
 

@@ -1,0 +1,93 @@
+﻿@model AddInventoryModel
+
+    <div class="content ">
+        <form asp-controller="Inventory" asp-action="AddInventory" method="post">
+
+            <div class="content-header clearfix">
+                <div class="pull-right">
+                    <button type="submit" name="save" class="btn bg-blue">
+                        <i class="fa fa-floppy-o"></i>
+                        @T("Admin.Common.Save")
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="form-horizontal">
+                <div class="panel panel-default panel-body">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="WarehouseId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="WarehouseId" asp-items="Model.AvailableWarehouses" />
+                            <span asp-validation-for="WarehouseId"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Note" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="Note" />
+                            <span asp-validation-for="Note"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AdditionalFee" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="AdditionalFee" />
+                            <span asp-validation-for="AdditionalFee"></span>
+                        </div>
+                    </div>
+
+                    <div id="input-inventory"> </div>
+                </div>
+            </div>
+
+        </form>
+
+        @await Html.PartialAsync("_InventorySearchForInventoryAdd", Model.InventorySearchModel)
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.WarehouseId)").change(function () {
+            updateTable('#inventories-grid');
+            $("#input-inventory").empty();
+        });
+
+        $('#add-inventory').bind('click', function () {
+
+            var inventoryTable = $('#inventories-grid').DataTable();
+            var inventories = inventoryTable.rows().data().filter(row => selectedIds.indexOf("" + row.Id) >= 0).toArray();
+            var index = $(".dynamic-input").length;
+            inventories.forEach(function (data) {  
+                if ($("#" + data.Id).length > 0) {
+                    var currentVal = parseInt($("#" + data.Id).val());
+                    var amount = parseInt($("#Amount").val());
+                    $("#" + data.Id).data("kendoNumericTextBox").value(currentVal + amount);
+                }
+                else {
+                    var input = '<div class="form-group dynamic-input"><div class="col-md-3"><div class="label-wrapper">' +
+                        '<label class="control-label" for="' + data.Id + '">' + data.ProductName + ' ( SKU: ' + data.Sku + ') </label></div></div>' +
+                        '<div class="col-md-9"><input id="' + data.Id + '" name="InventoryAdditions[' + index + '].Amount" /></div></div>' +
+                        '<input type="hidden" id="id_' + data.Id + '" name="InventoryAdditions[' + index + '].Id" value="' + data.Id +'"/>';
+                    $("#input-inventory").append(input);
+                    $("#" + data.Id).kendoNumericTextBox();
+                    $("#" + data.Id).data("kendoNumericTextBox").value($("#Amount").val());
+                }
+                index++;
+            }
+            );
+
+
+        });
+    });
+
+</script>

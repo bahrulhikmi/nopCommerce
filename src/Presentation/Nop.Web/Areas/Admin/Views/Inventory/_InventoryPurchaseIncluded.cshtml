@@ -58,12 +58,13 @@
                        {
                           OnClickFunctionName = "excludePayment"
                        },
-                ClassName =  NopColumnClassDefaults.Button
+                ClassName =  NopColumnClassDefaults.Button,
+                Visible = !Model.ReadOnly
             },
 
               new ColumnProperty(nameof(InventoryPurchaseModel.PaymentId)){Visible= false}
     }
-});
+})
 @{var totalColumnNumber = 5; }
 </div>
 

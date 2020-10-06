@@ -38,6 +38,9 @@ namespace Nop.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute(name: "areaRoute",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+            endpointRouteBuilder.MapControllerRoute(name: "Distributor", $"{pattern}distributor/",
+              new {area="Admin", controller = "Home", action = "Index" });
+
             //home page
             endpointRouteBuilder.MapControllerRoute("Homepage", pattern,
                 new { controller = "Home", action = "Index" });

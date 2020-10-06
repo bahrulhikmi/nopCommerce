@@ -18,6 +18,7 @@ using Nop.Services.Messages;
 using System.Net;
 using Nop.Services.Helpers;
 using Nop.Services.Customers;
+using Nop.Services.Localization;
 
 namespace Nop.Web.Areas.Admin.Controllers
 {
@@ -32,6 +33,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly IStoreContext _storeContext;
         private readonly INotificationService _notificationService;
         private readonly IPriceFormatter _priceFormatter;
+        private readonly ILocalizationService _localizationService;
 
         public InventoryController(IPermissionService permissionService,
                                     IInventoryModelFactory distributionModelFactory,
@@ -41,7 +43,8 @@ namespace Nop.Web.Areas.Admin.Controllers
                                     IProductService productService,
                                     IStoreContext storeContext,
                                     INotificationService notificationService,
-                                    IPriceFormatter priceFormatter
+                                    IPriceFormatter priceFormatter,
+                                    ILocalizationService localizationService
                                     )
         {
             _inventoryModelFactory = distributionModelFactory;
@@ -53,6 +56,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _storeContext = storeContext;
             _notificationService = notificationService;
             _priceFormatter = priceFormatter;
+            _localizationService = localizationService;
         }
 
         public IActionResult Index()
@@ -65,7 +69,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageManufacturers))
             //    return AccessDeniedView();
 
-            var manageInventoryModel = new ManageInventoryModel();
+            var manageInventoryModel = new ManageInventoryPurchasePaymentModel();
             manageInventoryModel.CustomerId = _workContext.CurrentCustomer.Id;
 
             manageInventoryModel.InventorySearchModel.Amount = _genericAttributeService.GetAttribute<int>(_workContext.CurrentCustomer, InventoryPurchaseServiceDefaults.PurchaseRecordDefaultAmount);
@@ -77,7 +81,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             return View(model);
         }
-
+        
         [HttpPost]
         public virtual IActionResult List(InventorySearchModel searchModel)
         {
@@ -187,7 +191,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             var invPurchase = _inventoryPurchaseService.GetInventoryPurchase(id);
 
-            if(invPurchase!=null)
+            if(invPurchase!=null && !invPurchase.AdditionalFee)
             {
                 _inventoryPurchaseService.DeleteInventoryPurchase(id);
                 var pwi = _productService.GeProductWarehouseInventoryRecord(invPurchase.ProductId, invPurchase.WarehouseId);
@@ -304,12 +308,20 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
                 return AccessDeniedView();
 
+            var model= new InventoryPurchasePaymentModel();
             var inventoryPurchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(id);
+
+            if (inventoryPurchasePayment == null)
+            {
+                model.ReadOnly = true;
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.Alert.Read.Error"));
+                return View(model);
+            }                
 
             if (_workContext.CurrentCustomer.Id != inventoryPurchasePayment.CustomerId)
                 return AccessDeniedView();
 
-            var model = _inventoryModelFactory.PrepareUpdateInventoryPurchasePaymentModel(inventoryPurchasePayment);            
+             model = _inventoryModelFactory.PrepareUpdateInventoryPurchasePaymentModel(inventoryPurchasePayment);            
 
            return View(model);
         }
@@ -338,7 +350,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 if (model.DownloadId == 0)
                 {
-                    return Json(new { result = false, message = "Bukti pembayaran harus di upload." });
+                    return Json(new { result = false, message = _localizationService.GetResource("Admin.Inventories.Payment.TransferReceiptIsMandatory") });
                 }
                 else
                 {
@@ -354,7 +366,9 @@ namespace Nop.Web.Areas.Admin.Controllers
 
                     _inventoryPurchaseService.UpdateInventoryPurchasePayment(inventoryPurchasePayment);
 
-                }
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Inventories.Payment.Confirmed"));
+
+                }                
             }
 
             return Json(new { result = true });
@@ -416,6 +430,43 @@ namespace Nop.Web.Areas.Admin.Controllers
             _inventoryPurchaseService.UpdateInventoryPurchasePayment(inventoryPurchasePayment);
 
             return Json(new { result = true, total = inventoryPurchasePayment.Total });
+        }
+
+        public virtual IActionResult AddInventory()
+        {
+            var model = _inventoryModelFactory.PrepareAddInventoryModel(new AddInventoryModel());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult AddInventory(AddInventoryModel inventoryModel)
+        {
+            var inventoryPurchase = new InventoryPurchase
+            {
+                WarehouseId = inventoryModel.WarehouseId,
+                PriceInclTax = inventoryModel.AdditionalFee,
+                Note = inventoryModel.Note,
+                PurchasedDateUtc = DateTime.UtcNow,
+                AdditionalFee = true,
+                Quantity= 1
+            };
+
+            var inventoryItems = _productService.GetProductWarehouseInventoryRecords(
+                inventoryModel.InventoryAdditions.Select(x => x.Id).ToArray());
+
+            var amountDict = inventoryModel.InventoryAdditions.ToDictionary(key => key.Id, val => val.Amount);
+            foreach (var item in inventoryItems)
+            {
+                item.StockQuantity += amountDict[item.Id];
+            }
+
+            _inventoryPurchaseService.AddInventoryPurchase(inventoryPurchase);
+            _productService.UpdateProductWarehouseInventory(inventoryItems);
+
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Inventories.Inventories.Updated"));
+
+            return RedirectToAction("AddInventory");
         }
     }
 }

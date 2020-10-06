@@ -14,6 +14,7 @@ namespace Nop.Services.Distribution
         public InventoryPurchase GetInventoryPurchase(int id);
         public void DeleteInventoryPurchase(int id);
         public void AddInventoryPurchase(IList<InventoryPurchase> inventoryPurchases);
+        public void AddInventoryPurchase(InventoryPurchase inventoryPurchases);
         public void UpdateInventoryPurchase(InventoryPurchase inventoryPurchase);
         public void UpdateInventoryPurchases(IList<InventoryPurchase> inventoryPurchase);
         public void AddInventoryPurchasePayment(InventoryPurchasePayment inventoryPurchasePayment, IList<int> inventoryPurchaseIds);

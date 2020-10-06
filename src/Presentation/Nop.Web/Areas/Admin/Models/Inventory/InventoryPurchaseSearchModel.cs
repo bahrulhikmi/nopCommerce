@@ -22,5 +22,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 
         public int PaymentId { get; set; }
 
+        public bool ReadOnly { get; set; }
+
     }
 }

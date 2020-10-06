@@ -14,6 +14,8 @@ using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Inventory;
 using Nop.Web.Framework.Models.Extensions;
 using Nop.Services.Localization;
+using NUglify.Helpers;
+using LinqToDB.SqlQuery;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -59,12 +61,17 @@ namespace Nop.Web.Areas.Admin.Factories
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
 
-            var warehouseIds = _customerWarehouseService.GetCustomerWarehouseIds(searchModel.CustomerId);
+            var warehouseIds = new List<int>();
 
-            var productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds).ToPagedList(searchModel);
+            if (searchModel.WarehouseId > 0)
+                warehouseIds.Add(searchModel.WarehouseId);
+            else
+                warehouseIds.AddRange(_customerWarehouseService.GetCustomerWarehouseIds(searchModel.CustomerId));
+
+            var productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray()).ToPagedList(searchModel);
             var productIds = productInventories.Select(x => x.ProductId).Distinct().ToArray();
             var products = _productService.GetProductsByIds(productIds, searchModel.ProductName, searchModel.Sku).ToDictionary(x => x.Id);
-            var warehouses = _shippingService.GetWarehousesByIds(warehouseIds).ToDictionary(x => x.Id);
+            var warehouses = _shippingService.GetWarehousesByIds(warehouseIds.ToArray()).ToDictionary(x => x.Id);
 
             //remove any product inventories that is not in the product list
             for (int i = productInventories.Count - 1; i >= 0; i--)
@@ -102,16 +109,22 @@ namespace Nop.Web.Areas.Admin.Factories
 
         }
 
-        public virtual ManageInventoryModel PrepareManageInventoryModel(ManageInventoryModel manageInventoryModel)
+        public virtual ManageInventoryPurchasePaymentModel PrepareManageInventoryModel(ManageInventoryPurchasePaymentModel manageInventoryModel)
         {
             if (manageInventoryModel == null)
                 throw new ArgumentNullException(nameof(manageInventoryModel));
-
-            manageInventoryModel.MultipleWarehouses = _customerWarehouseService.GetCustomerWarehouseIds(manageInventoryModel.CustomerId).Length > 1;
+            var wareHouseIds = _customerWarehouseService.GetCustomerWarehouseIds(manageInventoryModel.CustomerId);
+            manageInventoryModel.MultipleWarehouses = wareHouseIds.Length > 1;
             manageInventoryModel.InventoryPurchaseSearchModel.MultipleWarehouses = manageInventoryModel.MultipleWarehouses;
             manageInventoryModel.InventorySearchModel.MultipleWarehouses = manageInventoryModel.MultipleWarehouses;
             manageInventoryModel.InventoryPurchaseSearchModel.CustomerId = manageInventoryModel.CustomerId;
             manageInventoryModel.InventorySearchModel.CustomerId = manageInventoryModel.CustomerId;
+
+            if(!manageInventoryModel.MultipleWarehouses && wareHouseIds.Length>0)
+            {
+                manageInventoryModel.WarehouseName = _shippingService.GetWarehouseById(wareHouseIds[0]).Name;
+            }
+            
 
             return manageInventoryModel;
         }
@@ -150,6 +163,7 @@ namespace Nop.Web.Areas.Admin.Factories
                     inventoryModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(inventory.CreatedOnUtc, DateTimeKind.Utc);
                     var cust = _customerService.GetCustomerById(inventory.CustomerId);                   
                     inventoryModel.User = _customerService.GetCustomerFullName(_workContext.CurrentCustomer);
+                    inventoryModel.Status = InventoryStatusToResourceString(inventoryModel.StatusId);
                     if (inventoryModel.DownloadId > 0)
                         inventoryModel.DownloadGuid = _downloadService.GetDownloadById(inventoryModel.DownloadId).DownloadGuid;
                     return inventoryModel;
@@ -173,15 +187,22 @@ namespace Nop.Web.Areas.Admin.Factories
 
             foreach (var item in inventories)
             {
-                var product = _productService.GetProductById(item.ProductId);
-                item.ProductName = product.Name;
-                item.Sku = product.Sku;
+                if (item.AdditionalFee && item.ProductId == 0)
+                {
+                    item.ProductName = item.Note;                    
+                }
+                else
+                {
+                    var product = _productService.GetProductById(item.ProductId);
+                    item.ProductName = product.Name;
+                    item.Sku = product.Sku;
+                }
             }
 
             model.DownloadGuid = _downloadService.GetDownloadById(model.DownloadId)?.DownloadGuid ?? Guid.Empty;
             model.ReadOnly = inventoryPurchasePayment.Status == InventoryStatus.Processing;
             model.AddedInventoryPurchaseSearchModel = inventories;
-            model.IncludedInventoryPurchaseSearchModel.PaymentId = inventoryPurchasePayment.Id;
+            model.IncludedInventoryPurchaseSearchModel.PaymentId = inventoryPurchasePayment.Id;            
 
             return model;
         }
@@ -223,30 +244,27 @@ namespace Nop.Web.Areas.Admin.Factories
                 .Select(inventory =>
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();
-                    var product = _productService.GetProductById(inventory.ProductId);
-                    inventoryModel.ProductName = product.Name;
-                    inventoryModel.Sku = product.Sku;
+
+                    if(inventory.ProductId == 0 && inventory.AdditionalFee)
+                    {
+                        inventoryModel.ProductName = inventory.Note;
+                    }
+                    else
+                    {
+                        var product = _productService.GetProductById(inventory.ProductId);
+                        inventoryModel.ProductName = product.Name;
+                        inventoryModel.Sku = product.Sku;
+                    }
+
+                 
                     if (inventoryModel.PaymentId > 0)
                     {
                         inventoryModel.StatusId = purchasePayments[inventoryModel.PaymentId].StatusId;
-                        switch (purchasePayments[inventoryModel.PaymentId].Status)
-                        {
-                            case InventoryStatus.Cancelled:
-                                inventoryModel.Status = _localizationService.GetResource("Admin.Common.PaymentStatus.Cancelled");
-                                break;
-                            case InventoryStatus.Complete:
-                                inventoryModel.Status = _localizationService.GetResource("Admin.Common.PaymentStatus.Complete");
-                                break;
-                            case InventoryStatus.Pending:
-                                inventoryModel.Status = _localizationService.GetResource("Admin.Common.PaymentStatus.Pending");
-                                break;
-                            case InventoryStatus.Processing:
-                                inventoryModel.Status = _localizationService.GetResource("Admin.Common.PaymentStatus.Processing");
-                                break;
-                        }
+                        inventoryModel.Status = InventoryStatusToResourceString((int)purchasePayments[inventoryModel.PaymentId].Status);
+                       
                     }
                     else
-                        inventoryModel.Status = _localizationService.GetResource("Admin.Common.PaymentStatus.None");
+                        inventoryModel.Status = InventoryStatusToResourceString((int)InventoryStatus.None);
 
                     if (warehouseNamesDict.TryGetValue(inventoryModel.WarehouseId, out var warehouseName))
                         inventoryModel.WarehouseName = warehouseName;
@@ -261,9 +279,9 @@ namespace Nop.Web.Areas.Admin.Factories
         public InventoryPurchaseListModel PrepareIncludedInPaymentInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel searchModel)
         {
             if (searchModel == null)
-                throw new ArgumentNullException(nameof(searchModel));   
-            
-            
+                throw new ArgumentNullException(nameof(searchModel));
+
+
             IPagedList<InventoryPurchase> inventoriesPurchased = _inventoryPurchaseService.GetInventoryPurchasesByPaymentId(searchModel.PaymentId).ToPagedList(searchModel);
 
             var model = new InventoryPurchaseListModel().PrepareToGrid(searchModel, inventoriesPurchased, () =>
@@ -271,9 +289,18 @@ namespace Nop.Web.Areas.Admin.Factories
                 return inventoriesPurchased.Select(inventory =>
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();
-                    var product = _productService.GetProductById(inventory.ProductId);
-                    inventoryModel.ProductName = product.Name;
-                    inventoryModel.Sku = product.Sku;      
+
+                    if(inventoryModel.AdditionalFee && inventoryModel.ProductId ==0)
+                    {
+                        inventoryModel.ProductName = inventoryModel.Note;
+                    }
+                    else
+                    {
+                        var product = _productService.GetProductById(inventory.ProductId);
+                        inventoryModel.ProductName = product.Name;
+                        inventoryModel.Sku = product.Sku;
+                    }
+
                     return inventoryModel;
                 }
                 );
@@ -310,9 +337,18 @@ namespace Nop.Web.Areas.Admin.Factories
                 return inventoriesPurchased.Select(inventory =>
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();
-                    var product = _productService.GetProductById(inventory.ProductId);
-                    inventoryModel.ProductName = product.Name;
-                    inventoryModel.Sku = product.Sku;
+
+                    if (inventoryModel.AdditionalFee && inventoryModel.ProductId == 0)
+                    {
+                        inventoryModel.ProductName = inventoryModel.Note;
+                    }
+                    else
+                    {
+                        var product = _productService.GetProductById(inventory.ProductId);
+                        inventoryModel.ProductName = product.Name;
+                        inventoryModel.Sku = product.Sku;
+                    }
+
                     if (warehouseNamesDict.TryGetValue(inventoryModel.WarehouseId, out var warehouseName))
                         inventoryModel.WarehouseName = warehouseName;
                     return inventoryModel;
@@ -321,6 +357,40 @@ namespace Nop.Web.Areas.Admin.Factories
             });
 
             return model;
+        }
+
+        public AddInventoryModel PrepareAddInventoryModel(AddInventoryModel inventoryModel)
+        {
+            var warehouses = _shippingService.GetAllWarehouses();
+            foreach (var warehouse in warehouses)
+            {
+                inventoryModel.AvailableWarehouses.Add(
+                    new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                    {
+                        Text = warehouse.Name,
+                        Value = warehouse.Id.ToString()   
+                    } 
+                    );
+            }
+            return inventoryModel;
+        }
+
+        private string InventoryStatusToResourceString(int status)
+        {
+            switch (status)
+            {
+
+                case (int)InventoryStatus.Cancelled:
+                    return _localizationService.GetResource("Admin.Common.PaymentStatus.Cancelled");
+                case (int)InventoryStatus.Complete:
+                    return _localizationService.GetResource("Admin.Common.PaymentStatus.Complete");
+                case (int)InventoryStatus.Pending:
+                    return _localizationService.GetResource("Admin.Common.PaymentStatus.Pending");
+                case (int)InventoryStatus.Processing:
+                    return _localizationService.GetResource("Admin.Common.PaymentStatus.Processing");
+                default:
+                    return _localizationService.GetResource("Admin.Common.PaymentStatus.None");
+            }
         }
     }
 }

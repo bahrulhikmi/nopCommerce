@@ -36,5 +36,8 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public string Status { get; set; }
 
         public int StatusId { get; set; }
+
+        public bool AdditionalFee { get; set; }
+
     }
 }

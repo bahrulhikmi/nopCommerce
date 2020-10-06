@@ -95,7 +95,8 @@
        },
         new ColumnProperty(nameof(InventoryPurchasePaymentModel.CreatedOn))
        {
-           Title = T("Admin.Common.CreatedOn").Text
+           Title = T("Admin.Common.CreatedOn").Text,
+           Render = new RenderDate()
        },    
        new ColumnProperty(nameof(InventoryPurchaseModel.Id))
        {

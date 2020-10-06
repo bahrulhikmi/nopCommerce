@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Name="Bahasa Indonesia" SupportedVersion="4.30">
+<Language Name="Bahasa" SupportedVersion="4.30">
   <LocaleResource Name="Account.AccountActivation">
     <Value>Aktivasi akun</Value>
   </LocaleResource>
@@ -51,8 +51,8 @@
   <LocaleResource Name="Account.Avatar.UploadRules">
     <Value>Avatar harus dalam format GIF atau JPEG dengan ukuran maksimum 20 KB</Value>
   </LocaleResource>
-  <LocaleResource Name="Account.BackInStockSubscriptions">
-    <Value>Kembali langganan stok</Value>
+  <LocaleResource Name="account.backinstocksubscriptions">
+    <Value>Pemberitahun ready stok</Value>
   </LocaleResource>
   <LocaleResource Name="Account.BackInStockSubscriptions.DeleteSelected">
     <Value>Hapus yang dipilih</Value>
@@ -507,14 +507,14 @@
   <LocaleResource Name="Account.Login.LoginButton">
     <Value>Masuk</Value>
   </LocaleResource>
-  <LocaleResource Name="Account.Login.NewCustomer">
-    <Value>Pelanggan Baru</Value>
+  <LocaleResource Name="account.login.newcustomer">
+    <Value>Saya belum terdaftar</Value>
   </LocaleResource>
   <LocaleResource Name="Account.Login.NewCustomerText">
     <Value>Dengan membuat akun di situs web kami, Anda akan dapat berbelanja lebih cepat, memperbarui status pesanan, dan melacak pesanan yang sebelumnya Anda buat.</Value>
   </LocaleResource>
-  <LocaleResource Name="Account.Login.ReturningCustomer">
-    <Value>Pelanggan Lama</Value>
+  <LocaleResource Name="account.login.returningcustomer">
+    <Value>Saya sudah terdaftar</Value>
   </LocaleResource>
   <LocaleResource Name="Account.Login.Unsuccessful">
     <Value>Masuk tidak berhasil. Harap perbaiki kesalahan dan coba lagi.</Value>
@@ -2229,6 +2229,36 @@
   <LocaleResource Name="Admin.Catalog.Categories.Updated">
     <Value>The category has been updated successfully.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Inventories">
+    <Value>Stok Produk</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.addpurchasingrecord">
+    <Value>Tambahkan item terpilih ke Transaksi Pembelian</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.inventorypurchasepaymentinprocess">
+    <Value>Pembayaran yang belum di proses</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.priceincltax">
+    <Value>Harga</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Inventories.ProductName">
+    <Value>Nama Produk</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.qty">
+    <Value>Jumlah</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.reservedqty">
+    <Value>Stok Sedang Dipesan</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Inventories.SKU">
+    <Value>Kode Produk</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.stockqty">
+    <Value>Jumlah Stok</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.inventories.unpaidpurchasingrecord">
+    <Value>Transaksi Pembelian yang belum di bayar</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Manufacturers">
     <Value>Manufacturers</Value>
   </LocaleResource>
@@ -2409,8 +2439,8 @@
   <LocaleResource Name="Admin.Catalog.Manufacturers.Mappings">
     <Value>Mappings</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Catalog.Manufacturers.Products">
-    <Value>Products</Value>
+  <LocaleResource Name="admin.catalog.manufacturers.products">
+    <Value>Produk</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Manufacturers.Products.AddNew">
     <Value>Add a new product</Value>
@@ -2429,6 +2459,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Manufacturers.Updated">
     <Value>The manufacturer has been updated successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.catalog.myinventories">
+    <Value>Stok Saya</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.ProductReviews">
     <Value>Product reviews</Value>
@@ -3205,7 +3238,7 @@
     <Value>Short description</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.ShortDescription.Hint">
-    <Value>Short description is the text that is displayed in product list i.e. сategory / manufacturer pages.</Value>
+    <Value>Short description is the text that is displayed in product list i.e. ?ategory / manufacturer pages.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.ShowOnHomepage">
     <Value>Show on home page</Value>
@@ -4011,8 +4044,8 @@
   <LocaleResource Name="Admin.Catalog.Products.TierPrices.SaveBeforeEdit">
     <Value>You need to save the product before you can add tier prices for this product page.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Catalog.Products.Updated">
-    <Value>The product has been updated successfully.</Value>
+  <LocaleResource Name="admin.catalog.products.updated">
+    <Value>Produk berhasil diperbaharui.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.ProductTags">
     <Value>Product tags</Value>
@@ -4053,8 +4086,11 @@
   <LocaleResource Name="Admin.Catalog.ViewMode.List">
     <Value>List</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.ActionConfirmation">
-    <Value>Are you sure you want to perform this action?</Value>
+  <LocaleResource Name="admin.common.actionconfirmation">
+    <Value>Apakah kamu yakin untuk melakukan ini?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Add">
+    <Value>Tambahkan</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.AddNew">
     <Value>Add new</Value>
@@ -4080,14 +4116,17 @@
   <LocaleResource Name="Admin.Common.All">
     <Value>All</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.AreYouSure">
-    <Value>Are you sure?</Value>
+  <LocaleResource Name="admin.common.areyousure">
+    <Value>Konfirmasi aksi</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Cancel">
     <Value>Cancel</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.CancelChanges">
     <Value>Batalkan perubahan</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.cancelpayment">
+    <Value>Hapus Pembayaran</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Change">
     <Value>Change</Value>
@@ -4101,11 +4140,17 @@
   <LocaleResource Name="Admin.Common.ConfigurationNotRequired">
     <Value>Configuration is not required</Value>
   </LocaleResource>
+  <LocaleResource Name="admin.common.confirmpayment">
+    <Value>Simpan &amp; Proses Pembayaran</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.createdon">
+    <Value>Tanggal Dibuat</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.CsvFile">
     <Value>CSV file</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.Delete">
-    <Value>Delete</Value>
+  <LocaleResource Name="admin.common.delete">
+    <Value>Hapus</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Delete.Selected">
     <Value>Delete (selected)</Value>
@@ -4116,6 +4161,12 @@
   <LocaleResource Name="Admin.Common.DeleteConfirmationParam">
     <Value>Are you sure you want to delete "{0}"?</Value>
   </LocaleResource>
+  <LocaleResource Name="admin.common.distribution">
+    <Value>Distribusi</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Distributor">
+    <Value>Distributor</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Edit">
     <Value>Edit</Value>
   </LocaleResource>
@@ -4124,6 +4175,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Common.ExcelFile">
     <Value>Excel file</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.exclude">
+    <Value>Keluarkan</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Export">
     <Value>Export</Value>
@@ -4149,6 +4203,9 @@
   <LocaleResource Name="Admin.Common.ExportToXml.Selected">
     <Value>Export to XML (selected)</Value>
   </LocaleResource>
+  <LocaleResource Name="admin.common.featurenotavailable">
+    <Value>Fitur ini belum tersedia</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Go">
     <Value>Go</Value>
   </LocaleResource>
@@ -4173,14 +4230,44 @@
   <LocaleResource Name="Admin.Common.LoseUnsavedChanges">
     <Value>You are going to lose any unsaved changes. Are you sure?</Value>
   </LocaleResource>
+  <LocaleResource Name="admin.common.myinfo">
+    <Value>Pengumuman</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.myprofile">
+    <Value>Profil Saya</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.No">
     <Value>No</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.NoCancel">
-    <Value>No, cancel</Value>
+  <LocaleResource Name="admin.common.nocancel">
+    <Value>Tidak, batalkan</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.note">
+    <Value>Catatan</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Ok">
     <Value>Ok</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.pay">
+    <Value>Bayar</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.paymentstatus">
+    <Value>Status Pembayaran</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.PaymentStatus.Cancelled">
+    <Value>Dibatalkan</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.PaymentStatus.Complete">
+    <Value>Selesai</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.paymentstatus.none">
+    <Value>Belum Dibayar</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.paymentstatus.pending">
+    <Value>Belum diproses</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.common.paymentstatus.processing">
+    <Value>Menunggu Disetujui</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Preview">
     <Value>Preview</Value>
@@ -4194,8 +4281,8 @@
   <LocaleResource Name="Admin.Common.SaveContinue">
     <Value>Save and Continue Edit</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.Search">
-    <Value>Search</Value>
+  <LocaleResource Name="admin.common.search">
+    <Value>Lakukan Pencarian</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Select">
     <Value>Select</Value>
@@ -4209,6 +4296,9 @@
   <LocaleResource Name="Admin.Common.Standard">
     <Value>Standard</Value>
   </LocaleResource>
+  <LocaleResource Name="admin.common.total">
+    <Value>Total Harga</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Update">
     <Value>Update</Value>
   </LocaleResource>
@@ -4221,8 +4311,8 @@
   <LocaleResource Name="Admin.Common.WrongEmail">
     <Value>Wrong email</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Common.Yes">
-    <Value>Yes</Value>
+  <LocaleResource Name="admin.common.yes">
+    <Value>Ya</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.ZipFile">
     <Value>Zip file</Value>
@@ -4411,7 +4501,7 @@
     <Value>The new currency has been added successfully.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Currencies.AdditionalConfirm">
-    <Value><![CDATA[<p> PERINGATAN. Tidak disarankan untuk melakukan ini di situs langsung karena: </p><ol> <li> Harga produk, total pesanan, tarif pengiriman, dll. Tidak secara otomatis dikonversi ke mata uang baru </li> <li> Tarif pertukaran mata uang tidak diperbarui secara otomatis </li> </ol>]]></Value>
+    <Value>&lt;p&gt; PERINGATAN. Tidak disarankan untuk melakukan ini di situs langsung karena: &lt;/p&gt;&lt;ol&gt; &lt;li&gt; Harga produk, total pesanan, tarif pengiriman, dll. Tidak secara otomatis dikonversi ke mata uang baru &lt;/li&gt; &lt;li&gt; Tarif pertukaran mata uang tidak diperbarui secara otomatis &lt;/li&gt; &lt;/ol&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Currencies.AddNew">
     <Value>Add a new currency</Value>
@@ -4686,6 +4776,9 @@
   <LocaleResource Name="Admin.Configuration.ExternalAuthenticationMethods.Fields.SystemName">
     <Value>System name</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.FaviconAndAppIcons.Uploaded">
+    <Value>Ikon favicon dan aplikasi telah diunggah</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Languages">
     <Value>Languages</Value>
   </LocaleResource>
@@ -4861,7 +4954,7 @@
     <Value>Configure</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Payment.Methods.DownloadMorePlugins">
-    <Value><![CDATA[Anda dapat mengunduh lebih banyak plugin di <a href="https://www.nopcommerce.com/extensions?category=payment-modules&utm_source=admin-panel&utm_medium=payment-plugins&utm_campaign=admin-panel" target="_blank">marketplace</a>]]></Value>
+    <Value>Anda dapat mengunduh lebih banyak plugin di &lt;a href="https://www.nopcommerce.com/extensions?category=payment-modules&amp;utm_source=admin-panel&amp;utm_medium=payment-plugins&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Payment.Methods.Fields.DisplayOrder">
     <Value>Urutan tampilan</Value>
@@ -4921,7 +5014,7 @@
     <Value>Manual plugin installation</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Plugins.Description.DownloadMorePlugins">
-    <Value><![CDATA[Anda dapat mengunduh lebih banyak plugin nopCommerce di <a href="https://www.nopcommerce.com/marketplace?utm_source=admin-panel&utm_medium=plugins&utm_campaign=admin-panel" target="_blank">marketplace</a>]]></Value>
+    <Value>Anda dapat mengunduh lebih banyak plugin nopCommerce di &lt;a href="https://www.nopcommerce.com/marketplace?utm_source=admin-panel&amp;utm_medium=plugins&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Plugins.Description.Step1">
     <Value>Upload the plugin to the /plugins folder in your nopCommerce directory.</Value>
@@ -5065,7 +5158,7 @@
     <Value>Unduh</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Plugins.OfficialFeed.Instructions">
-    <Value><![CDATA[Di sini Anda dapat menemukan ekstensi dan tema pihak ketiga yang dikembangkan oleh komunitas dan mitra kami. Mereka juga tersedia di <a href="https://www.nopcommerce.com/marketplace?utm_source=admin-panel&utm_medium=official-plugins&utm_campaign=admin-panel" target="_blank">marketplace</a> kami]]></Value>
+    <Value>Di sini Anda dapat menemukan ekstensi dan tema pihak ketiga yang dikembangkan oleh komunitas dan mitra kami. Mereka juga tersedia di &lt;a href="https://www.nopcommerce.com/marketplace?utm_source=admin-panel&amp;utm_medium=official-plugins&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt; kami</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Plugins.OfficialFeed.Name">
     <Value>Nama</Value>
@@ -5568,17 +5661,17 @@
   <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchAutoCompleteEnabled.Hint">
     <Value>Check to enabled autocomplete in the search box.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchEnabled">
-    <Value>Pencarian diaktifkan</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchEnabled.Hint">
-    <Value>Centang untuk mengaktifkan kotak pencarian.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchAutoCompleteNumberOfProducts">
     <Value>Number of 'autocomplete' products to display</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchAutoCompleteNumberOfProducts.Hint">
     <Value>Change number of visible results shown in autocomplete dropdown when searching.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchEnabled">
+    <Value>Pencarian diaktifkan</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchEnabled.Hint">
+    <Value>Centang untuk mengaktifkan kotak pencarian.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Catalog.ProductSearchTermMinimumLength">
     <Value>Search term minimum length</Value>
@@ -6120,6 +6213,12 @@
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordMinLength.Hint">
     <Value>Specify password minimum length.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRecoveryLinkDaysValid">
+    <Value>Password recovery link. Days valid</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRecoveryLinkDaysValid.Hint">
+    <Value>Enter number of days for password recovery link. Set to 0 if it doesn't expire.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRequireDigit">
     <Value>Kata sandi harus memiliki setidaknya satu digit</Value>
   </LocaleResource>
@@ -6143,12 +6242,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRequireUppercase.Hint">
     <Value>Tentukan bahwa kata sandi harus memiliki setidaknya satu huruf besar.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRecoveryLinkDaysValid">
-    <Value>Password recovery link. Days valid</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRecoveryLinkDaysValid.Hint">
-    <Value>Enter number of days for password recovery link. Set to 0 if it doesn't expire.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PhoneEnabled">
     <Value>'Phone number' enabled</Value>
@@ -6293,9 +6386,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.ZipPostalCodeRequired.Hint">
     <Value>Check if 'Zip / postal code' is required.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.FaviconAndAppIcons.Uploaded">
-    <Value>Ikon favicon dan aplikasi telah diunggah</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Forums">
     <Value>Forum settings</Value>
@@ -6619,7 +6709,7 @@
     <Value>The goal of the canonicalization process is to transform a URL into a canonical URL so it is possible to determine if two syntactically different URLs may be equivalent.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.Captcha.Instructions">
-    <Value><![CDATA[<p> CAPTCHA adalah program yang dapat mengetahui apakah penggunanya adalah manusia atau komputer. Anda mungkin pernah melihatnya - gambar berwarna dengan teks terdistorsi di bagian bawah formulir pendaftaran Web. CAPTCHA digunakan oleh banyak situs web untuk mencegah penyalahgunaan dari "bot" atau program otomatis yang biasanya ditulis untuk menghasilkan spam. Tidak ada program komputer yang dapat membaca teks yang terdistorsi sebaik manusia, jadi bot tidak dapat menavigasi situs yang dilindungi oleh CAPTCHA. nopCommerce menggunakan <a href="http://www.google.com/recaptcha" target="_blank"> reCAPTCHA </a> . </p>]]></Value>
+    <Value>&lt;p&gt; CAPTCHA adalah program yang dapat mengetahui apakah penggunanya adalah manusia atau komputer. Anda mungkin pernah melihatnya - gambar berwarna dengan teks terdistorsi di bagian bawah formulir pendaftaran Web. CAPTCHA digunakan oleh banyak situs web untuk mencegah penyalahgunaan dari "bot" atau program otomatis yang biasanya ditulis untuk menghasilkan spam. Tidak ada program komputer yang dapat membaca teks yang terdistorsi sebaik manusia, jadi bot tidak dapat menavigasi situs yang dilindungi oleh CAPTCHA. nopCommerce menggunakan &lt;a href="http://www.google.com/recaptcha" target="_blank"&gt; reCAPTCHA &lt;/a&gt; . &lt;/p&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaAppropriateKeysNotEnteredError">
     <Value>Captcha is enabled but the appropriate keys are not entered</Value>
@@ -6660,6 +6750,18 @@
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnEmailWishlistToFriendPage.Hint">
     <Value>Centang untuk menampilkan CAPTCHA di halaman 'email wishlist ke teman'.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForgotPasswordPage">
+    <Value>Tunjukkan pada halaman lupa kata sandi</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForgotPasswordPage.Hint">
+    <Value>Periksa untuk menampilkan CAPTCHA pada halaman kata sandi yang lupa ketika mengembalikan kata sandi.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForum">
+    <Value>Tampilkan di forum</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForum.Hint">
+    <Value>Centang untuk menampilkan CAPTCHA di forum, saat mengedit dan membuat topik atau posting.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnLoginPage">
     <Value>Show on login page</Value>
   </LocaleResource>
@@ -6690,18 +6792,6 @@
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaType.Hint">
     <Value>Pilih jenis reCAPTCHA. Juga periksa apakah isian 'kunci publik reCAPTCHA' dan 'kunci pribadi reCAPTCHA' menggunakan versi reCAPTCHA yang sama.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForgotPasswordPage">
-    <Value>Tunjukkan pada halaman lupa kata sandi</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForgotPasswordPage.Hint">
-    <Value>Periksa untuk menampilkan CAPTCHA pada halaman kata sandi yang lupa ketika mengembalikan kata sandi.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForum">
-    <Value>Tampilkan di forum</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CaptchaShowOnForum.Hint">
-    <Value>Centang untuk menampilkan CAPTCHA di forum, saat mengedit dan membuat topik atau posting.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.ConvertNonWesternChars">
     <Value>Convert non-western chars</Value>
   </LocaleResource>
@@ -6709,10 +6799,10 @@
     <Value>Check to take out the accent marks in the letters of SEO names while keeping the letter.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CustomHeadTags">
-    <Value><![CDATA[Custom <head> tag]]></Value>
+    <Value>Custom &lt;head&gt; tag</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.CustomHeadTags.Hint">
-    <Value><![CDATA[Enter a custom <head> tag(s) here. For example, some custom <meta> tag. Or leave empty if ignore this setting.]]></Value>
+    <Value>Enter a custom &lt;head&gt; tag(s) here. For example, some custom &lt;meta&gt; tag. Or leave empty if ignore this setting.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DefaultMetaDescription">
     <Value>Default meta description</Value>
@@ -6730,7 +6820,7 @@
     <Value>Default store theme</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DefaultStoreTheme.GetMore">
-    <Value><![CDATA[Anda bisa mendapatkan lebih banyak tema di <a href="https://www.nopcommerce.com/themes?utm_source=admin-panel&utm_medium=theme-settings&utm_campaign=admin-panel" target="_blank">marketplace</a> kami]]></Value>
+    <Value>Anda bisa mendapatkan lebih banyak tema di &lt;a href="https://www.nopcommerce.com/themes?utm_source=admin-panel&amp;utm_medium=theme-settings&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt; kami</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DefaultStoreTheme.Hint">
     <Value>The public store theme. You can download themes from the extensions page at www.nopcommerce.com.</Value>
@@ -6894,17 +6984,17 @@
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableCssBundling.Warning">
     <Value>CSS bundling is not allowed in virtual directories</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableJsBundling">
-    <Value>JavaScript bundling and minification</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableJsBundling.Hint">
-    <Value>Enable to combine (bundle) multiple JavaScript files into a single file. Currently it doesn't support web farms. And please note it could take up to two minutes for changes to existing files to be applied (when enabled).</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableHtmlMinification">
     <Value>Minifikasi HTML</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableHtmlMinification.Hint">
     <Value>Memungkinkan Anda untuk memperkecil halaman HTML dan mengompresnya, sehingga meningkatkan kecepatan pengunduhan. Harap dicatat bahwa setelah menerapkan pengaturan ini, Anda harus memulai ulang aplikasi.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableJsBundling">
+    <Value>JavaScript bundling and minification</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableJsBundling.Hint">
+    <Value>Enable to combine (bundle) multiple JavaScript files into a single file. Currently it doesn't support web farms. And please note it could take up to two minutes for changes to existing files to be applied (when enabled).</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EncryptionKey">
     <Value>Encryption private key</Value>
@@ -7024,7 +7114,7 @@
     <Value>Pola lokalisasi untuk culture saat ini berhasil dimuat.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.Localization.Description">
-    <Value><![CDATA[Setel pola <a href="http://cldr.unicode.org/" target="_blank">CLDR</a>untuk lokalisasi validasi sisi klien sesuai dengan culture saat ini]]></Value>
+    <Value>Setel pola &lt;a href="http://cldr.unicode.org/" target="_blank"&gt;CLDR&lt;/a&gt;untuk lokalisasi validasi sisi klien sesuai dengan culture saat ini</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.Localization.UploadLocalePattern">
     <Value>Setel CLDR untuk culture saat ini</Value>
@@ -7102,7 +7192,7 @@
     <Value>When enabled, your URLs will be http://www.yourStore.com/en/ or http://www.yourStore.com/ru/ (SEO friendly).</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.Sitemap.Instructions">
-    <Value><![CDATA[<p> Pengaturan ini tidak berlaku untuk sitemap.xml, hanya untuk peta situs Anda. Anda dapat mengonfigurasi pembuatan untuk sitemap.xml di <a href="{0}">all settings page</a> </p>]]></Value>
+    <Value>&lt;p&gt; Pengaturan ini tidak berlaku untuk sitemap.xml, hanya untuk peta situs Anda. Anda dapat mengonfigurasi pembuatan untuk sitemap.xml di &lt;a href="{0}"&gt;all settings page&lt;/a&gt; &lt;/p&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.SitemapEnabled">
     <Value>Sitemap enabled</Value>
@@ -8160,8 +8250,8 @@
   <LocaleResource Name="Admin.Configuration.Settings.Shipping.UseWarehouseLocation.Hint">
     <Value>Check to use warehouse location when requesting shipping rates. This is useful when you ship from multiple warehouses.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart">
-    <Value>Shopping cart settings</Value>
+  <LocaleResource Name="admin.configuration.settings.shoppingcart">
+    <Value>Pengaturan keranjang belanja</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.AllowAnonymousUsersToEmailWishlist">
     <Value>Allow guests to email their wishlists</Value>
@@ -8226,8 +8316,8 @@
   <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.GroupTierPricesForDistinctShoppingCartItems.Hint">
     <Value>Memungkinkan untuk menawarkan harga khusus ketika pelanggan membeli produk tertentu dalam jumlah yang lebih besar. Misalnya, ketika pelanggan dapat memiliki dua item keranjang belanja untuk produk yang sama (atribut produk yang berbeda).</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.MaximumShoppingCartItems">
-    <Value>Maximum shopping cart items</Value>
+  <LocaleResource Name="admin.configuration.settings.shoppingcart.maximumshoppingcartitems">
+    <Value>Maksimal belanjaan di keranjang belanja</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.MaximumShoppingCartItems.Hint">
     <Value>Maximum number of distinct products allowed in a shopping cart.</Value>
@@ -8584,7 +8674,7 @@
     <Value>Measures</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.AdditionalConfirm">
-    <Value><![CDATA[<p>WARNING. It is not recommended to do this on live sites because: </p><ol><li>Other rates have to be updated manually</li><li>You have to ensure that each product has a valid measure (dimension and weights) - they are not adjusted automatically</li></ol>]]></Value>
+    <Value>&lt;p&gt;WARNING. It is not recommended to do this on live sites because: &lt;/p&gt;&lt;ol&gt;&lt;li&gt;Other rates have to be updated manually&lt;/li&gt;&lt;li&gt;You have to ensure that each product has a valid measure (dimension and weights) - they are not adjusted automatically&lt;/li&gt;&lt;/ol&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions">
     <Value>Dimensions</Value>
@@ -8594,9 +8684,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Description">
     <Value>NOTE: if you change your primary dimension, then do not forget to update the appropriate ratios of the units</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.MarkAsPrimaryDimension.Alert.FailedToUpdate">
-    <Value>Gagal memperbarui dimensi.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.DisplayOrder">
     <Value>Urutan tampilan</Value>
@@ -8633,6 +8720,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.SystemKeyword.Required">
     <Value>Please provide a system keyword.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.MarkAsPrimaryDimension.Alert.FailedToUpdate">
+    <Value>Gagal memperbarui dimensi.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Measures.Weights">
     <Value>Weights</Value>
@@ -8806,7 +8896,7 @@
     <Value>Configure</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Providers.DownloadMorePlugins">
-    <Value><![CDATA[Anda dapat mengunduh lebih banyak plugin di <a href="https://www.nopcommerce.com/extensions?category=shipping-delivery&utm_source=admin-panel&utm_medium=shipping-plugins&utm_campaign=admin-panel" target="_blank">marketplace</a>]]></Value>
+    <Value>Anda dapat mengunduh lebih banyak plugin di &lt;a href="https://www.nopcommerce.com/extensions?category=shipping-delivery&amp;utm_source=admin-panel&amp;utm_medium=shipping-plugins&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Shipping.Providers.Fields.DisplayOrder">
     <Value>Urutan tampilan</Value>
@@ -9013,7 +9103,7 @@
     <Value>Configure</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Tax.Providers.DownloadMorePlugins">
-    <Value><![CDATA[Anda dapat mengunduh lebih banyak plugin di <a href="https://www.nopcommerce.com/extensions?category=taxes&utm_source=admin-panel&utm_medium=tax-plugins&utm_campaign=admin-panel" target="_blank">marketplace</a>]]></Value>
+    <Value>Anda dapat mengunduh lebih banyak plugin di &lt;a href="https://www.nopcommerce.com/extensions?category=taxes&amp;utm_source=admin-panel&amp;utm_medium=tax-plugins&amp;utm_campaign=admin-panel" target="_blank"&gt;marketplace&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Tax.Providers.Fields.FriendlyName">
     <Value>Friendly name</Value>
@@ -9159,17 +9249,17 @@
   <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.Info">
     <Value>Info</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchTitle">
-    <Value>Title</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchTitle.Hint">
-    <Value>Cari berdasarkan judul posting blog.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchStore">
     <Value>Store</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchStore.Hint">
     <Value>Search by a specific store.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchTitle">
+    <Value>Title</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.List.SearchTitle.Hint">
+    <Value>Cari berdasarkan judul posting blog.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.Updated">
     <Value>The blog post has been updated successfully.</Value>
@@ -9349,10 +9439,10 @@
     <Value>The message template has been deleted successfully.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Blog.BlogComment">
-    <Value><![CDATA[This message template is used when a new blog comment to the certain blog post is created. The message is received by a store owner. You can set up this option by ticking the checkbox <strong>Notify about new blog comments</strong> in Configuration - Settings - Blog settings.]]></Value>
+    <Value>This message template is used when a new blog comment to the certain blog post is created. The message is received by a store owner. You can set up this option by ticking the checkbox &lt;strong&gt;Notify about new blog comments&lt;/strong&gt; in Configuration - Settings - Blog settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Customer.BackInStock">
-    <Value><![CDATA[This message template is used when the customer subscribed for the certain product which is unavailable at the moment to notify the customer about the product being back to stock again. You can set up this option by ticking the checkbox <strong>Allow back in stock subscriptions</strong> in Product info tab - Inventory section.]]></Value>
+    <Value>This message template is used when the customer subscribed for the certain product which is unavailable at the moment to notify the customer about the product being back to stock again. You can set up this option by ticking the checkbox &lt;strong&gt;Allow back in stock subscriptions&lt;/strong&gt; in Product info tab - Inventory section.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Customer.EmailRevalidationMessage">
     <Value>This message template is used when a customer changes an email address in his account. The customer receives a message to confirm an email address used when changing email address.</Value>
@@ -9364,7 +9454,7 @@
     <Value>This message template is used when the customer gets a notification about a new order being placed from this account.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Customer.NewPM">
-    <Value><![CDATA[This message template is used when the customer gets a notification about a new private message being received. You can set up this option by ticking the checkbox <strong>Show alert for PM</strong> in Configuration - Settings - Forum settings.]]></Value>
+    <Value>This message template is used when the customer gets a notification about a new private message being received. You can set up this option by ticking the checkbox &lt;strong&gt;Show alert for PM&lt;/strong&gt; in Configuration - Settings - Forum settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Customer.PasswordRecovery">
     <Value>This message template is used when a customer forgets a password needed to log in the account. The customer receives a message with a link for entering a new password.</Value>
@@ -9382,7 +9472,7 @@
     <Value>This message template is used to send a notification to a customer about getting a gift card.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.NewCustomer.Notification">
-    <Value><![CDATA[This message template is used when a new customer is registered. The message is received by a store owner. You can set up this option by ticking the checkbox <strong>Notify about new customer registration</strong> in Configuration - Settings - Customer settings.]]></Value>
+    <Value>This message template is used when a new customer is registered. The message is received by a store owner. You can set up this option by ticking the checkbox &lt;strong&gt;Notify about new customer registration&lt;/strong&gt; in Configuration - Settings - Customer settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.NewReturnRequest.CustomerNotification">
     <Value>This message template is used to notify a customer about a new return request submitted from his/her account.</Value>
@@ -9391,16 +9481,16 @@
     <Value>This message template is used when a new return request is created. The message is received by a store owner.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.News.NewsComment">
-    <Value><![CDATA[This message template is used when a new comment to the certain news item is created. The message is received by a store owner. You can set up this option by ticking the checkbox <strong>Notify about new news comments</strong> in Configuration - Settings - News settings.]]></Value>
+    <Value>This message template is used when a new comment to the certain news item is created. The message is received by a store owner. You can set up this option by ticking the checkbox &lt;strong&gt;Notify about new news comments&lt;/strong&gt; in Configuration - Settings - News settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.NewsLetterSubscription.ActivationMessage">
     <Value>This message template is used when a customer subscribes to the newsletter to confirm the subscription.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.NewsLetterSubscription.DeactivationMessage">
-    <Value><![CDATA[This message template is used when a customer unsubscribes to the newsletter to confirm the subscription deactivation. You can allow users to unsubscribe by ticking the checkbox <strong>Newsletter box. Allow to unsubscribe</strong> in Configuration - Settings - Customer settings.]]></Value>
+    <Value>This message template is used when a customer unsubscribes to the newsletter to confirm the subscription deactivation. You can allow users to unsubscribe by ticking the checkbox &lt;strong&gt;Newsletter box. Allow to unsubscribe&lt;/strong&gt; in Configuration - Settings - Customer settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.NewVATSubmitted.StoreOwnerNotification">
-    <Value><![CDATA[This message template is used when a new VAT is submitted. The message is received by a store owner. You can set up this option by clicking <strong>Notify admin when a new VAT number is submitted</strong> in Configuration - Settings - Tax settings.]]></Value>
+    <Value>This message template is used when a new VAT is submitted. The message is received by a store owner. You can set up this option by clicking &lt;strong&gt;Notify admin when a new VAT number is submitted&lt;/strong&gt; in Configuration - Settings - Tax settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.OrderCancelled.CustomerNotification">
     <Value>This message template is used to notify a customer that the certain order was cancelled. The order can be cancelled by a customer on the account page or by store owner in Customers - Customers in Orders tab or in Sales - Orders.</Value>
@@ -9439,16 +9529,16 @@
     <Value>This message template is used to notify a store owner that the certain order was refunded. The customer can submit to refund the order when the payment status is paid on the account page, or it can be done by a store owner in Sales - Orders by clicking "Refund" button.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Product.ProductReview">
-    <Value><![CDATA[This message template is used to notify a store owner that a new product review is created. You can set up this option by ticking the checkbox <strong>Notify about new product reviews</strong> in Configuration - Settings - Catalog settings.]]></Value>
+    <Value>This message template is used to notify a store owner that a new product review is created. You can set up this option by ticking the checkbox &lt;strong&gt;Notify about new product reviews&lt;/strong&gt; in Configuration - Settings - Catalog settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.ProductReview.Reply.CustomerNotification">
-    <Value><![CDATA[This message template is used to notify customers when a store owner (or vendor) replies to their product reviews. You can set up this option by ticking the checkbox <strong>Notify customer about product review reply</strong> in Configuration - Settings - Catalog settings.]]></Value>
+    <Value>This message template is used to notify customers when a store owner (or vendor) replies to their product reviews. You can set up this option by ticking the checkbox &lt;strong&gt;Notify customer about product review reply&lt;/strong&gt; in Configuration - Settings - Catalog settings.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.QuantityBelow.AttributeCombination.StoreOwnerNotification">
     <Value>This message template is used to notify a store owner that the certain product attribute combination is getting low stock. You can set up the combination minimum quantity when creating or editing the product in Product attribute tab - Attributes combinations tab in Notify admin for quantity below field.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.QuantityBelow.StoreOwnerNotification">
-    <Value><![CDATA[This message template is used to notify a store owner that the certain product is getting low stock. You can set up the minimum product quantity when creating or editing the product in Inventory section, <strong>Minimum stock qty field</strong>.]]></Value>
+    <Value>This message template is used to notify a store owner that the certain product is getting low stock. You can set up the minimum product quantity when creating or editing the product in Inventory section, &lt;strong&gt;Minimum stock qty field&lt;/strong&gt;.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.RecurringPaymentCancelled.CustomerNotification">
     <Value>This message template is used to notify a customer that the certain recurring payment is cancelled. Payment can be cancelled by a customer in the account page or by a store owner in Sales - Recurring payments in History tab by clicking "Cancel recurring payment" button.</Value>
@@ -9472,19 +9562,19 @@
     <Value>This message template is used to send "email a friend" message.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.ShipmentDelivered.CustomerNotification">
-    <Value><![CDATA[This message template is used to notify a customer that the shipping status of the certain order is set to delivered. You can set up this option in Configuration - Settings - Shipping settings by ticking the checkbox <strong>Display shipment events (customers)</strong>.]]></Value>
+    <Value>This message template is used to notify a customer that the shipping status of the certain order is set to delivered. You can set up this option in Configuration - Settings - Shipping settings by ticking the checkbox &lt;strong&gt;Display shipment events (customers)&lt;/strong&gt;.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.ShipmentSent.CustomerNotification">
-    <Value><![CDATA[This message template is used to notify a customer that the shipping status of the certain order is sent. You can set up this option in Configuration - Settings - Shipping settings by ticking the checkbox <strong>Display shipment events (customers)</strong>.]]></Value>
+    <Value>This message template is used to notify a customer that the shipping status of the certain order is sent. You can set up this option in Configuration - Settings - Shipping settings by ticking the checkbox &lt;strong&gt;Display shipment events (customers)&lt;/strong&gt;.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.VendorAccountApply.StoreOwnerNotification">
-    <Value><![CDATA[This message template is used to notify a store owner that new user has applied for vendor account. You can allow customers to apply for vendor account in Configuration - Setting - Vendor settings by ticking the checkbox <strong>Allow customers to apply for vendor account</strong>.]]></Value>
+    <Value>This message template is used to notify a store owner that new user has applied for vendor account. You can allow customers to apply for vendor account in Configuration - Setting - Vendor settings by ticking the checkbox &lt;strong&gt;Allow customers to apply for vendor account&lt;/strong&gt;.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.VendorInformationChange.StoreOwnerNotification">
-    <Value><![CDATA[This message template is used to notify a store owner that the vendor changed some vendor's details. You can allow vendors to change info about themselves in Configuration - Setting - Vendor settings by ticking the checkbox <strong>Allow vendors to edit info</strong>.]]></Value>
+    <Value>This message template is used to notify a store owner that the vendor changed some vendor's details. You can allow vendors to change info about themselves in Configuration - Setting - Vendor settings by ticking the checkbox &lt;strong&gt;Allow vendors to edit info&lt;/strong&gt;.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.Description.Wishlist.EmailAFriend">
-    <Value><![CDATA[Template pesan ini digunakan ketika seorang pelanggan ingin membagikan beberapa produk dari daftar keinginan dengan seorang teman dengan mengirim email. Anda dapat mengatur opsi ini dengan mencentang kotak centang Bolehkan pelanggan untuk mengirim email daftar harapan mereka di Konfigurasi - Pengaturan - Pengaturan keranjang belanja.]]></Value>
+    <Value>Template pesan ini digunakan ketika seorang pelanggan ingin membagikan beberapa produk dari daftar keinginan dengan seorang teman dengan mengirim email. Anda dapat mengatur opsi ini dengan mencentang kotak centang Bolehkan pelanggan untuk mengirim email daftar harapan mereka di Konfigurasi - Pengaturan - Pengaturan keranjang belanja.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.MessageTemplates.EditMessageTemplateDetails">
     <Value>Edit message template details</Value>
@@ -9792,17 +9882,17 @@
   <LocaleResource Name="Admin.ContentManagement.News.NewsItems.Info">
     <Value>Info</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchTitle">
-    <Value>Title</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchTitle.Hint">
-    <Value>Cari berdasarkan judul item berita.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchStore">
     <Value>Store</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchStore.Hint">
     <Value>Search by a specific store.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchTitle">
+    <Value>Title</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.News.NewsItems.List.SearchTitle.Hint">
+    <Value>Cari berdasarkan judul item berita.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.News.NewsItems.Updated">
     <Value>The news item has been updated successfully.</Value>
@@ -10056,9 +10146,6 @@
   <LocaleResource Name="Admin.ContentManagement.Topics.Fields.Store.Hint">
     <Value>Choose a store this topic is assigned to.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.ContentManagement.Topics.Fields.TopicName">
-    <Value>Nama</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Topics.Fields.SystemName">
     <Value>System name</Value>
   </LocaleResource>
@@ -10070,6 +10157,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Topics.Fields.Title.Hint">
     <Value>The title of your topic.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.Topics.Fields.TopicName">
+    <Value>Nama</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ContentManagement.Topics.Fields.TopicTemplate">
     <Value>Topic template</Value>
@@ -10160,6 +10250,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Customers.ActivityLog">
     <Value>Activity log</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Customers.ActivityLog.Clear">
+    <Value>Hapus log aktivitas</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Customers.ActivityLog.Fields.ActivityLogType">
     <Value>Jenis log aktivitas</Value>
@@ -10404,9 +10497,6 @@
   <LocaleResource Name="Admin.Customers.Customers.ActivityLog.ActivityLogType">
     <Value>Activity Log Type</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Customers.ActivityLog.Clear">
-    <Value>Hapus log aktivitas</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Customers.Customers.ActivityLog.Comment">
     <Value>Comment</Value>
   </LocaleResource>
@@ -10476,8 +10566,8 @@
   <LocaleResource Name="Admin.Customers.Customers.AssociatedExternalAuth.Hint">
     <Value>A list of external authentication identifiers.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Customers.Customers.BackInStockSubscriptions">
-    <Value>Kembali langganan stok</Value>
+  <LocaleResource Name="admin.customers.customers.backinstocksubscriptions">
+    <Value>Pemberitahun ready stok</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Customers.Customers.BackInStockSubscriptions.CreatedOn">
     <Value>Subscribed on</Value>
@@ -11067,6 +11157,9 @@
   <LocaleResource Name="Admin.Customers.Guest">
     <Value>Guest</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Customers.NoCustomers">
+    <Value>Tidak ada pelanggan yang dipilih</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Customers.OnlineCustomers">
     <Value>Online customers</Value>
   </LocaleResource>
@@ -11090,9 +11183,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Customers.OnlineCustomers.Fields.Location">
     <Value>Location</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Customers.NoCustomers">
-    <Value>Tidak ada pelanggan yang dipilih</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Dashboard">
     <Value>Dashboard</Value>
@@ -11124,8 +11214,8 @@
   <LocaleResource Name="Admin.Dashboard.NumberOfPendingReturnRequests">
     <Value>Pending return requests</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Download.DownloadUploadedFile">
-    <Value>Download uploaded file</Value>
+  <LocaleResource Name="admin.download.downloaduploadedfile">
+    <Value>Unduh unggahan</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Download.DownloadURL">
     <Value>Download URL</Value>
@@ -11133,8 +11223,8 @@
   <LocaleResource Name="Admin.Download.DownloadURLSaved">
     <Value>Download object is saved</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Download.RemoveDownload">
-    <Value>Remove download</Value>
+  <LocaleResource Name="admin.download.removedownload">
+    <Value>Hapus</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Download.SaveDownloadURL">
     <Value>Save download</Value>
@@ -11142,8 +11232,8 @@
   <LocaleResource Name="Admin.Download.SaveDownloadURL.Alert.FailedSave">
     <Value>Gagal menyimpan objek unduhan.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Download.UploadFile">
-    <Value>Upload file</Value>
+  <LocaleResource Name="admin.download.uploadfile">
+    <Value>Unggah Dokumen</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Download.UseDownloadURL">
     <Value>Use download URL</Value>
@@ -11166,14 +11256,11 @@
   <LocaleResource Name="Admin.DT.InfoFiltered">
     <Value>(difilter dari total masukan _MAX_)</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.DT.Thousands">
-    <Value>,</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.DT.lengthMenu">
     <Value>Tampilkan item _MENU_</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.LoaderIcon">
-    <Value><![CDATA[<i class='fa fa-refresh fa-spin'></i>]]></Value>
+    <Value>&lt;i class='fa fa-refresh fa-spin'&gt;&lt;/i&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.LoadingRecords">
     <Value>Loading...</Value>
@@ -11195,6 +11282,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.DT.Search">
     <Value>Cari:</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.DT.Thousands">
+    <Value>,</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.ZeroRecords">
     <Value>Tidak ditemukan catatan yang cocok</Value>
@@ -11361,8 +11451,8 @@
   <LocaleResource Name="Admin.Header.Logout">
     <Value>Keluar</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Header.PublicStore">
-    <Value>Public store</Value>
+  <LocaleResource Name="admin.header.publicstore">
+    <Value>Toko</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Header.RestartApplication">
     <Value>Restart application</Value>
@@ -11384,6 +11474,27 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Home">
     <Value>Home</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.excludedpurchased">
+    <Value>Transaksi Pembelian yang tidak dimasukkan ke pembayaran</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.inventories.backtolist">
+    <Value>Kembali ke Stok Produk</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.inventories.inventorycontact">
+    <Value>Ajukan Penambahan Stok</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.payment">
+    <Value>Pembayaran</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.payment.confirmed">
+    <Value>Pembayaran telah disimpan dan sedang menunggu persetujuan admin</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.payment.transferreceiptismandatory">
+    <Value>Bukti Transfer harus dilampirkan</Value>
+  </LocaleResource>
+  <LocaleResource Name="admin.inventories.paymentsummary">
+    <Value>Transaksi Pembelian yang di bayar</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Menu.Search">
     <Value>Search</Value>
@@ -11964,8 +12075,8 @@
   <LocaleResource Name="Admin.Orders.OrderNotes.Fields.DisplayToCustomer.Hint">
     <Value>A value indicating whether to display this order note to a customer.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.OrderNotes.Fields.Download">
-    <Value>Attached file</Value>
+  <LocaleResource Name="admin.orders.ordernotes.fields.download">
+    <Value>Dokumen Terlampir</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.OrderNotes.Fields.Download.HasDownload">
     <Value>(check to upload file)</Value>
@@ -11976,8 +12087,8 @@
   <LocaleResource Name="Admin.Orders.OrderNotes.Fields.Download.Link">
     <Value>Unduh</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.OrderNotes.Fields.Download.Link.No">
-    <Value>No file attached</Value>
+  <LocaleResource Name="admin.orders.ordernotes.fields.download.link.no">
+    <Value>Dokumen belum diunggah</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.OrderNotes.Fields.Note">
     <Value>Note</Value>
@@ -12231,17 +12342,17 @@
   <LocaleResource Name="Admin.Orders.Shipments.List.EndDate.Hint">
     <Value>The end date (shipment creation date) for the search.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotShipped">
-    <Value>Load not shipped</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotShipped.Hint">
-    <Value>Load only not shipped shipments.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotDelivered">
     <Value>Muat tidak terkirim</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotDelivered.Hint">
     <Value>Muat hanya kiriman yang tidak terkirim</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotShipped">
+    <Value>Load not shipped</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.List.LoadNotShipped.Hint">
+    <Value>Load only not shipped shipments.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Shipments.List.StartDate">
     <Value>Tanggal mulai</Value>
@@ -12772,7 +12883,7 @@
     <Value>Default requirement group</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.Description">
-    <Value><![CDATA[Set up requirements to a created discount if you want to limit it to certain user categories depending on a customer role, the amount spent, etc. You can use single requirement type, or group several types and apply them simultaneously.<br>Requirement group is a useful feature for creating discount requirement templates. You can create a requirement group just once and then use it every time you want this limitation to be applied. You can include one requirement group into another one if needed.]]></Value>
+    <Value>Set up requirements to a created discount if you want to limit it to certain user categories depending on a customer role, the amount spent, etc. You can use single requirement type, or group several types and apply them simultaneously.&lt;br&gt;Requirement group is a useful feature for creating discount requirement templates. You can create a requirement group just once and then use it every time you want this limitation to be applied. You can include one requirement group into another one if needed.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.DiscountRequirementType">
     <Value>Discount requirement type</Value>
@@ -14422,7 +14533,7 @@
     <Value>Akun '{0}' tidak diberikan dengan Ubah izin pada folder '{1}'. Mohon konfigurasikan izin ini.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.Errors">
-    <Value><![CDATA[Toko memiliki beberapa kesalahan atau peringatan. Harap temukan informasi lebih lanjut di halaman <a href="{0}">Peringatan</a>]]></Value>
+    <Value>Toko memiliki beberapa kesalahan atau peringatan. Harap temukan informasi lebih lanjut di halaman &lt;a href="{0}"&gt;Peringatan&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.ExchangeCurrency.NotSet">
     <Value>Primary exchange rate currency is not set</Value>
@@ -14504,6 +14615,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Vendors.Deleted">
     <Value>The vendor has been deleted successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Vendors.Display">
+    <Value>Display</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Vendors.EditVendorDetails">
     <Value>Edit vendor details</Value>
@@ -14612,9 +14726,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Vendors.Fields.SeName.Hint">
     <Value>Tetapkan nama halaman yang ramah mesin pencari, misalnya 'vendor terbaik' untuk membuat URL halaman Anda 'http://www.yourStore.com/vendor terbaik'. Biarkan kosong untuk menghasilkannya secara otomatis berdasarkan nama vendor.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Vendors.Display">
-    <Value>Display</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Vendors.Info">
     <Value>Vendor Info</Value>
@@ -14754,17 +14865,17 @@
   <LocaleResource Name="BackInStockSubscriptions.NotAllowed">
     <Value>Subscriptions are not allowed for this product</Value>
   </LocaleResource>
-  <LocaleResource Name="BackInStockSubscriptions.NotifyMe">
-    <Value>Notify me</Value>
-  </LocaleResource>
-  <LocaleResource Name="BackInStockSubscriptions.NotifyMeWhenAvailable">
-    <Value>Notify me when available</Value>
-  </LocaleResource>
   <LocaleResource Name="BackInStockSubscriptions.Notification.Subscribed">
     <Value>Anda telah berhasil berlangganan</Value>
   </LocaleResource>
   <LocaleResource Name="BackInStockSubscriptions.Notification.Unsubscribed">
     <Value>Anda berhasil berhenti berlangganan</Value>
+  </LocaleResource>
+  <LocaleResource Name="BackInStockSubscriptions.NotifyMe">
+    <Value>Notify me</Value>
+  </LocaleResource>
+  <LocaleResource Name="BackInStockSubscriptions.NotifyMeWhenAvailable">
+    <Value>Notify me when available</Value>
   </LocaleResource>
   <LocaleResource Name="BackInStockSubscriptions.OnlyRegistered">
     <Value>Only registered customers can use this feature</Value>
@@ -14838,20 +14949,20 @@
   <LocaleResource Name="Blog.Tags">
     <Value>Tags</Value>
   </LocaleResource>
-  <LocaleResource Name="Catalog.OrderBy">
-    <Value>Sort by</Value>
+  <LocaleResource Name="catalog.orderby">
+    <Value>Urutkan berdasarkan</Value>
   </LocaleResource>
   <LocaleResource Name="Catalog.OrderBy.Label">
     <Value>Select product sort order</Value>
   </LocaleResource>
-  <LocaleResource Name="Catalog.PageSize">
-    <Value>Display</Value>
+  <LocaleResource Name="catalog.pagesize">
+    <Value>Tampilkan</Value>
   </LocaleResource>
   <LocaleResource Name="Catalog.PageSize.Label">
     <Value>Select number of products per page</Value>
   </LocaleResource>
-  <LocaleResource Name="Catalog.PageSize.PerPage">
-    <Value>per page</Value>
+  <LocaleResource Name="catalog.pagesize.perpage">
+    <Value>per halaman</Value>
   </LocaleResource>
   <LocaleResource Name="Catalog.ViewMode">
     <Value>View as</Value>
@@ -15135,8 +15246,8 @@
   <LocaleResource Name="Common.FileUploader.Retry">
     <Value>Retry</Value>
   </LocaleResource>
-  <LocaleResource Name="Common.FileUploader.Upload">
-    <Value>Upload a file</Value>
+  <LocaleResource Name="common.fileuploader.upload">
+    <Value>Unggah</Value>
   </LocaleResource>
   <LocaleResource Name="Common.Hide">
     <Value>Hide</Value>
@@ -15156,8 +15267,8 @@
   <LocaleResource Name="Common.No">
     <Value>No</Value>
   </LocaleResource>
-  <LocaleResource Name="Common.NoCancel">
-    <Value>No, cancel</Value>
+  <LocaleResource Name="common.nocancel">
+    <Value>Tidak, batalkan</Value>
   </LocaleResource>
   <LocaleResource Name="Common.Notification">
     <Value>Notification</Value>
@@ -15201,8 +15312,8 @@
   <LocaleResource Name="Common.Year">
     <Value>Year</Value>
   </LocaleResource>
-  <LocaleResource Name="Common.Yes">
-    <Value>Yes</Value>
+  <LocaleResource Name="common.yes">
+    <Value>Ya</Value>
   </LocaleResource>
   <LocaleResource Name="ContactUs">
     <Value>Contact us</Value>
@@ -15414,20 +15525,20 @@
   <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.CreatedOn">
     <Value>Created on</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.NameAsc">
-    <Value>Name: A to Z</Value>
+  <LocaleResource Name="enums.nop.core.domain.catalog.productsortingenum.nameasc">
+    <Value>Nama: A - Z</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.NameDesc">
-    <Value>Name: Z to A</Value>
+  <LocaleResource Name="enums.nop.core.domain.catalog.productsortingenum.namedesc">
+    <Value>Nama: Z - A</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.Position">
-    <Value>Position</Value>
+  <LocaleResource Name="enums.nop.core.domain.catalog.productsortingenum.position">
+    <Value>Posisi</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.PriceAsc">
-    <Value>Price: Low to High</Value>
+  <LocaleResource Name="enums.nop.core.domain.catalog.productsortingenum.priceasc">
+    <Value>Dari yang paling murah</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductSortingEnum.PriceDesc">
-    <Value>Price: High to Low</Value>
+  <LocaleResource Name="enums.nop.core.domain.catalog.productsortingenum.pricedesc">
+    <Value>Dari yang paling mahal</Value>
   </LocaleResource>
   <LocaleResource Name="Enums.Nop.Core.Domain.Catalog.ProductType.GroupedProduct">
     <Value>Grouped (product with variants)</Value>
@@ -15678,8 +15789,8 @@
   <LocaleResource Name="Enums.Nop.Core.Domain.Orders.ReturnRequestStatus.ReturnAuthorized">
     <Value>Return authorized</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Core.Domain.Orders.ShoppingCartType.ShoppingCart">
-    <Value>Shopping cart</Value>
+  <LocaleResource Name="enums.nop.core.domain.orders.shoppingcarttype.shoppingcart">
+    <Value>Keranjang belanja</Value>
   </LocaleResource>
   <LocaleResource Name="Enums.Nop.Core.Domain.Orders.ShoppingCartType.Wishlist">
     <Value>Wishlist</Value>
@@ -15774,15 +15885,6 @@
   <LocaleResource Name="Enums.Nop.Core.Domain.Tax.VatNumberStatus.Valid">
     <Value>Valid</Value>
   </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.All">
-    <Value>All</Value>
-  </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.InstalledOnly">
-    <Value>Installed</Value>
-  </LocaleResource>
-  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.NotInstalledOnly">
-    <Value>Tidak terpasang</Value>
-  </LocaleResource>
   <LocaleResource Name="Enums.Nop.Services.Payments.RecurringPaymentType.Automatic">
     <Value>Automatic</Value>
   </LocaleResource>
@@ -15791,6 +15893,15 @@
   </LocaleResource>
   <LocaleResource Name="Enums.Nop.Services.Payments.RecurringPaymentType.NotSupported">
     <Value>Not supported</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.All">
+    <Value>All</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.InstalledOnly">
+    <Value>Installed</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Services.Plugins.LoadPluginsMode.NotInstalledOnly">
+    <Value>Tidak terpasang</Value>
   </LocaleResource>
   <LocaleResource Name="EUCookieLaw.CannotBrowse">
     <Value>You cannot browse this site until you accept cookies</Value>
@@ -15859,10 +15970,10 @@
     <Value>Akun saya</Value>
   </LocaleResource>
   <LocaleResource Name="Footer.TaxShipping.ExclTax">
-    <Value><![CDATA[All prices are entered excluding tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered excluding tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Footer.TaxShipping.InclTax">
-    <Value><![CDATA[All prices are entered including tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered including tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="FormattedAttributes.PriceAdjustment">
     <Value> [{0}{1}{2}]</Value>
@@ -16002,17 +16113,17 @@
   <LocaleResource Name="Forum.PageTitle.TopicNew">
     <Value>New Topic</Value>
   </LocaleResource>
+  <LocaleResource Name="Forum.Post.IsNotUseful">
+    <Value>Posting/jawaban ini tidak bermanfaat</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Post.IsUseful">
+    <Value>Posting/jawaban ini bermanfaat</Value>
+  </LocaleResource>
   <LocaleResource Name="Forum.Posted">
     <Value>Posted</Value>
   </LocaleResource>
   <LocaleResource Name="Forum.PostLinkTitle">
     <Value>Link to this post</Value>
-  </LocaleResource>
-  <LocaleResource Name="Forum.Post.IsUseful">
-    <Value>Posting/jawaban ini bermanfaat</Value>
-  </LocaleResource>
-  <LocaleResource Name="Forum.Post.IsNotUseful">
-    <Value>Posting/jawaban ini tidak bermanfaat</Value>
   </LocaleResource>
   <LocaleResource Name="Forum.Posts">
     <Value>Posts</Value>
@@ -16186,13 +16297,13 @@
     <Value>For: {0}</Value>
   </LocaleResource>
   <LocaleResource Name="GiftCardAttribute.For.Virtual">
-    <Value><![CDATA[For: {0} <{1}>]]></Value>
+    <Value>For: {0} &lt;{1}&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="GiftCardAttribute.From.Physical">
     <Value>From: {0}</Value>
   </LocaleResource>
   <LocaleResource Name="GiftCardAttribute.From.Virtual">
-    <Value><![CDATA[From: {0} <{1}>]]></Value>
+    <Value>From: {0} &lt;{1}&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Homepage">
     <Value>Home page</Value>
@@ -16428,14 +16539,14 @@
   <LocaleResource Name="Order.GiftCardInfo">
     <Value>Gift card ({0})</Value>
   </LocaleResource>
-  <LocaleResource Name="Order.Notes">
-    <Value>Note(s)</Value>
+  <LocaleResource Name="order.notes">
+    <Value>Bukti transfer dan tautan</Value>
   </LocaleResource>
-  <LocaleResource Name="Order.Notes.CreatedOn">
-    <Value>Created On</Value>
+  <LocaleResource Name="order.notes.createdon">
+    <Value>Tanggal ditambahkan</Value>
   </LocaleResource>
-  <LocaleResource Name="Order.Notes.Download">
-    <Value>Download attached file</Value>
+  <LocaleResource Name="order.notes.download">
+    <Value>Unduh dokumen</Value>
   </LocaleResource>
   <LocaleResource Name="Order.Notes.Note">
     <Value>Note</Value>
@@ -16615,13 +16726,16 @@
     <Value>Tax {0}%</Value>
   </LocaleResource>
   <LocaleResource Name="Order.TaxShipping.ExclTax">
-    <Value><![CDATA[All prices are entered excluding tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered excluding tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Order.TaxShipping.InclTax">
-    <Value><![CDATA[All prices are entered including tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered including tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Order.TotalDiscount">
     <Value>Discount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Order.TransferReceipt">
+    <Value>Dokumen Bukti Transfer</Value>
   </LocaleResource>
   <LocaleResource Name="Order.VATNumber">
     <Value>Nomor PPN</Value>
@@ -16665,8 +16779,8 @@
   <LocaleResource Name="PageTitle.AllProductTags">
     <Value>All product tags</Value>
   </LocaleResource>
-  <LocaleResource Name="PageTitle.BackInStockSubscriptions">
-    <Value>Kembali langganan stok</Value>
+  <LocaleResource Name="pagetitle.backinstocksubscriptions">
+    <Value>Pemberitahun ready stok</Value>
   </LocaleResource>
   <LocaleResource Name="PageTitle.Blog">
     <Value>Blog</Value>
@@ -17458,10 +17572,10 @@
     <Value>Rental price</Value>
   </LocaleResource>
   <LocaleResource Name="Products.Price.TaxShipping.ExclTax">
-    <Value><![CDATA[excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Products.Price.TaxShipping.InclTax">
-    <Value><![CDATA[excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Products.Price.WithDiscount">
     <Value>Your price</Value>
@@ -17478,23 +17592,23 @@
   <LocaleResource Name="Products.ProductAttributes.PriceAdjustment.Quantity">
     <Value>Enter quantity:</Value>
   </LocaleResource>
-  <LocaleResource Name="Products.ProductHasBeenAddedToCompareList">
-    <Value>The product has been added to your product comparison</Value>
+  <LocaleResource Name="products.producthasbeenaddedtocomparelist">
+    <Value>Produk ini telah ditambahkan ke perbandingan produk.</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductHasBeenAddedToCompareList.Link">
-    <Value><![CDATA[The product has been added to your <a href="{0}">product comparison</a>]]></Value>
+    <Value>The product has been added to your &lt;a href="{0}"&gt;product comparison&lt;/a&gt;</Value>
   </LocaleResource>
-  <LocaleResource Name="Products.ProductHasBeenAddedToTheCart">
-    <Value>The product has been added to your shopping cart</Value>
+  <LocaleResource Name="products.producthasbeenaddedtothecart">
+    <Value>Berhasil ditambahkan ke keranjang belanja</Value>
   </LocaleResource>
-  <LocaleResource Name="Products.ProductHasBeenAddedToTheCart.Link">
-    <Value><![CDATA[The product has been added to your <a href="{0}">shopping cart</a>]]></Value>
+  <LocaleResource Name="products.producthasbeenaddedtothecart.link">
+    <Value>Berhasil ditambahkan ke &lt;a href="{0}"&gt;keranjang belanja&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductHasBeenAddedToTheWishlist">
     <Value>The product has been added to your wishlist</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductHasBeenAddedToTheWishlist.Link">
-    <Value><![CDATA[The product has been added to your <a href="{0}">wishlist</a>]]></Value>
+    <Value>The product has been added to your &lt;a href="{0}"&gt;wishlist&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Products.Qty">
     <Value>Qty</Value>
@@ -17632,7 +17746,7 @@
     <Value>Your return request has been submitted successfully.</Value>
   </LocaleResource>
   <LocaleResource Name="ReturnRequests.Title">
-    <Value><![CDATA[Return item(s) from <a href="{0}">order #{1}</a>]]></Value>
+    <Value>Return item(s) from &lt;a href="{0}"&gt;order #{1}&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="ReturnRequests.UploadedFile">
     <Value>Upload (any additional document, scan, etc)</Value>
@@ -17703,8 +17817,8 @@
   <LocaleResource Name="Reviews.Overview.AddNew">
     <Value>Add your review</Value>
   </LocaleResource>
-  <LocaleResource Name="Reviews.Overview.First">
-    <Value>Be the first to review this product</Value>
+  <LocaleResource Name="reviews.overview.first">
+    <Value>Jadilah yang pertama untuk mereview produk ini</Value>
   </LocaleResource>
   <LocaleResource Name="Reviews.Overview.Reviews">
     <Value>review(s)</Value>
@@ -17892,11 +18006,11 @@
   <LocaleResource Name="ShippingMethod.SpecifyMethodError">
     <Value>Silakan tentukan metode pengiriman.</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart">
-    <Value>Shopping cart</Value>
+  <LocaleResource Name="shoppingcart">
+    <Value>Keranjang belanja</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart.AddToCart">
-    <Value>Add to cart</Value>
+  <LocaleResource Name="shoppingcart.addtocart">
+    <Value>Beli</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.AddToCart.Update">
     <Value>Update</Value>
@@ -17928,8 +18042,8 @@
   <LocaleResource Name="ShoppingCart.CannotMixStandardAndAutoshipProducts">
     <Value>Your cart has standard and auto-ship (recurring) items. Only one product type is allowed per order.</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart.CartIsEmpty">
-    <Value>Your Shopping Cart is empty!</Value>
+  <LocaleResource Name="shoppingcart.cartisempty">
+    <Value>Keranjang belanjamu kosong.</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.CheckoutAttributes.PriceAdjustment">
     <Value>{0} [{1}]</Value>
@@ -17937,8 +18051,8 @@
   <LocaleResource Name="ShoppingCart.ConflictingShipmentSchedules">
     <Value>Your cart has auto-ship (recurring) items with conflicting shipment schedules. Only one auto-ship schedule is allowed per order.</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart.ContinueShopping">
-    <Value>Continue shopping</Value>
+  <LocaleResource Name="shoppingcart.continueshopping">
+    <Value>Lanjutkan belanja</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.CrossSells">
     <Value>Based on your selection, you may be interested in the following items</Value>
@@ -18054,8 +18168,8 @@
   <LocaleResource Name="ShoppingCart.Mini.ItemsText">
     <Value>There are {0} in your cart.</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart.Mini.NoItems">
-    <Value>You have no items in your shopping cart.</Value>
+  <LocaleResource Name="shoppingcart.mini.noitems">
+    <Value>Keranjang belanjamu kosong.</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.Mini.Quantity">
     <Value>Quantity</Value>
@@ -18148,10 +18262,10 @@
     <Value>SKU</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.TaxShipping.ExclTax">
-    <Value><![CDATA[All prices are entered excluding tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered excluding tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.TaxShipping.InclTax">
-    <Value><![CDATA[All prices are entered including tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered including tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.TextboxMaximumLength">
     <Value>{0} : maximum length is {1} chars</Value>
@@ -18213,8 +18327,8 @@
   <LocaleResource Name="ShoppingCart.UnitPrice">
     <Value>Harga</Value>
   </LocaleResource>
-  <LocaleResource Name="ShoppingCart.UpdateCart">
-    <Value>Update shopping cart</Value>
+  <LocaleResource Name="shoppingcart.updatecart">
+    <Value>Ubah keranjang belanja.</Value>
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.UpdateCartItem">
     <Value>Update qty</Value>
@@ -18286,22 +18400,22 @@
     <Value>Kata sandi diperlukan.</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.LengthValidation">
-    <Value><![CDATA[<li>harus memiliki setidaknya {0} karakter</li>]]></Value>
+    <Value>&lt;li&gt;harus memiliki setidaknya {0} karakter&lt;/li&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.RequireDigit">
-    <Value><![CDATA[<li>harus memiliki setidaknya satu digit</li>]]></Value>
+    <Value>&lt;li&gt;harus memiliki setidaknya satu digit&lt;/li&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.RequireLowercase">
-    <Value><![CDATA[<li>harus memiliki setidaknya satu huruf kecil</li>]]></Value>
+    <Value>&lt;li&gt;harus memiliki setidaknya satu huruf kecil&lt;/li&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.RequireNonAlphanumeric">
-    <Value><![CDATA[<li>harus memiliki setidaknya satu karakter khusus (mis. #?! @ $% ^ & * -)</li>]]></Value>
+    <Value>&lt;li&gt;harus memiliki setidaknya satu karakter khusus (mis. #?! @ $% ^ &amp; * -)&lt;/li&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.RequireUppercase">
-    <Value><![CDATA[<li>harus memiliki setidaknya satu huruf besar</li>]]></Value>
+    <Value>&lt;li&gt;harus memiliki setidaknya satu huruf besar&lt;/li&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Validation.Password.Rule">
-    <Value><![CDATA[<p>harus memenuhi aturan berikut: </p><ul>{0}{1}{2}{3}{4}</ul>]]></Value>
+    <Value>&lt;p&gt;harus memenuhi aturan berikut: &lt;/p&gt;&lt;ul&gt;{0}{1}{2}{3}{4}&lt;/ul&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Vendors">
     <Value>Vendors</Value>
@@ -18418,10 +18532,10 @@
     <Value>({0})</Value>
   </LocaleResource>
   <LocaleResource Name="Wishlist.TaxShipping.ExclTax">
-    <Value><![CDATA[All prices are entered excluding tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered excluding tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Wishlist.TaxShipping.InclTax">
-    <Value><![CDATA[All prices are entered including tax. Excluding <a href="{0}">shipping</a>]]></Value>
+    <Value>All prices are entered including tax. Excluding &lt;a href="{0}"&gt;shipping&lt;/a&gt;</Value>
   </LocaleResource>
   <LocaleResource Name="Wishlist.UpdateCart">
     <Value>Update wishlist</Value>

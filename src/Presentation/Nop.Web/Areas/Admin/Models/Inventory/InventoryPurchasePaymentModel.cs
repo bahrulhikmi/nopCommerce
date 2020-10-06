@@ -10,6 +10,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 {
     public class InventoryPurchasePaymentModel: BaseNopEntityModel
     {
+        private bool mReadOnly;
         public InventoryPurchasePaymentModel()
         {
             AvailableInventoryPurchaseSearchModel = new InventoryPurchaseSearchModel();
@@ -44,8 +45,17 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 
         public decimal Total { get; set; }
 
-        public bool ReadOnly { get; set; }       
-        
+        public bool ReadOnly
+        {
+            get => mReadOnly;
+            set
+            {
+                mReadOnly = value;
+                IncludedInventoryPurchaseSearchModel.ReadOnly = value;
+                AvailableInventoryPurchaseSearchModel.ReadOnly = value;
+            }
+        }
+
         public string Status { get; set; }
 
         public int StatusId { get; set; }

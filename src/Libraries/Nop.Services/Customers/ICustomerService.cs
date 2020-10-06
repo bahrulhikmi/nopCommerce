@@ -365,6 +365,8 @@ namespace Nop.Services.Customers
         /// <returns>Result</returns>
         bool IsVendor(Customer customer, bool onlyActiveCustomerRoles = true);
 
+        bool IsWarehouseManager(Customer customer);
+
         /// <summary>
         /// Updates the customer role
         /// </summary>

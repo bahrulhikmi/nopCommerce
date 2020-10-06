@@ -2232,6 +2232,9 @@
   <LocaleResource Name="Admin.Catalog.Inventories">
     <Value>Inventories</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.MyInventories">
+    <Value>My Inventories</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Inventories.InventoryPurchasePaymentInprocess">
     <Value>My Inventories Purchase</Value>
   </LocaleResource>
@@ -2273,6 +2276,9 @@
     </LocaleResource>
     <LocaleResource Name="Admin.Catalog.Inventories.AddPurchasingRecord">
     <Value>Add Purchasing Record</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Inventories.AddInventories">
+    <Value>Add Inventories</Value>
   </LocaleResource>
     <LocaleResource Name="Admin.Catalog.Inventories.UnpaidPurchasingRecord">
         <Value>Unpaid Purchasing Record</Value>
@@ -4116,11 +4122,17 @@
   <LocaleResource Name="Admin.Common.AddNewRecord">
     <Value>Add new record</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Common.AdditionalFee">
+    <Value>Additional Fee</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Alert">
     <Value>Information</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Alert.Add.Error">
     <Value>Failed to add record.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Alert.Read.Error">
+    <Value>Failed to read record.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Alert.Save.Error">
     <Value>Error while saving.</Value>
@@ -4170,6 +4182,12 @@
   <LocaleResource Name="Admin.Common.CsvFile">
     <Value>CSV file</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Common.Distribution">
+    <Value>Distribution</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Distributor">
+    <Value>Distributor</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Delete">
     <Value>Delete</Value>
   </LocaleResource>
@@ -4218,6 +4236,9 @@
   <LocaleResource Name="Admin.Common.ExportToXml.Selected">
     <Value>Export to XML (selected)</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Common.FeatureNotAvailable">
+    <Value>This feature is not available yet.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Go">
     <Value>Go</Value>
   </LocaleResource>
@@ -4241,6 +4262,12 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Common.LoseUnsavedChanges">
     <Value>You are going to lose any unsaved changes. Are you sure?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.MyInfo">
+    <Value>My Profile</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.MyProfile">
+    <Value>My Profile</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.No">
     <Value>No</Value>
@@ -11502,6 +11529,21 @@
     </LocaleResource>
   <LocaleResource Name="Admin.Inventories.Payment">
       <Value>Payment</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Payment.TransferReceiptIsMandatory">
+    <Value>Transfer receipt is required.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Payment.Confirmed">
+    <Value>The Payment has been submitted and it's currently waiting for approval.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Inventories.Updated">
+    <Value>The inventories have been succesfully updated.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Inventories.BackToList">
+    <Value>Back to Inventories List.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Inventories.Inventories.InventoryContact">
+    <Value>Request inventory</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Menu.Search">
     <Value>Search</Value>

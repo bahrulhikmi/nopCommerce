@@ -23,5 +23,8 @@ namespace Nop.Core.Domain.Distribution
         public DateTime PurchasedDateUtc { get; set; }
 
         public string Note { get; set; }
+        
+        public bool AdditionalFee { get; set; }
+
     }
 }

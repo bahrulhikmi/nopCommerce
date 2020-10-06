@@ -12,7 +12,7 @@ namespace Nop.Web.Areas.Admin.Factories
     /// </summary>
     public interface IInventoryModelFactory
     {
-        public ManageInventoryModel PrepareManageInventoryModel(ManageInventoryModel inventorySearchModel);
+        public ManageInventoryPurchasePaymentModel PrepareManageInventoryModel(ManageInventoryPurchasePaymentModel inventorySearchModel);
 
         public InventoryListModel PrepareProductInventoryListModel(InventorySearchModel inventorySearchModel);
 
@@ -25,5 +25,7 @@ namespace Nop.Web.Areas.Admin.Factories
         public InventoryPurchaseListModel PrepareNotInPaymentInventoryPurchaseSearchListModel(InventoryPurchaseSearchModel inventoryPurchaseSearchModel);
 
         public InventoryPurchasePaymentModel PrepareUpdateInventoryPurchasePaymentModel(InventoryPurchasePayment inventoryPurchasePaymentModel);
+
+        public AddInventoryModel PrepareAddInventoryModel(AddInventoryModel inventoryModel);
     }
 }

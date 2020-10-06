@@ -46,7 +46,7 @@
                                     @T("Admin.Common.Search")
                                 </button>
                             </div>
-                        </div>
+                        </div>                    
                     </div>
                 </div>
             </div>
@@ -56,12 +56,12 @@
 
         <div class="panel panel-default">
             <div class="content-header clearfix panel-body">
-                <a class="btn bg-blue" id="add-purchase">
+                <a class="btn bg-blue" id="add-inventory">
                     <i class="fa fa-plus-square"></i>
-                    @T("Admin.Catalog.Inventories.AddPurchasingRecord")
+                    @T("Admin.Catalog.Inventories.AddInventories")
                 </a>
 
-                <nop-editor asp-for="Amount" />
+                <nop-editor asp-for="Amount"/>
 
             </div>
 
@@ -76,7 +76,8 @@
                Filters = new List<FilterParameter>
                     {
                         new FilterParameter(nameof(Model.ProductName)),
-                        new FilterParameter(nameof(Model.Sku))
+                        new FilterParameter(nameof(Model.Sku)),
+                        new FilterParameter(nameof(Model.WarehouseId))                      
                     },
                ColumnCollection = new List<ColumnProperty>
                     {
@@ -142,30 +143,7 @@
                     $(document).ready(function () {
 
                         $("#@Html.IdFor(model => model.Amount)").data("kendoNumericTextBox").min(1);
-
-                            $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
-                                var postData = {
-                                    selectedIds: selectedIds
-                                };
-                                addAntiForgeryToken(postData);
-                                $.ajax({
-                                    cache: false,
-                                    type: "POST",
-                                    url: "@(Url.Action("DeleteSelected", "Manufacturer"))",
-                                    data: postData,
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        $('#deleteSelectedFailed-info').text(errorThrown);
-                                        $('#deleteSelectedFailed').click();
-                                    },
-                                    complete: function (jqXHR, textStatus) {
-                                        updateTable('#inventories-grid');
-                                    }
-                                });
-                                $('#delete-selected-action-confirmation').modal('toggle');
-                                return false;
-                            });
-                        });
-
+                    });
                 </script>
                 <nop-alert asp-alert-id="deleteSelectedFailed" />
             </div>

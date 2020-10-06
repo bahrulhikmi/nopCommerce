@@ -27,5 +27,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 
         [NopResourceDisplayName("Admin.Catalog.Inventories.Qty")]
         public int Amount { get; set; }
+
+        public int WarehouseId { get; set; }
     }
 }

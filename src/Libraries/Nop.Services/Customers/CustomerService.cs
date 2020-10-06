@@ -7,6 +7,7 @@ using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Distribution;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Tax;
@@ -43,6 +44,7 @@ namespace Nop.Services.Customers
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreContext _storeContext;
         private readonly ShoppingCartSettings _shoppingCartSettings;
+        private readonly IRepository<CustomerWarehouseMapping> _customerWarehouseMappingRepository;
 
         #endregion
 
@@ -63,7 +65,8 @@ namespace Nop.Services.Customers
             IRepository<ShoppingCartItem> shoppingCartRepository,
             IStaticCacheManager staticCacheManager,
             IStoreContext storeContext,
-            ShoppingCartSettings shoppingCartSettings)
+            ShoppingCartSettings shoppingCartSettings,
+            IRepository<CustomerWarehouseMapping> customerWarehouseMappingRepository)
         {
             _cachingSettings = cachingSettings;
             _customerSettings = customerSettings;
@@ -81,6 +84,7 @@ namespace Nop.Services.Customers
             _staticCacheManager = staticCacheManager;
             _storeContext = storeContext;
             _shoppingCartSettings = shoppingCartSettings;
+            _customerWarehouseMappingRepository = customerWarehouseMappingRepository;
         }
 
         #endregion
@@ -1573,6 +1577,14 @@ namespace Nop.Services.Customers
                 throw new ArgumentNullException(nameof(customer));
 
             return GetCustomerAddress(customer.Id, customer.ShippingAddressId ?? 0);
+        }
+
+        public bool IsWarehouseManager(Customer customer)
+        {
+            if (customer is null)
+                throw new ArgumentNullException(nameof(customer));
+
+            return _customerWarehouseMappingRepository.Table.Any(x => x.CustomerId == customer.Id);
         }
 
         #endregion

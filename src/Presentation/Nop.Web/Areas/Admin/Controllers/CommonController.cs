@@ -124,6 +124,12 @@ namespace Nop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public virtual IActionResult FeatureComingSoon()
+        {
+            _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.FeatureNotAvailable"));
+            return View();
+        }
+
         [HttpPost, ActionName("Maintenance")]
         [FormValueRequired("delete-guests")]
         public virtual IActionResult MaintenanceDeleteGuests(MaintenanceModel model)

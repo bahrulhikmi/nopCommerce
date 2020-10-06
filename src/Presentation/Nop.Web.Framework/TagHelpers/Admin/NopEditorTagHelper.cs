@@ -22,6 +22,8 @@ namespace Nop.Web.Framework.TagHelpers.Admin
         private const string PostfixAttributeName = "asp-postfix";
         private const string ValueAttributeName = "asp-value";
         private const string PlaceholderAttributeName = "placeholder";
+        private const string MinValueName = "min";
+        
 
         private readonly IHtmlHelper _htmlHelper;
 
