@@ -20,13 +20,15 @@ namespace Nop.Services.Distribution
         private readonly IWorkContext _workContext;
         private readonly IStoreContext _storeContext;
         private readonly IRepository<InventoryPurchasePayment> _inventoryPurchasePayment;
+        private readonly IRepository<InventoryChange> _inventoryChange;
 
         public InventoryPurchaseService(IRepository<InventoryPurchase> inventoryPurchase,
                                         IEventPublisher eventPublisher,
                                         IProductService productService,
                                         IWorkContext workContext,
                                         IStoreContext storeContext,
-                                        IRepository<InventoryPurchasePayment> inventoryPurchasePayment)
+                                        IRepository<InventoryPurchasePayment> inventoryPurchasePayment,
+                                        IRepository<InventoryChange> inventoryChange)
         {
             _eventPublisher = eventPublisher;
             _inventoryPurchase = inventoryPurchase;
@@ -34,6 +36,7 @@ namespace Nop.Services.Distribution
             _workContext = workContext;
             _storeContext = storeContext;
             _inventoryPurchasePayment = inventoryPurchasePayment;
+            _inventoryChange = inventoryChange;
         }
         public IList<InventoryPurchase> GetInventoryPurchases(IList<int> warehouseIds)
         {
@@ -52,9 +55,6 @@ namespace Nop.Services.Distribution
 
             return query.ToList();
         }
-
-
-
 
         public IList<InventoryPurchase> GetInventoryPurchasesByIds(IList<int> purchaseIds)
         {
@@ -237,6 +237,27 @@ namespace Nop.Services.Distribution
             UpdateInventoryPurchases(inventoryPurchases);
 
             _eventPublisher.EntityDeleted(inventoryPurchasePayment);
+        }
+
+        public IList<InventoryChange> GetAllInventoryChangeInProcess()
+        {
+            var query = from change in _inventoryChange.Table
+                        select change;
+
+            return query.ToList();
+        }
+
+        public void AddInventoryChanges(IList<InventoryChange> inventoryChanges)
+        {
+            if (inventoryChanges.Count == 0)
+                return;
+
+            _inventoryChange.Insert(inventoryChanges);
+
+            foreach (var item in inventoryChanges)
+            {
+                _eventPublisher.EntityInserted(item);
+            }
         }
     }
 }

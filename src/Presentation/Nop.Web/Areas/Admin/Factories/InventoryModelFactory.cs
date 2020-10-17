@@ -16,6 +16,7 @@ using Nop.Web.Framework.Models.Extensions;
 using Nop.Services.Localization;
 using NUglify.Helpers;
 using LinqToDB.SqlQuery;
+using Nop.Core.Domain.Catalog;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -68,7 +69,14 @@ namespace Nop.Web.Areas.Admin.Factories
             else
                 warehouseIds.AddRange(_customerWarehouseService.GetCustomerWarehouseIds(searchModel.CustomerId));
 
-            var productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray()).ToPagedList(searchModel);
+            IPagedList<ProductWarehouseInventory> productInventories;
+            
+            if(!searchModel.LowStockOnly)
+                productInventories= _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray()).ToPagedList(searchModel);
+            else
+                productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray(), 10).ToPagedList(searchModel);
+
+
             var productIds = productInventories.Select(x => x.ProductId).Distinct().ToArray();
             var products = _productService.GetProductsByIds(productIds, searchModel.ProductName, searchModel.Sku).ToDictionary(x => x.Id);
             var warehouses = _shippingService.GetWarehousesByIds(warehouseIds.ToArray()).ToDictionary(x => x.Id);
@@ -375,6 +383,18 @@ namespace Nop.Web.Areas.Admin.Factories
             return inventoryModel;
         }
 
+
+        public AllInventoryModel PrepareAllInventoryModel(AllInventoryModel allInventoryModel)
+        {
+            allInventoryModel.InventoryChangeSearchModel = new InventoryChangeSearchModel();
+            allInventoryModel.InventoryChangeSearchModel.ApprovalVisible = false;
+            allInventoryModel.InventorySearchModel = new InventorySearchModel();
+            allInventoryModel.InventorySearchModel.MultipleWarehouses = true;
+            allInventoryModel.InventorySearchModel.LowStockOnly = true;
+
+            return allInventoryModel;
+        }
+
         private string InventoryStatusToResourceString(int status)
         {
             switch (status)
@@ -391,6 +411,42 @@ namespace Nop.Web.Areas.Admin.Factories
                 default:
                     return _localizationService.GetResource("Admin.Common.PaymentStatus.None");
             }
+        }
+
+        public InventoryChangeListModel PrepareInventoryChangesInProcessListModel(InventoryChangeSearchModel searchModel)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));           
+
+            var inventoriesPurchased = _inventoryPurchaseService.GetAllInventoryChangeInProcess().ToPagedList(searchModel);
+            var productWarehouses = _productService.
+                GetProductWarehouseInventoryRecords(inventoriesPurchased.Select(inv => inv.InventoryId).ToArray());
+
+            var warehouses = _shippingService.GetWarehousesByIds(productWarehouses.Select(pw => pw.WarehouseId).ToArray());
+
+            var warehouseDictNames = new Dictionary<int, string>();
+            foreach (var productWarehouse in productWarehouses)
+            {
+                var warehouse = warehouses.FirstOrDefault(w => w.Id == productWarehouse.WarehouseId);
+                if(warehouse==null)
+                {
+                    continue;
+                }
+                warehouseDictNames.Add(productWarehouse.Id, warehouse.Name);
+            }
+
+            var model = new InventoryChangeListModel().PrepareToGrid(searchModel, inventoriesPurchased, () =>
+            {
+                return inventoriesPurchased.Select(inventory =>
+                {                    
+                    var inventoryChangeModel = inventory.ToModel<InventoryChangeModel>();
+                    inventoryChangeModel.WareHouseName = warehouseDictNames[inventoryChangeModel.InventoryId];
+                    return inventoryChangeModel;
+                }
+                );
+            });
+
+            return model;
         }
     }
 }

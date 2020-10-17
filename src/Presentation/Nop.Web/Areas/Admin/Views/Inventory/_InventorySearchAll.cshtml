@@ -1,0 +1,188 @@
+﻿
+@model InventorySearchModel
+
+@{
+    const string hideSearchBlockAttributeName = "InventoriesPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="ProductName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="ProductName" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Sku" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Sku" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="LowStockOnly" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="LowStockOnly" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-inventories" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @await Html.PartialAsync("Table", new DataTablesModel
+           {
+               Name = "inventories-grid",
+               UrlRead = new DataUrl("ListAll", "Inventory", null),
+               SearchButtonId = "search-inventories",
+               Length = Model.PageSize,
+               LengthMenu = Model.AvailablePageSizes,
+               Filters = new List<FilterParameter>
+    {
+        new FilterParameter(nameof(Model.ProductName)),
+        new FilterParameter(nameof(Model.Sku)),
+        new FilterParameter(nameof(Model.LowStockOnly), typeof(bool))
+    },
+               ColumnCollection = new List<ColumnProperty>
+                    {
+                        new ColumnProperty(nameof(InventoryModel.StockQuantity))
+                        {
+                            Title = T("Admin.Catalog.Inventories.StockQty").Text,
+                            ClassName =  NopColumnClassDefaults.Button,
+                            Render = new RenderCustom("renderStockQuantity")
+                        },
+                        new ColumnProperty(nameof(InventoryModel.ProductId))
+                        {
+                            Visible = false
+
+                        },
+                        new ColumnProperty(nameof(InventoryModel.ProductName))
+                        {
+                            Title = T("Admin.Catalog.Inventories.ProductName").Text
+                        },
+                        new ColumnProperty(nameof(InventoryModel.Sku))
+                        {
+                            Title = T("Admin.Catalog.Inventories.Sku").Text,
+                            Width = "100",
+                            ClassName =  NopColumnClassDefaults.CenterAll
+                        },
+                        new ColumnProperty(nameof(InventoryModel.WarehouseId))
+                        {
+                            Visible = false
+
+                        },
+                        new ColumnProperty(nameof(InventoryModel.WarehouseName))
+                        {
+                            Title = T("Admin.Catalog.Inventories.WarehouseName").Text,
+                            Width = "150",
+                            ClassName = NopColumnClassDefaults.CenterAll,
+                            Visible = Model.MultipleWarehouses
+
+                        },
+                            new ColumnProperty(nameof(InventoryModel.ReservedQuantity))
+                        {
+                            Title = T("Admin.Catalog.Inventories.ReservedQty").Text,
+                            Width = "150",
+                            ClassName = NopColumnClassDefaults.CenterAll
+                        },
+                        new ColumnProperty(nameof(InventoryModel.PlannedQuantity))
+                        {
+                            Title = T("Admin.Catalog.Inventories.PlannedQty").Text,
+                            Width = "150",
+                            ClassName = NopColumnClassDefaults.CenterAll,
+                            Visible = false
+
+                        },
+                         new ColumnProperty(nameof(InventoryModel.WarehouseId))
+                        {
+                            Width = "150",
+                            ClassName = NopColumnClassDefaults.CenterAll,
+                             Render = new RenderButtonCustom(NopButtonClassDefaults.Success, T("Admin.Common.Add").Text)
+                                    {
+                                        OnClickFunctionName =  "openAddInventoryPage"
+                                    }
+
+                        }
+                    }
+           })
+
+                <script>
+                    $(document).ready(function () {
+
+                            $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
+                                var postData = {
+                                    selectedIds: selectedIds
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("DeleteSelected", "Manufacturer"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        $('#deleteSelectedFailed-info').text(errorThrown);
+                                        $('#deleteSelectedFailed').click();
+                                    },
+                                    complete: function (jqXHR, textStatus) {
+                                        updateTable('#inventories-grid');
+                                    }
+                                });
+                                $('#delete-selected-action-confirmation').modal('toggle');
+                                return false;
+                            });
+                    });
+
+                    function renderStockQuantity(data, type, row, meta) {
+                        if (row.StockQuantity <= 0)
+                                color = 'red';
+                        if (row.StockQuantity <= 10)
+                                color = 'yellow';
+                        else
+                                color = 'green';
+                    return '<span class="grid-report-item ' + color + '">' + row.StockQuantity + '</span >';
+                    }
+
+                    function openAddInventoryPage(id) {
+                     window.location.href = '@(Url.Action("AddInventory","Inventory",null))/'+ id;
+                    }
+
+                </script>
+            </div>
+        </div>
+    </div>

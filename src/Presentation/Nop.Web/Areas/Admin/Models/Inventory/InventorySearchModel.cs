@@ -29,5 +29,9 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public int Amount { get; set; }
 
         public int WarehouseId { get; set; }
+
+        [NopResourceDisplayName("Admin.Inventories.Fields.LowStockOnly")]
+        public bool LowStockOnly { get; set; }
+        
     }
 }

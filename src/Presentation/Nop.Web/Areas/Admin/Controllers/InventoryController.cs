@@ -81,7 +81,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             return View(model);
         }
-        
+
         [HttpPost]
         public virtual IActionResult List(InventorySearchModel searchModel)
         {
@@ -89,7 +89,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             if (searchModel.CustomerId == 0)
-            searchModel.CustomerId = _workContext.CurrentCustomer.Id;
+                searchModel.CustomerId = _workContext.CurrentCustomer.Id;
 
             //prepare model
             var model = _inventoryModelFactory.PrepareProductInventoryListModel(searchModel);
@@ -142,7 +142,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         public virtual IActionResult GetPurchaseRecordIncludedInPayment(InventoryPurchaseSearchModel searchModel)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
-                return AccessDeniedDataTablesJson();          
+                return AccessDeniedDataTablesJson();
 
             //prepare model
             var model = _inventoryModelFactory.PrepareIncludedInPaymentInventoryPurchaseSearchListModel(searchModel);
@@ -153,7 +153,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         public virtual IActionResult GetPurchasePaymentRecords()
         {
             var searchModel = new InventoryPurchasePaymentSearchModel();
- 
+
             var model = _inventoryModelFactory.PrepareInventoryPurchasePaymentSearchListModel(searchModel);
 
             return Json(model);
@@ -180,7 +180,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         public virtual IActionResult GetPaymentTotal(int id)
         {
             var inventoryPurchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(id);
-            return Json(new { result = true, total =  _priceFormatter.FormatPrice(inventoryPurchasePayment.Total) });
+            return Json(new { result = true, total = _priceFormatter.FormatPrice(inventoryPurchasePayment.Total) });
         }
 
         [HttpPost]
@@ -191,13 +191,13 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             var invPurchase = _inventoryPurchaseService.GetInventoryPurchase(id);
 
-            if(invPurchase!=null && !invPurchase.AdditionalFee)
+            if (invPurchase != null && !invPurchase.AdditionalFee)
             {
                 _inventoryPurchaseService.DeleteInventoryPurchase(id);
                 var pwi = _productService.GeProductWarehouseInventoryRecord(invPurchase.ProductId, invPurchase.WarehouseId);
                 pwi.StockQuantity += invPurchase.Quantity;
                 _productService.UpdateProductWarehouseInventory(pwi);
-            }                        
+            }
 
             return Json(new { Result = true });
         }
@@ -209,9 +209,9 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             _genericAttributeService.SaveAttribute<int>(_workContext.CurrentCustomer, InventoryPurchaseServiceDefaults.PurchaseRecordDefaultAmount, quantity);
-            
+
             var inventoryPurchases = new List<InventoryPurchase>();
-            var productWarehouseUpdates = new List<ProductWarehouseInventory>();            
+            var productWarehouseUpdates = new List<ProductWarehouseInventory>();
 
             foreach (var inventory in selectedInventories)
             {
@@ -237,22 +237,22 @@ namespace Nop.Web.Areas.Admin.Controllers
 
                 price *= quantity;
                 inventoryPurchase.PriceInclTax = price;
-                inventoryPurchases.Add(inventoryPurchase);                                                
+                inventoryPurchases.Add(inventoryPurchase);
             }
 
-             _inventoryPurchaseService.AddInventoryPurchase(inventoryPurchases);
-             _productService.UpdateProductWarehouseInventory(productWarehouseUpdates);
-             
+            _inventoryPurchaseService.AddInventoryPurchase(inventoryPurchases);
+            _productService.UpdateProductWarehouseInventory(productWarehouseUpdates);
+
             return Json(new { result = true });
         }
 
         public virtual IActionResult ListInventoryPurchasePayment()
         {
-            if(!_permissionService.Authorize(StandardPermissionProvider.ManageInventoriesApproval))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventoriesApproval))
                 return AccessDeniedView();
 
             var manageInventoryModel = new InventoryPurchasePaymentSearchModel();
-        
+
             return View(manageInventoryModel);
         }
 
@@ -263,12 +263,12 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var purchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(id);
-            if(purchasePayment!=null)
+            if (purchasePayment != null)
             {
                 purchasePayment.Status = InventoryStatus.Complete;
                 _inventoryPurchaseService.UpdateInventoryPurchasePayment(purchasePayment);
             }
- 
+
             return Json(new { result = true });
         }
 
@@ -295,8 +295,8 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var pendingPaymentPurchase = _inventoryPurchaseService.
-                CreateOrGetExistingPendingPurchasePayment(new InventoryPurchasePayment {CustomerId = _workContext.CurrentCustomer.Id ,
-                                                                                        CreatedOnUtc = DateTime.UtcNow});
+                CreateOrGetExistingPendingPurchasePayment(new InventoryPurchasePayment { CustomerId = _workContext.CurrentCustomer.Id,
+                    CreatedOnUtc = DateTime.UtcNow });
 
             _inventoryPurchaseService.AddInventoryPurchasePayment(pendingPaymentPurchase, selectedPaymentIds);
 
@@ -308,7 +308,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
                 return AccessDeniedView();
 
-            var model= new InventoryPurchasePaymentModel();
+            var model = new InventoryPurchasePaymentModel();
             var inventoryPurchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(id);
 
             if (inventoryPurchasePayment == null)
@@ -316,14 +316,14 @@ namespace Nop.Web.Areas.Admin.Controllers
                 model.ReadOnly = true;
                 _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.Alert.Read.Error"));
                 return View(model);
-            }                
+            }
 
             if (_workContext.CurrentCustomer.Id != inventoryPurchasePayment.CustomerId)
                 return AccessDeniedView();
 
-             model = _inventoryModelFactory.PrepareUpdateInventoryPurchasePaymentModel(inventoryPurchasePayment);            
+            model = _inventoryModelFactory.PrepareUpdateInventoryPurchasePaymentModel(inventoryPurchasePayment);
 
-           return View(model);
+            return View(model);
         }
 
         public virtual IActionResult ViewPaymentForApproval(int id)
@@ -368,7 +368,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
                     _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Inventories.Payment.Confirmed"));
 
-                }                
+                }
             }
 
             return Json(new { result = true });
@@ -381,7 +381,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var inventoryPurchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(id);
-            
+
             if (_workContext.CurrentCustomer.Id != inventoryPurchasePayment.CustomerId)
                 return AccessDeniedView();
 
@@ -399,16 +399,16 @@ namespace Nop.Web.Areas.Admin.Controllers
             var inventoryPurchase = _inventoryPurchaseService.GetInventoryPurchase(id);
             var inventoryPurchasePayment = _inventoryPurchaseService.GetInventoryPurchasePayment(inventoryPurchase.PaymentId);
 
-            if(inventoryPurchasePayment==null)
-                return Json(new { result = false });           
-            
+            if (inventoryPurchasePayment == null)
+                return Json(new { result = false });
+
             inventoryPurchase.PaymentId = 0;
             inventoryPurchasePayment.Total -= inventoryPurchase.PriceInclTax;
 
             _inventoryPurchaseService.UpdateInventoryPurchase(inventoryPurchase);
             _inventoryPurchaseService.UpdateInventoryPurchasePayment(inventoryPurchasePayment);
 
-            return Json(new { result = true, total =   inventoryPurchasePayment.Total }); 
+            return Json(new { result = true, total = inventoryPurchasePayment.Total });
         }
 
         [HttpPost]
@@ -440,17 +440,9 @@ namespace Nop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult AddInventory(AddInventoryModel inventoryModel)
+        public virtual IActionResult ApproveInventoryChange(AddInventoryModel inventoryModel)
         {
-            var inventoryPurchase = new InventoryPurchase
-            {
-                WarehouseId = inventoryModel.WarehouseId,
-                PriceInclTax = inventoryModel.AdditionalFee,
-                Note = inventoryModel.Note,
-                PurchasedDateUtc = DateTime.UtcNow,
-                AdditionalFee = true,
-                Quantity= 1
-            };
+        
 
             var inventoryItems = _productService.GetProductWarehouseInventoryRecords(
                 inventoryModel.InventoryAdditions.Select(x => x.Id).ToArray());
@@ -461,12 +453,88 @@ namespace Nop.Web.Areas.Admin.Controllers
                 item.StockQuantity += amountDict[item.Id];
             }
 
-            _inventoryPurchaseService.AddInventoryPurchase(inventoryPurchase);
             _productService.UpdateProductWarehouseInventory(inventoryItems);
 
             _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Inventories.Inventories.Updated"));
 
             return RedirectToAction("AddInventory");
         }
+
+        [HttpPost]
+        public virtual IActionResult AddInventory(AddInventoryModel inventoryModel)
+        {
+
+            var inventoryPurchase = new InventoryPurchase
+            {
+                WarehouseId = inventoryModel.WarehouseId,
+                PriceInclTax = inventoryModel.AdditionalFee,
+                Note = inventoryModel.Note,
+                PurchasedDateUtc = DateTime.UtcNow,
+                AdditionalFee = true,
+                Quantity = 1
+            };
+
+            var inventoryItems = _productService.GetProductWarehouseInventoryRecords(
+                inventoryModel.InventoryAdditions.Select(x => x.Id).ToArray());
+
+            var amountDict = inventoryModel.InventoryAdditions.ToDictionary(key => key.Id, val => val.Amount);
+            var listChangeInventory = new List<InventoryChange>();
+            foreach (var item in inventoryItems)
+            {
+                var inventoryChange = new InventoryChange();
+                inventoryChange.CreatedByUserId = _workContext.CurrentCustomer.Id;
+                inventoryChange.Status = InventoryChangeStatus.Processing;
+                inventoryChange.StockQuantityChange = amountDict[item.Id];
+                inventoryChange.InventoryId = item.Id;
+                inventoryChange.DateUtc = DateTime.UtcNow;                
+                listChangeInventory.Add(inventoryChange);
+            }
+
+            _inventoryPurchaseService.AddInventoryPurchase(inventoryPurchase);
+            _inventoryPurchaseService.AddInventoryChanges(listChangeInventory);
+
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Inventories.Inventories.Updated"));
+
+            return RedirectToAction("AddInventory");
+        }
+
+        public IActionResult AllInventories()
+        {
+            var model = new AllInventoryModel();
+
+            _inventoryModelFactory.PrepareAllInventoryModel(model);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult ListAll(InventorySearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories) ||
+                !_permissionService.Authorize(StandardPermissionProvider.ManageInventoriesApproval))
+                return AccessDeniedView();
+
+            if (searchModel.CustomerId == 0)
+                searchModel.CustomerId = _workContext.CurrentCustomer.Id;
+
+            //prepare model
+            var model = _inventoryModelFactory.PrepareProductInventoryListModel(searchModel);
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult GetInventoryChangesInProcess(InventoryChangeSearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories) || 
+                !_permissionService.Authorize(StandardPermissionProvider.ManageInventoriesApproval))
+                return AccessDeniedView();
+
+            //prepare model
+            var model = _inventoryModelFactory.PrepareInventoryChangesInProcessListModel(searchModel);
+
+            return Json(model);
+        }
+
     }
 }

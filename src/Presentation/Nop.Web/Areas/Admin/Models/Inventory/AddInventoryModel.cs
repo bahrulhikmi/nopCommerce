@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Azure.Storage.Blob.Protocol;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
 namespace Nop.Web.Areas.Admin.Models.Inventory
 {
-    public class AddInventoryModel
+    public class AddInventoryModel: BaseNopEntityModel
     {
         public AddInventoryModel()
         {

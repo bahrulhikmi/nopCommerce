@@ -26,6 +26,9 @@ namespace Nop.Services.Distribution
         public void UpdateInventoryPurchasePayment(InventoryPurchasePayment inventoryPurchasePayment);
         public void UpdateInventoryPurchasePayments(IList<InventoryPurchasePayment> inventoryPurchasePayments);
         public void DeleteInventoryPurchasePayment(InventoryPurchasePayment inventoryPurchasePayment);
+        public IList<InventoryChange> GetAllInventoryChangeInProcess();
+
+        public void AddInventoryChanges(IList<InventoryChange> inventoryChanges);
     }
 }
 

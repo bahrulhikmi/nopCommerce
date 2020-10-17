@@ -45,7 +45,7 @@ namespace Nop.Services.Tests
             shoppingCartRepository.FakeRepoNullPropagation(),
             new TestCacheManager(),
             storeContext ?? new Mock<IStoreContext>().Object,
-            shoppingCartSettings ?? new ShoppingCartSettings())
+            shoppingCartSettings ?? new ShoppingCartSettings())            
         {
         }
     }

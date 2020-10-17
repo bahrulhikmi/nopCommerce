@@ -27,5 +27,10 @@ namespace Nop.Web.Areas.Admin.Factories
         public InventoryPurchasePaymentModel PrepareUpdateInventoryPurchasePaymentModel(InventoryPurchasePayment inventoryPurchasePaymentModel);
 
         public AddInventoryModel PrepareAddInventoryModel(AddInventoryModel inventoryModel);
+
+        public AllInventoryModel PrepareAllInventoryModel(AllInventoryModel inventoryModel);
+
+        public InventoryChangeListModel PrepareInventoryChangesInProcessListModel(InventoryChangeSearchModel inventoryChangeListModel);
     }
 }
+

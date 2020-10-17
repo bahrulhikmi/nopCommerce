@@ -1,0 +1,95 @@
+﻿@model AllInventoryModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Catalog.Inventories").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("All Inventories");
+
+    const string hidePurchasingRecordKey = "Inventories.HideAllInventoriesRecordKey";
+    const string hideInventoryPurchasePaymentInProcessKey = "Inventories.InventoryChangeInProcess";
+    var hidePurchasingRecord = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePurchasingRecordKey, defaultValue: false);
+    var hideInventoryPurchasePaymentInProcess = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInventoryPurchasePaymentInProcessKey, defaultValue: false);
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.Catalog.AllInventories")
+    </h1>
+</div>
+
+<div class="content">
+
+  
+     @await Html.PartialAsync("_InventorySearchAll", Model.InventorySearchModel)
+    <nop-panel asp-name="inventory-purchase-payment-in-process" asp-icon="fa fa-money" asp-title="@T("Admin.Catalog.Inventories.InventoryChangeInProcess")" asp-hide-block-attribute-name="@hideInventoryPurchasePaymentInProcess" asp-hide="@hideInventoryPurchasePaymentInProcess" asp-advanced="false">
+
+        @await Html.PartialAsync("_InventoryChangesInProcess", Model.InventoryChangeSearchModel)
+    </nop-panel>
+</div>
+
+<script>
+                        $(document).ready(function () {
+                            $('#add-purchase').bind('click', function () {
+                                var quantity = $('#Amount').val();
+                                var inventoryTable = $('#inventories-grid').DataTable();
+                                var selectedInventories = inventoryTable.rows().data().filter(row => selectedIds.indexOf(""+row.Id) >= 0);
+                                var postData = {
+                                    selectedInventories: selectedInventories.toArray(),
+                                    quantity: quantity
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("PurchaseInventories", "Inventory"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        display_nop_error(textStatus);
+                                    },
+                                    success: function (data, textStatus, jqXHR) {
+                                        if (data.result) {
+
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    },
+                                    complete: function (jqXHR, textStatus, error) {
+                                        jqXHR.responseJSON.message && display_nop_error(jqXHR.responseJSON.message);
+                                        updateTable('#inventory-purchase-grid');
+                                        updateTable('#inventories-grid');
+                                    }
+                                });
+                                return false;
+                            });
+
+                            $('#pay-inventories').bind('click', function () {
+                                var purchasedTable = $('#inventory-purchase-grid').DataTable();
+                                var purchasedIds = purchasedTable.rows().data().toArray().map(a => a.Id)
+                                var postData = {
+                                    selectedPaymentIds: purchasedIds
+                                };
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("Pay", "Inventory"))",
+                                    data: postData,
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        display_nop_error(textStatus);
+                                    },
+                                    complete: function (jqXHR, textStatus, error) {
+                                        error && display_nop_error(error);
+                                        if (jqXHR.responseJSON.id)
+                                            window.location.href = "@(Url.Action("EditPayment", "Inventory"))/" + jqXHR.responseJSON.id
+                                    }
+                                });
+                                return false;
+                           });
+
+                        });
+
+
+</script>
+
+
