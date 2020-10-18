@@ -1,0 +1,51 @@
+﻿@model MyInboxModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Common.Inbox").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Inbox");
+
+    const string hidePurchasingRecordKey = "Inventories.HidePurchasingRecordKey";
+    const string hideInventoryPurchasePaymentInProcessKey = "Inventories.InventoryPurchasePaymentInProcess";
+    var hidePurchasingRecord = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePurchasingRecordKey, defaultValue: false);
+    var hideInventoryPurchasePaymentInProcess = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInventoryPurchasePaymentInProcessKey, defaultValue: false);
+}
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.Common.Inbox")
+    </h1>
+</div>
+<div class="panel-body">
+
+    @await Html.PartialAsync("Table", new DataTablesModel
+{
+    Name = "inventory-purchase-grid",
+    UrlRead = new DataUrl("GetAllUserNotifications", "Notifications", null),
+    UrlDelete = new DataUrl("DeletePurchaseRecord", "Inventory", null),
+    Length = Model.PageSize,
+    AfterDeleteScript = "updateTable('#inventories-grid');",
+    LengthMenu = Model.AvailablePageSizes,
+    ColumnCollection = new List<ColumnProperty>
+        {
+
+            new ColumnProperty(nameof(NotificationModel.CreationDate))
+            {
+                Width = "50px",
+                    Title = T("Admin.Common.CreationDate").Text,
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderCustom("renderInventoryPurchaseStatus")
+                   
+            },
+            new ColumnProperty(nameof(NotificationModel.Body))
+            {
+                Title = T("Admin.Common.Message").Text
+            },           
+             new ColumnProperty(nameof(NotificationModel.RelatedAction))
+            {
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderCustom("gotoAction")
+            }
+    }
+})
+</div>
