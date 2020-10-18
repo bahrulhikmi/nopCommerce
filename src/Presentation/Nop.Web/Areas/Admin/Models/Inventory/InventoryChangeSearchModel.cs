@@ -9,5 +9,7 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
     public class InventoryChangeSearchModel : BaseSearchModel
     {
         public bool ApprovalVisible { get; set; }
+
+        public int ForUserId { get; set; }
     }
 }

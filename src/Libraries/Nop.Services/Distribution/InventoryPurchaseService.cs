@@ -8,6 +8,9 @@ using System.Linq;
 using Nop.Services.Events;
 using Nop.Core;
 using LinqToDB.SchemaProvider;
+using Nop.Core.Domain.Catalog;
+using Microsoft.AspNetCore.ResponseCaching;
+using Nop.Core.Domain.Shipping;
 
 namespace Nop.Services.Distribution
 {
@@ -21,6 +24,9 @@ namespace Nop.Services.Distribution
         private readonly IStoreContext _storeContext;
         private readonly IRepository<InventoryPurchasePayment> _inventoryPurchasePayment;
         private readonly IRepository<InventoryChange> _inventoryChange;
+        private readonly IRepository<ProductWarehouseInventory> _productWarehouseInventory;
+        private readonly IRepository<Product> _product;
+        private readonly IRepository<Warehouse> _warehouse;
 
         public InventoryPurchaseService(IRepository<InventoryPurchase> inventoryPurchase,
                                         IEventPublisher eventPublisher,
@@ -28,7 +34,10 @@ namespace Nop.Services.Distribution
                                         IWorkContext workContext,
                                         IStoreContext storeContext,
                                         IRepository<InventoryPurchasePayment> inventoryPurchasePayment,
-                                        IRepository<InventoryChange> inventoryChange)
+                                        IRepository<InventoryChange> inventoryChange,
+                                        IRepository<ProductWarehouseInventory> productWarehouseInventory,
+                                       IRepository<Product> product,
+                                        IRepository<Warehouse> warehouse)
         {
             _eventPublisher = eventPublisher;
             _inventoryPurchase = inventoryPurchase;
@@ -37,6 +46,9 @@ namespace Nop.Services.Distribution
             _storeContext = storeContext;
             _inventoryPurchasePayment = inventoryPurchasePayment;
             _inventoryChange = inventoryChange;
+            _productWarehouseInventory = productWarehouseInventory;
+            _product = product;
+            _warehouse = warehouse;
         }
         public IList<InventoryPurchase> GetInventoryPurchases(IList<int> warehouseIds)
         {
@@ -131,20 +143,20 @@ namespace Nop.Services.Distribution
 
             //check if it already have an existing payment id
             var existingPurchasesWithPaymentId = GetInventoryPurchasesByPaymentId(inventoryPurchasePayment.Id);
-            
+
             var inventoryPurchases = GetInventoryPurchasesByIds(inventoryPurchaseIds);
             var total = existingPurchasesWithPaymentId.Select(x => x.PriceInclTax).Sum();
             foreach (var item in inventoryPurchases)
-            {              
-                if(!existingPurchasesWithPaymentId.Any(x=> x.Id == item.Id))
+            {
+                if (!existingPurchasesWithPaymentId.Any(x => x.Id == item.Id))
                 {
                     item.PaymentId = inventoryPurchasePayment.Id;
                     total += item.PriceInclTax;
-                }                    
+                }
             }
 
-            inventoryPurchasePayment.Total = total;            
-            
+            inventoryPurchasePayment.Total = total;
+
             UpdateInventoryPurchases(inventoryPurchases);
 
             UpdateInventoryPurchasePayment(inventoryPurchasePayment);
@@ -171,7 +183,7 @@ namespace Nop.Services.Distribution
         public IList<InventoryPurchasePayment> GetIncompleteInventoryPurchasePaymentsForCustomer(int customerId)
         {
             var query = from purchase in _inventoryPurchasePayment.Table
-                        where ((purchase.StatusId == (int)InventoryStatus.Pending)|| (purchase.StatusId == (int)InventoryStatus.Processing))
+                        where ((purchase.StatusId == (int)InventoryStatus.Pending) || (purchase.StatusId == (int)InventoryStatus.Processing))
                         && purchase.CustomerId == customerId
                         select purchase;
 
@@ -180,10 +192,10 @@ namespace Nop.Services.Distribution
 
         public InventoryPurchasePayment CreateOrGetExistingPendingPurchasePayment(InventoryPurchasePayment inventoryPurchasePayment)
         {
-           var existing = (from purchase in _inventoryPurchasePayment.Table
-                           where purchase.StatusId == (int)InventoryStatus.Pending
-                           && purchase.CustomerId == inventoryPurchasePayment.CustomerId
-                          select purchase).FirstOrDefault();
+            var existing = (from purchase in _inventoryPurchasePayment.Table
+                            where purchase.StatusId == (int)InventoryStatus.Pending
+                            && purchase.CustomerId == inventoryPurchasePayment.CustomerId
+                            select purchase).FirstOrDefault();
             if (existing != null)
                 return existing;
 
@@ -221,14 +233,14 @@ namespace Nop.Services.Distribution
             foreach (var item in inventoryPurchasePayments)
             {
                 _eventPublisher.EntityUpdated(item);
-            }           
+            }
         }
 
         public void DeleteInventoryPurchasePayment(InventoryPurchasePayment inventoryPurchasePayment)
         {
             _inventoryPurchasePayment.Delete(inventoryPurchasePayment);
 
-            var inventoryPurchases = GetInventoryPurchasesByPaymentId(inventoryPurchasePayment.Id);            
+            var inventoryPurchases = GetInventoryPurchasesByPaymentId(inventoryPurchasePayment.Id);
             foreach (var item in inventoryPurchases)
             {
                 item.PaymentId = 0;
@@ -239,10 +251,28 @@ namespace Nop.Services.Distribution
             _eventPublisher.EntityDeleted(inventoryPurchasePayment);
         }
 
-        public IList<InventoryChange> GetAllInventoryChangeInProcess()
+        public IList<InventoryChangeView> GetAllInventoryChangeInProcess()
         {
             var query = from change in _inventoryChange.Table
-                        select change;
+                        join inventory in _productWarehouseInventory.Table on change.InventoryId equals inventory.Id
+                        join product in _product.Table on inventory.ProductId equals product.Id
+                        join warehouse in _warehouse.Table on inventory.WarehouseId equals warehouse.Id                        
+                        where change.StatusId == (int)InventoryChangeStatus.Processing
+                        select new InventoryChangeView()
+                        {
+                            Id = change.Id,
+                            CreatedByUserId = change.CreatedByUserId,
+                            DateUtc = change.DateUtc,
+                            Description = change.Description,
+                            InventoryId = change.InventoryId,
+                            LastStatusChangeByUserId = change.LastStatusChangeByUserId,
+                            Note = change.Note,
+                            ProductName = product.Name,
+                            ProductSKU = product.Sku,
+                            StatusId = change.StatusId,
+                            StockQuantityChange = change.StockQuantityChange,
+                            WareHouseName = warehouse.Name
+                        };
 
             return query.ToList();
         }
@@ -259,6 +289,102 @@ namespace Nop.Services.Distribution
                 _eventPublisher.EntityInserted(item);
             }
         }
+
+        public IList<InventoryChangeView> GetAllInventoryChangeInProcessForWarehouses(int[] warehouseIds)
+        {
+            var query = from change in _inventoryChange.Table
+                        join inventory in _productWarehouseInventory.Table on change.InventoryId equals inventory.Id
+                        join product in _product.Table on inventory.ProductId equals product.Id
+                        join warehouse in _warehouse.Table on inventory.WarehouseId equals warehouse.Id
+                        where warehouseIds.Contains(inventory.WarehouseId)
+                        && change.StatusId == (int)InventoryChangeStatus.Processing
+                        select new InventoryChangeView()
+                        {
+                            Id = change.Id,
+                            CreatedByUserId = change.CreatedByUserId,
+                            DateUtc = change.DateUtc,
+                            Description = change.Description,
+                            InventoryId = change.InventoryId,
+                            LastStatusChangeByUserId = change.LastStatusChangeByUserId,
+                            Note = change.Note,
+                            ProductName = product.Name,
+                            ProductSKU = product.Sku,
+                            StatusId = change.StatusId,
+                            StockQuantityChange = change.StockQuantityChange,
+                            WareHouseName = warehouse.Name
+                        };
+
+            return query.ToList();
+        }
+
+        public InventoryChange GetInventoryChange(int id)
+        {
+            var query = from change in _inventoryChange.Table                      
+                        where change.Id == id
+                        select change;
+
+            return query.FirstOrDefault();
+        }
+
+        public IList<InventoryChangeView> GetAllInventoryChanges()
+        {
+            var query = from change in _inventoryChange.Table
+                        join inventory in _productWarehouseInventory.Table on change.InventoryId equals inventory.Id
+                        join product in _product.Table on inventory.ProductId equals product.Id
+                        join warehouse in _warehouse.Table on inventory.WarehouseId equals warehouse.Id
+                        select new InventoryChangeView()
+                        {
+                            Id = change.Id,
+                            CreatedByUserId = change.CreatedByUserId,
+                            DateUtc = change.DateUtc,
+                            Description = change.Description,
+                            InventoryId = change.InventoryId,
+                            LastStatusChangeByUserId = change.LastStatusChangeByUserId,
+                            Note = change.Note,
+                            ProductName = product.Name,
+                            ProductSKU = product.Sku,
+                            StatusId = change.StatusId,
+                            StockQuantityChange = change.StockQuantityChange,
+                            WareHouseName = warehouse.Name
+                        };
+
+            return query.ToList();
+        }
+
+        public IList<InventoryChangeView> GetAllInventoryChangesForWarehouses(int[] warehouseIds)
+        {
+            var query = from change in _inventoryChange.Table
+                        join inventory in _productWarehouseInventory.Table on change.InventoryId equals inventory.Id
+                        join product in _product.Table on inventory.ProductId equals product.Id
+                        join warehouse in _warehouse.Table on inventory.WarehouseId equals warehouse.Id
+                        where warehouseIds.Contains(inventory.WarehouseId)
+                        select new InventoryChangeView() {
+                            Id = change.Id,
+                            CreatedByUserId = change.CreatedByUserId,
+                            DateUtc = change.DateUtc,
+                            Description = change.Description,
+                            InventoryId = change.InventoryId,
+                            LastStatusChangeByUserId = change.LastStatusChangeByUserId,
+                            Note = change.Note,
+                            ProductName = product.Name,
+                            ProductSKU = product.Sku,                            
+                            StatusId = change.StatusId,
+                            StockQuantityChange = change.StockQuantityChange,
+                            WareHouseName = warehouse.Name
+                        };
+
+            return query.ToList();
+        }
+
+        public void UpdateInventoryChange(InventoryChange inventoryChange)
+        {
+            _inventoryChange.Update(inventoryChange);
+
+            _eventPublisher.EntityUpdated(inventoryChange);
+
+        }
+
+
     }
 }
 

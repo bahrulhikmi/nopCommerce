@@ -31,6 +31,10 @@ namespace Nop.Web.Areas.Admin.Factories
         public AllInventoryModel PrepareAllInventoryModel(AllInventoryModel inventoryModel);
 
         public InventoryChangeListModel PrepareInventoryChangesInProcessListModel(InventoryChangeSearchModel inventoryChangeListModel);
+
+        public InventoryChangeListModel PrepareInventoryChangesHistoryModel(InventoryChangeSearchModel inventoryChangeListModel);
+
+        public MyInventoryChangesModel PrepareMyInventoryChangesModel(MyInventoryChangesModel myInventoryChangesModel);
     }
 }
 

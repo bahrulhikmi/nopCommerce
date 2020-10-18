@@ -53,6 +53,11 @@
             {
                 Title = T("Admin.Catalog.Inventories.PriceInclTax").Text,
             },
+              new ColumnProperty(nameof(InventoryPurchaseModel.PurchasedDate))
+            {
+                Title = T("Admin.Catalog.Inventories.PurchasedDate").Text,
+                Render = new RenderDate()
+            },
               new ColumnProperty(nameof(InventoryPurchaseModel.Id))
             {
                 Width = "100",
@@ -71,7 +76,7 @@
 
               new ColumnProperty(nameof(InventoryPurchaseModel.PaymentId)){Visible= false}
     }
-})
+});
 </div>
 
 <script>

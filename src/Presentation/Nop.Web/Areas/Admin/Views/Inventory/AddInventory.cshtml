@@ -55,8 +55,9 @@
     </div>
 
 
-<script>
+    <script>
     $(document).ready(function () {
+
         $("#@Html.IdFor(model => model.WarehouseId)").change(function () {
             updateTable('#inventories-grid');
             $("#input-inventory").empty();
@@ -67,7 +68,7 @@
             var inventoryTable = $('#inventories-grid').DataTable();
             var inventories = inventoryTable.rows().data().filter(row => selectedIds.indexOf("" + row.Id) >= 0).toArray();
             var index = $(".dynamic-input").length;
-            inventories.forEach(function (data) {  
+            inventories.forEach(function (data) {
                 if ($("#" + data.Id).length > 0) {
                     var currentVal = parseInt($("#" + data.Id).val());
                     var amount = parseInt($("#Amount").val());
@@ -88,6 +89,9 @@
 
 
         });
+
+        $("#WarehouseId").val("@(Model.PreSelectedWarehouseId)").trigger('change');
+
     });
 
-</script>
+    </script>

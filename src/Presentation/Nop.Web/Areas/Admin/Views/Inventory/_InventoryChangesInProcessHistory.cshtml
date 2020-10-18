@@ -1,7 +1,7 @@
 ﻿@model InventoryChangeSearchModel
 
 @{
-    const string hideSearchBlockAttributeName = "InventoriesPage.Approval.HideSearchBlock";
+    const string hideSearchBlockAttributeName = "InventoriesChangePage.History.HideSearchBlock";
     var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
 }
 
@@ -9,8 +9,8 @@
     <div class="panel-body">
         @await Html.PartialAsync("Table", new DataTablesModel
    {
-       Name = "inventory-purchase-payment-inprocess-grid",
-       UrlRead = new DataUrl("GetInventoryChangesInProcess", "Inventory"),
+       Name = "inventory-changes-history-grid",
+       UrlRead = new DataUrl("GetInventoryChangesHistory", "Inventory"),
        Length = Model.PageSize,
        LengthMenu = Model.AvailablePageSizes,
        ColumnCollection = new List<ColumnProperty>
@@ -35,6 +35,15 @@
        {
            Title = T("Admin.InventoryChangeModel.WareHouseName").Text
        },
+                      new ColumnProperty(nameof(InventoryChangeModel.ProductName))
+            {
+                Title = T("Admin.Catalog.Inventories.ProductName").Text
+            },
+                         new ColumnProperty(nameof(InventoryChangeModel.ProductSKU))
+            {
+                Title = T("Admin.Catalog.Inventories.SKU").Text
+            },
+
       new ColumnProperty(nameof(InventoryChangeModel.StockQuantityChange))
        {
            Title = T("Admin.InventoryChangeModel.StockQuantityChange").Text

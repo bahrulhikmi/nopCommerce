@@ -1,0 +1,38 @@
+﻿@model MyInventoryChangesModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Catalog.Inventories").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("My Inventory Changes");
+
+    const string hidePurchasingRecordKey = "Inventories.HidePurchasingRecordKey";
+    const string hideInventoryPurchasePaymentInProcessKey = "Inventories.InventoryPurchasePaymentInProcess";
+    var hidePurchasingRecord = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePurchasingRecordKey, defaultValue: false);
+    var hideInventoryPurchasePaymentInProcess = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInventoryPurchasePaymentInProcessKey, defaultValue: false);
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.Inventories.MyInventoryChanges")
+    </h1>
+
+    <div class="pull-right">
+        <a href="@Url.Action("FeatureComingSoon", "Common")" class="btn bg-green" data-toggle="modal">
+            <i class="fa fa-envelope"></i>
+            @T("Admin.Inventories.Inventories.InventoryContact")
+        </a>
+    </div>
+</div>
+
+<div class="content">
+
+    @await Html.PartialAsync("_InventoryChangesInProcessForApproval", Model.InventoryChangeSearchModelForApproval)
+
+
+    <nop-panel asp-name="inventory-purchase-payment-in-process" asp-icon="fa fa-money" asp-title="@T("Admin.Inventories.InventoryChangesHistory")" asp-hide-block-attribute-name="@hideInventoryPurchasePaymentInProcess" asp-hide="@hideInventoryPurchasePaymentInProcess" asp-advanced="false">
+
+        @await Html.PartialAsync("_InventoryChangesInProcessHistory", Model.InventoryChangeSearchModelForApprovalHistory)
+    </nop-panel>
+</div>
+

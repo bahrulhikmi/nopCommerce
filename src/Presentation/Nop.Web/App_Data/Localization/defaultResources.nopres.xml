@@ -11527,6 +11527,12 @@
     <LocaleResource Name="Admin.Home">
         <Value>Home</Value>
     </LocaleResource>
+    <LocaleResource Name="Admin.Inventories.Warehouse">
+        <Value>Warehouse</Value>
+    </LocaleResource>
+    <LocaleResource Name="Admin.Inventories.Warehouse.Hint">
+        <Value>The name of the warehouse.</Value>
+    </LocaleResource>
   <LocaleResource Name="Admin.Inventories.Fields.LowStockOnly">
     <Value>Low Stock Only</Value>
   </LocaleResource>

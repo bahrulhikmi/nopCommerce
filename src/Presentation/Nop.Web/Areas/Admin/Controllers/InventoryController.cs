@@ -295,8 +295,11 @@ namespace Nop.Web.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var pendingPaymentPurchase = _inventoryPurchaseService.
-                CreateOrGetExistingPendingPurchasePayment(new InventoryPurchasePayment { CustomerId = _workContext.CurrentCustomer.Id,
-                    CreatedOnUtc = DateTime.UtcNow });
+                CreateOrGetExistingPendingPurchasePayment(new InventoryPurchasePayment
+                {
+                    CustomerId = _workContext.CurrentCustomer.Id,
+                    CreatedOnUtc = DateTime.UtcNow
+                });
 
             _inventoryPurchaseService.AddInventoryPurchasePayment(pendingPaymentPurchase, selectedPaymentIds);
 
@@ -432,9 +435,11 @@ namespace Nop.Web.Areas.Admin.Controllers
             return Json(new { result = true, total = inventoryPurchasePayment.Total });
         }
 
-        public virtual IActionResult AddInventory()
+        public virtual IActionResult AddInventory(int id)
         {
-            var model = _inventoryModelFactory.PrepareAddInventoryModel(new AddInventoryModel());
+            var inventoryModel = new AddInventoryModel();
+            inventoryModel.PreSelectedWarehouseId = id;
+            var model = _inventoryModelFactory.PrepareAddInventoryModel(inventoryModel);
 
             return View(model);
         }
@@ -442,7 +447,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         [HttpPost]
         public virtual IActionResult ApproveInventoryChange(AddInventoryModel inventoryModel)
         {
-        
+
 
             var inventoryItems = _productService.GetProductWarehouseInventoryRecords(
                 inventoryModel.InventoryAdditions.Select(x => x.Id).ToArray());
@@ -482,11 +487,12 @@ namespace Nop.Web.Areas.Admin.Controllers
             foreach (var item in inventoryItems)
             {
                 var inventoryChange = new InventoryChange();
+                inventoryChange.Description = "Admin.Inventory.InventoryChanges.Added";
                 inventoryChange.CreatedByUserId = _workContext.CurrentCustomer.Id;
                 inventoryChange.Status = InventoryChangeStatus.Processing;
                 inventoryChange.StockQuantityChange = amountDict[item.Id];
                 inventoryChange.InventoryId = item.Id;
-                inventoryChange.DateUtc = DateTime.UtcNow;                
+                inventoryChange.DateUtc = DateTime.UtcNow;
                 listChangeInventory.Add(inventoryChange);
             }
 
@@ -526,7 +532,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         [HttpPost]
         public virtual IActionResult GetInventoryChangesInProcess(InventoryChangeSearchModel searchModel)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories) || 
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories) ||
                 !_permissionService.Authorize(StandardPermissionProvider.ManageInventoriesApproval))
                 return AccessDeniedView();
 
@@ -534,6 +540,83 @@ namespace Nop.Web.Areas.Admin.Controllers
             var model = _inventoryModelFactory.PrepareInventoryChangesInProcessListModel(searchModel);
 
             return Json(model);
+        }
+        public virtual IActionResult MyInventoryChanges()
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
+                return AccessDeniedView();
+
+            var searchModel = new MyInventoryChangesModel();
+            var model = _inventoryModelFactory.PrepareMyInventoryChangesModel(searchModel);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public virtual IActionResult GetInventoryChangesInProcessForApproval(InventoryChangeSearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
+                return AccessDeniedView();
+
+
+            searchModel.ForUserId = _workContext.CurrentCustomer.Id;
+
+            //prepare model
+            var model = _inventoryModelFactory.PrepareInventoryChangesInProcessListModel(searchModel);
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult GetInventoryChangesHistory(InventoryChangeSearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
+                return AccessDeniedView();
+
+            searchModel.ForUserId = _workContext.CurrentCustomer.Id;
+            //prepare model
+            var model = _inventoryModelFactory.PrepareInventoryChangesHistoryModel(searchModel);
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult ApproveSelectedInventoryChange(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageInventories))
+                return AccessDeniedView();
+
+
+            var inventoryChange = _inventoryPurchaseService.GetInventoryChange(id);
+
+            if(inventoryChange.Status != InventoryChangeStatus.Processing)
+            {
+                return Json(new { result = false, message = $"Error: Inventory Status tidak valid." });
+            }
+
+            if (inventoryChange == null)
+            {
+                return Json(new { result = false, message = $"Error: Perubahan Inventory tidak ditemukan." });
+            }
+            //prepare model
+
+            var inventory = _productService.GetProductWarehouseInventoryRecords(new int[] { inventoryChange.InventoryId }).FirstOrDefault();
+
+            if (inventory == null)
+            {
+                return Json(new { result = false, message = $"Error: Inventory tidak ditemukan." });
+            }
+            //p
+            
+            inventory.StockQuantity += inventoryChange.StockQuantityChange;
+            inventoryChange.Status = InventoryChangeStatus.Complete;
+            inventoryChange.LastStatusChangeByUserId = _workContext.CurrentCustomer.Id;            
+
+            _productService.UpdateProductWarehouseInventory(inventory);
+            _inventoryPurchaseService.UpdateInventoryChange(inventoryChange);
+
+            return Json(new { result = true});
         }
 
     }

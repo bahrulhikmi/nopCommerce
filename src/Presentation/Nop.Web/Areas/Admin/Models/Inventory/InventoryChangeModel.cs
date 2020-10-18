@@ -14,6 +14,9 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
 
         public string WareHouseName { get; set; }
 
+        public string ProductName { get; set; }
+
+        public string ProductSKU { get; set; }
         public string Description { get; set; }
 
         public int StatusId { get; set; }

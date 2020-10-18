@@ -25,9 +25,12 @@ namespace Nop.Web.Areas.Admin.Models.Inventory
         public string Note { get; set; }
 
 
-        [NopResourceDisplayName("Admin.Catalog.Products.Fields.Warehouse")]
+        [NopResourceDisplayName("Admin.Inventories.Warehouse")]
         public int WarehouseId { get; set; }
         public IList<SelectListItem> AvailableWarehouses { get; set; }
+
+        public int PreSelectedWarehouseId { get; set; }
+
         public IList<InventoryAddition> InventoryAdditions { get; set; }
 
         public InventorySearchModel InventorySearchModel { get; set; }

@@ -70,9 +70,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 warehouseIds.AddRange(_customerWarehouseService.GetCustomerWarehouseIds(searchModel.CustomerId));
 
             IPagedList<ProductWarehouseInventory> productInventories;
-            
-            if(!searchModel.LowStockOnly)
-                productInventories= _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray()).ToPagedList(searchModel);
+
+            if (!searchModel.LowStockOnly)
+                productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray()).ToPagedList(searchModel);
             else
                 productInventories = _productService.GetAllProductWarehouseInventoryRecords(warehouseIds.ToArray(), 10).ToPagedList(searchModel);
 
@@ -128,11 +128,11 @@ namespace Nop.Web.Areas.Admin.Factories
             manageInventoryModel.InventoryPurchaseSearchModel.CustomerId = manageInventoryModel.CustomerId;
             manageInventoryModel.InventorySearchModel.CustomerId = manageInventoryModel.CustomerId;
 
-            if(!manageInventoryModel.MultipleWarehouses && wareHouseIds.Length>0)
+            if (!manageInventoryModel.MultipleWarehouses && wareHouseIds.Length > 0)
             {
                 manageInventoryModel.WarehouseName = _shippingService.GetWarehouseById(wareHouseIds[0]).Name;
             }
-            
+
 
             return manageInventoryModel;
         }
@@ -158,8 +158,8 @@ namespace Nop.Web.Areas.Admin.Factories
 
             IPagedList<InventoryPurchasePayment> inventoriesPurchasePayment = null;
 
-            if(!searchModel.MyPaymentOnly)
-                inventoriesPurchasePayment =  _inventoryPurchaseService.GetUnapprovedInventoryPurchasePayments().ToPagedList(searchModel);
+            if (!searchModel.MyPaymentOnly)
+                inventoriesPurchasePayment = _inventoryPurchaseService.GetUnapprovedInventoryPurchasePayments().ToPagedList(searchModel);
             else
                 inventoriesPurchasePayment = _inventoryPurchaseService.GetIncompleteInventoryPurchasePaymentsForCustomer(_workContext.CurrentCustomer.Id).ToPagedList(searchModel);
 
@@ -169,7 +169,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchasePaymentModel>();
                     inventoryModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(inventory.CreatedOnUtc, DateTimeKind.Utc);
-                    var cust = _customerService.GetCustomerById(inventory.CustomerId);                   
+                    var cust = _customerService.GetCustomerById(inventory.CustomerId);
                     inventoryModel.User = _customerService.GetCustomerFullName(_workContext.CurrentCustomer);
                     inventoryModel.Status = InventoryStatusToResourceString(inventoryModel.StatusId);
                     if (inventoryModel.DownloadId > 0)
@@ -197,7 +197,7 @@ namespace Nop.Web.Areas.Admin.Factories
             {
                 if (item.AdditionalFee && item.ProductId == 0)
                 {
-                    item.ProductName = item.Note;                    
+                    item.ProductName = item.Note;
                 }
                 else
                 {
@@ -210,7 +210,7 @@ namespace Nop.Web.Areas.Admin.Factories
             model.DownloadGuid = _downloadService.GetDownloadById(model.DownloadId)?.DownloadGuid ?? Guid.Empty;
             model.ReadOnly = inventoryPurchasePayment.Status == InventoryStatus.Processing;
             model.AddedInventoryPurchaseSearchModel = inventories;
-            model.IncludedInventoryPurchaseSearchModel.PaymentId = inventoryPurchasePayment.Id;            
+            model.IncludedInventoryPurchaseSearchModel.PaymentId = inventoryPurchasePayment.Id;
 
             return model;
         }
@@ -236,7 +236,7 @@ namespace Nop.Web.Areas.Admin.Factories
             }
 
             IPagedList<InventoryPurchase> inventoriesPurchased = _inventoryPurchaseService.GetInventoryPurchasesWithoutPaymentId(warehouseIds).ToPagedList(searchModel);
-       
+
             //Get Payment status
             var paymentIds = inventoriesPurchased.Select(x => x.PaymentId).Distinct();
 
@@ -253,7 +253,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();
 
-                    if(inventory.ProductId == 0 && inventory.AdditionalFee)
+                    if (inventory.ProductId == 0 && inventory.AdditionalFee)
                     {
                         inventoryModel.ProductName = inventory.Note;
                     }
@@ -264,12 +264,12 @@ namespace Nop.Web.Areas.Admin.Factories
                         inventoryModel.Sku = product.Sku;
                     }
 
-                 
+
                     if (inventoryModel.PaymentId > 0)
                     {
                         inventoryModel.StatusId = purchasePayments[inventoryModel.PaymentId].StatusId;
                         inventoryModel.Status = InventoryStatusToResourceString((int)purchasePayments[inventoryModel.PaymentId].Status);
-                       
+
                     }
                     else
                         inventoryModel.Status = InventoryStatusToResourceString((int)InventoryStatus.None);
@@ -298,7 +298,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 {
                     var inventoryModel = inventory.ToModel<InventoryPurchaseModel>();
 
-                    if(inventoryModel.AdditionalFee && inventoryModel.ProductId ==0)
+                    if (inventoryModel.AdditionalFee && inventoryModel.ProductId == 0)
                     {
                         inventoryModel.ProductName = inventoryModel.Note;
                     }
@@ -376,8 +376,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                     {
                         Text = warehouse.Name,
-                        Value = warehouse.Id.ToString()   
-                    } 
+                        Value = warehouse.Id.ToString()
+                    }
                     );
             }
             return inventoryModel;
@@ -394,6 +394,74 @@ namespace Nop.Web.Areas.Admin.Factories
 
             return allInventoryModel;
         }
+
+        public InventoryChangeListModel PrepareInventoryChangesInProcessListModel(InventoryChangeSearchModel searchModel)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+
+            IPagedList<InventoryChangeView> inventoryChanges;
+            if (searchModel.ForUserId == 0)
+            {
+                inventoryChanges = _inventoryPurchaseService.GetAllInventoryChangeInProcess().ToPagedList(searchModel);
+            } else
+            {
+                var customerWarehouses = _customerWarehouseService.GetCustomerWarehouseIds(searchModel.ForUserId);
+                inventoryChanges = _inventoryPurchaseService.GetAllInventoryChangeInProcessForWarehouses(customerWarehouses.ToArray()).ToPagedList(searchModel);
+            }           
+
+            var model = new InventoryChangeListModel().PrepareToGrid(searchModel, inventoryChanges, () =>
+            {
+                return inventoryChanges.Select(inventory =>
+                {
+                    var inventoryChangeModel = inventory.ToModel<InventoryChangeModel>();                    
+                    return inventoryChangeModel;
+                }
+                );
+            });
+
+            return model;
+        }
+
+        public MyInventoryChangesModel PrepareMyInventoryChangesModel(MyInventoryChangesModel myInventoryChangesModel)
+        {
+            myInventoryChangesModel.InventoryChangeSearchModelForApproval = new InventoryChangeSearchModel() { ApprovalVisible = true };
+            myInventoryChangesModel.InventoryChangeSearchModelForApprovalHistory = new InventoryChangeSearchModel() { };
+            return myInventoryChangesModel;
+        }
+
+
+        public InventoryChangeListModel PrepareInventoryChangesHistoryModel(InventoryChangeSearchModel searchModel)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+
+            IPagedList<InventoryChangeView> inventoryChanges;
+            if (searchModel.ForUserId == 0)
+            {
+                inventoryChanges = _inventoryPurchaseService.GetAllInventoryChanges().ToPagedList(searchModel);
+            }
+            else
+            {
+                var customerWarehouses = _customerWarehouseService.GetCustomerWarehouseIds(searchModel.ForUserId);
+                inventoryChanges = _inventoryPurchaseService.GetAllInventoryChangesForWarehouses(customerWarehouses.ToArray()).ToPagedList(searchModel);
+            }
+
+            var model = new InventoryChangeListModel().PrepareToGrid(searchModel, inventoryChanges, () =>
+            {
+                return inventoryChanges.Select(inventory =>
+                {
+                    var inventoryChangeModel = inventory.ToModel<InventoryChangeModel>();                  
+                    return inventoryChangeModel;
+                }
+                );
+            });
+
+            return model;
+        }
+
 
         private string InventoryStatusToResourceString(int status)
         {
@@ -413,40 +481,5 @@ namespace Nop.Web.Areas.Admin.Factories
             }
         }
 
-        public InventoryChangeListModel PrepareInventoryChangesInProcessListModel(InventoryChangeSearchModel searchModel)
-        {
-            if (searchModel == null)
-                throw new ArgumentNullException(nameof(searchModel));           
-
-            var inventoriesPurchased = _inventoryPurchaseService.GetAllInventoryChangeInProcess().ToPagedList(searchModel);
-            var productWarehouses = _productService.
-                GetProductWarehouseInventoryRecords(inventoriesPurchased.Select(inv => inv.InventoryId).ToArray());
-
-            var warehouses = _shippingService.GetWarehousesByIds(productWarehouses.Select(pw => pw.WarehouseId).ToArray());
-
-            var warehouseDictNames = new Dictionary<int, string>();
-            foreach (var productWarehouse in productWarehouses)
-            {
-                var warehouse = warehouses.FirstOrDefault(w => w.Id == productWarehouse.WarehouseId);
-                if(warehouse==null)
-                {
-                    continue;
-                }
-                warehouseDictNames.Add(productWarehouse.Id, warehouse.Name);
-            }
-
-            var model = new InventoryChangeListModel().PrepareToGrid(searchModel, inventoriesPurchased, () =>
-            {
-                return inventoriesPurchased.Select(inventory =>
-                {                    
-                    var inventoryChangeModel = inventory.ToModel<InventoryChangeModel>();
-                    inventoryChangeModel.WareHouseName = warehouseDictNames[inventoryChangeModel.InventoryId];
-                    return inventoryChangeModel;
-                }
-                );
-            });
-
-            return model;
-        }
     }
 }
