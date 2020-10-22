@@ -11,6 +11,7 @@
     var canManageCustomers = permissionService.Authorize(StandardPermissionProvider.ManageCustomers);
     var canManageProducts = permissionService.Authorize(StandardPermissionProvider.ManageProducts);
     var canManageReturnRequests = permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests);
+    var canManageInventories = permissionService.Authorize(StandardPermissionProvider.ManageInventories);
 }
 
 <div class="content-header">
@@ -35,13 +36,22 @@
             </div>
 
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardTop })
-         
+
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardNewsAfter })
             @if (!Model.IsLoggedInAsVendor && canManageOrders && canManageCustomers && canManageProducts && canManageReturnRequests)
             {
                 <div class="row">
                     <div class="col-md-12">
                         @await Component.InvokeAsync("CommonStatistics")
+                    </div>
+                </div>
+            }
+
+            @if (canManageInventories)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        @await Component.InvokeAsync("DistributorStatistics")
                     </div>
                 </div>
             }

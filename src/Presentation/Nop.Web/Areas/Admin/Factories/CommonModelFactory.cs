@@ -41,6 +41,7 @@ using Nop.Web.Areas.Admin.Models.Localization;
 using Nop.Web.Framework.Models.Extensions;
 using Nop.Web.Framework.Security;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Services.Distribution;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -85,6 +86,8 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IWebHelper _webHelper;
         private readonly IWidgetPluginManager _widgetPluginManager;
         private readonly IWorkContext _workContext;
+        private readonly IInventoryPurchaseService _inventoryPurchaseService;
+        private readonly ICustomerWarehouseService _customerWarehouseService;
         private readonly MeasureSettings _measureSettings;
         private readonly NopConfig _nopConfig;
         private readonly NopHttpClient _nopHttpClient;
@@ -128,6 +131,8 @@ namespace Nop.Web.Areas.Admin.Factories
             IWebHelper webHelper,
             IWidgetPluginManager widgetPluginManager,
             IWorkContext workContext,
+            IInventoryPurchaseService inventoryPurchaseService,
+            ICustomerWarehouseService customerWarehouseService,              
             MeasureSettings measureSettings,
             NopConfig nopConfig,
             NopHttpClient nopHttpClient,
@@ -171,6 +176,8 @@ namespace Nop.Web.Areas.Admin.Factories
             _nopConfig = nopConfig;
             _nopHttpClient = nopHttpClient;
             _proxySettings = proxySettings;
+            _inventoryPurchaseService = inventoryPurchaseService;
+            _customerWarehouseService = customerWarehouseService;
         }
 
         #endregion
@@ -1016,6 +1023,19 @@ namespace Nop.Web.Areas.Admin.Factories
                 _productService.GetLowStockProductCombinations(getOnlyTotalCount: true).TotalCount;
 
             return model;
+        }
+
+        public DistributorStatisticModel PrepareDistributorStatisticsModel()
+        {
+            var distributorStatModel = new DistributorStatisticModel();
+
+            var customerWarehouses = _customerWarehouseService.GetCustomerWarehouseIds(_workContext.CurrentCustomer.Id);
+            distributorStatModel.InventoryChangesCount = _inventoryPurchaseService.GetAllInventoryChangeInProcessForWarehousesCount(customerWarehouses.ToArray());
+            distributorStatModel.LowStockProductsCount = _productService.GetAllProductWarehouseInventoryRecordsCount(customerWarehouses, 10);
+            distributorStatModel.TotalStockCount = _productService.GetAllProductWarehouseInventoryRecordsCount(customerWarehouses, 999);
+            distributorStatModel.UnpaidInventoriesPriceTotal = _inventoryPurchaseService.GetUnpaidAmount(customerWarehouses);
+
+            return distributorStatModel;
         }
 
         #endregion

@@ -74,5 +74,11 @@ namespace Nop.Web.Areas.Admin.Factories
         /// </summary>
         /// <returns>Common statistics model</returns>
         CommonStatisticsModel PrepareCommonStatisticsModel();
+
+        /// <summary>
+        /// Prepare distributor statistics model
+        /// </summary>
+        /// <returns>Common statistics model</returns>
+        DistributorStatisticModel PrepareDistributorStatisticsModel();
     }
 }

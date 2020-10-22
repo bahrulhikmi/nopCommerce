@@ -2511,6 +2511,8 @@ namespace Nop.Services.Catalog
             return _productWarehouseInventoryRepository.Table.Where(pwi => pwi.ProductId == productId).ToList();
         }
 
+
+
         /// <summary>
         /// Get a product warehouse-inventory records by product identifier
         /// </summary>
@@ -2519,6 +2521,16 @@ namespace Nop.Services.Catalog
         {
             return _productWarehouseInventoryRepository.Table.Where(pwi => warehouseIds.Contains(pwi.WarehouseId) && pwi.StockQuantity < maxStock).ToList();
         }
+
+        /// <summary>
+        /// Get a product warehouse-inventory records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        public virtual int GetAllProductWarehouseInventoryRecordsCount(int[] warehouseIds, int maxStock)
+        {
+            return _productWarehouseInventoryRepository.Table.Where(pwi => warehouseIds.Contains(pwi.WarehouseId) && pwi.StockQuantity < maxStock).Sum(pwi => pwi.StockQuantity);
+        }
+
 
         /// <summary>
         /// Get a product warehouse-inventory records by product identifier

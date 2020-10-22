@@ -384,7 +384,26 @@ namespace Nop.Services.Distribution
 
         }
 
+        public int  GetAllInventoryChangeInProcessForWarehousesCount(int[] warehouseIds)
+        {
 
+            var query = from change in _inventoryChange.Table
+                        join inventory in _productWarehouseInventory.Table on change.InventoryId equals inventory.Id                  
+                        where warehouseIds.Contains(inventory.WarehouseId)
+                        && change.StatusId == (int)InventoryChangeStatus.Processing
+                        select change;
+
+            return query.Count();
+        }
+
+        public int GetUnpaidAmount(IList<int> warehouseIds)
+        {
+            var query = from purchase in _inventoryPurchase.Table
+                        where warehouseIds.Contains(purchase.WarehouseId) && purchase.PaymentId == 0
+                        select purchase.PriceInclTax;
+
+            return (int)query.Sum();
+        }
     }
 }
 

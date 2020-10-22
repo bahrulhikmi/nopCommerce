@@ -9,6 +9,8 @@ namespace Nop.Services.Distribution
     {
         public IList<InventoryPurchase> GetInventoryPurchases(IList<int> warehouseIds);
         public IList<InventoryPurchase> GetInventoryPurchasesWithoutPaymentId(IList<int> warehouseIds);
+
+        public int GetUnpaidAmount(IList<int> warehouseIds);
         public IList<InventoryPurchase> GetInventoryPurchasesByIds(IList<int> ids);
         public IList<InventoryPurchase> GetInventoryPurchasesByPaymentId(int paymentId);
         public InventoryPurchase GetInventoryPurchase(int id);
@@ -29,6 +31,8 @@ namespace Nop.Services.Distribution
         public IList<InventoryChangeView> GetAllInventoryChangeInProcess();
 
         public IList<InventoryChangeView> GetAllInventoryChangeInProcessForWarehouses(int[] warehouseIds);
+
+        public int GetAllInventoryChangeInProcessForWarehousesCount(int[] warehouseIds);
 
         public IList<InventoryChangeView> GetAllInventoryChanges();
 
