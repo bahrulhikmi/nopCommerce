@@ -3,9 +3,11 @@ using System.Linq;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Customers;
 using Nop.Services.Caching;
 using Nop.Services.Common;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Logging;
 using Nop.Web.Areas.Admin.Infrastructure.Cache;
 using Nop.Web.Areas.Admin.Models.Home;
@@ -28,6 +30,7 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IWorkContext _workContext;
         private readonly NopHttpClient _nopHttpClient;
+        private readonly IGenericAttributeService _genericAttributeService;
 
         #endregion
 
@@ -41,7 +44,8 @@ namespace Nop.Web.Areas.Admin.Factories
             ISettingService settingService,
             IStaticCacheManager staticCacheManager,
             IWorkContext workContext,
-            NopHttpClient nopHttpClient)
+            NopHttpClient nopHttpClient,
+            IGenericAttributeService genericAttributeService)
         {
             _adminAreaSettings = adminAreaSettings;
             _cacheKeyService = cacheKeyService;
@@ -52,6 +56,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _staticCacheManager = staticCacheManager;
             _workContext = workContext;
             _nopHttpClient = nopHttpClient;
+            _genericAttributeService = genericAttributeService;
         }
 
         #endregion
@@ -70,7 +75,27 @@ namespace Nop.Web.Areas.Admin.Factories
 
             model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
 
-            //prepare nested search models
+            var customer = _workContext.CurrentCustomer;
+            model.UserProfileModel = new Models.Common.UserProfileModel();
+            model.UserProfileModel.Email = _workContext.CurrentCustomer.Email;
+            model.UserProfileModel.FirstName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.FirstNameAttribute);
+            model.UserProfileModel.LastName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastNameAttribute);
+            model.UserProfileModel.Gender = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.GenderAttribute);
+            var dateOfBirth = _genericAttributeService.GetAttribute<DateTime?>(customer, NopCustomerDefaults.DateOfBirthAttribute);
+            if (dateOfBirth.HasValue)
+            {
+                model.UserProfileModel.DateOfBirthDay = dateOfBirth.Value.Day;
+                model.UserProfileModel.DateOfBirthMonth = dateOfBirth.Value.Month;
+                model.UserProfileModel.DateOfBirthYear = dateOfBirth.Value.Year;
+            }
+            model.UserProfileModel.StreetAddress = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.StreetAddressAttribute);
+            model.UserProfileModel.StreetAddress2 = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.StreetAddress2Attribute);
+            model.UserProfileModel.ZipPostalCode = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.ZipPostalCodeAttribute);
+            model.UserProfileModel.City = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.CityAttribute);
+            model.UserProfileModel.CountryId = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.CountryIdAttribute);
+            model.UserProfileModel.Phone = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.PhoneAttribute);
+
+            //prepare nested search models           _
             _commonModelFactory.PreparePopularSearchTermSearchModel(model.PopularSearchTerms);
             _orderModelFactory.PrepareBestsellerBriefSearchModel(model.BestsellersByAmount);
             _orderModelFactory.PrepareBestsellerBriefSearchModel(model.BestsellersByQuantity);

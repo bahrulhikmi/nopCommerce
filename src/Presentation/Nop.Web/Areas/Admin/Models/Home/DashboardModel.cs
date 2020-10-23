@@ -24,6 +24,8 @@ namespace Nop.Web.Areas.Admin.Models.Home
 
         public bool IsLoggedInAsVendor { get; set; }
 
+        public UserProfileModel UserProfileModel { get; set; }
+
         public PopularSearchTermSearchModel PopularSearchTerms { get; set; }
 
         public BestsellerBriefSearchModel BestsellersByAmount { get; set; }

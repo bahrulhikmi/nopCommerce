@@ -5,8 +5,8 @@
 @inject Nop.Services.Common.IGenericAttributeService genericAttributeService
 
 @{
-    const string panelId = "nopcommerce-user-profile";
-    const string hidePanelAttributeName = "HideNopCommerceUserProfilePanel";
+    const string panelId = "nopcommerce-user-info";
+    const string hidePanelAttributeName = "HideNopCommerceInfoPanel";
     var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
 }
 
@@ -14,7 +14,7 @@
     <div class="box-header with-border clearfix">
         <div class="box-title">
             <i class="fa fa-newspaper-o"></i>
-            @T("Admin.Common.MyInfo")
+            @T("Admin.Common.UserNews")
             
                 <div class="new-item-notification"><span>+2</span></div>
         </div>

@@ -1,4 +1,4 @@
-﻿@model DashboardModel
+﻿@model UserProfileModel
 @inject IWorkContext workContext
 
 @using Nop.Core
@@ -15,7 +15,7 @@
         <div class="box-title">
             <i class="fa fa-user"></i>
             @T("Admin.Common.MyProfile")
-                          
+
         </div>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -37,23 +37,66 @@
                 <div class="panel panel-info">
                     <div class="panel-heading clearfix">
                         Info Saya
+
+                        <div class="pull-right"><a href="">Edit</a></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <nop-label asp-for="FirstName" />
+                            </div>
+                            <div class="col-md-10">
+                                @Model.FirstName
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <nop-label asp-for="LastName" />
+                            </div>
+                            <div class="col-md-10">
+                                @Model.LastName
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <nop-label asp-for="Email" />
+                            </div>
+                            <div class="col-md-10">
+                                @Model.Email
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <nop-label asp-for="Gender" />
+                            </div>
+                            <div class="col-md-10">
+                                @Model.Gender
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <nop-label asp-for="WarehouseOwned" />
+                            </div>
+                            <div class="col-md-10">
+                                @Model.WarehouseOwned
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading clearfix">
+                        Point Saya
                     </div>
                     <div class="panel-body">
                         Belum tersedia
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading clearfix">
-                    Point Saya
-                </div>
-                <div class="panel-body">
-                    Belum tersedia
-                </div>
-            </div>
-        </div>
         </div>
 
         <script>
