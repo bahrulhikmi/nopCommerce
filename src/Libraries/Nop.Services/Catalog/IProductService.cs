@@ -776,6 +776,8 @@ namespace Nop.Services.Catalog
 
         int GetAllProductWarehouseInventoryRecordsCount(int[] warehouseIds, int maxStock);
 
+        int GetLowStockProductsCount(int[] warehouseIds, int lowLimit);
+
         IList<ProductWarehouseInventory> GetProductWarehouseInventoryRecords(int[] productWarehouseInventoryIds);
 
         /// <summary>

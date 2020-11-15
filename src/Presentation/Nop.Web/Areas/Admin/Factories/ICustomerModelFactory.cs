@@ -33,6 +33,8 @@ namespace Nop.Web.Areas.Admin.Factories
         /// <returns>Customer model</returns>
         CustomerModel PrepareCustomerModel(CustomerModel model, Customer customer, bool excludeProperties = false);
 
+        EditMyProfileModel PrepareEditMyProfileModel(EditMyProfileModel model, Customer customer);
+
         /// <summary>
         /// Prepare paged reward points list model
         /// </summary>

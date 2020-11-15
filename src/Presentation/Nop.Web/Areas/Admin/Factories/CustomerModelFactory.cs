@@ -849,6 +849,51 @@ namespace Nop.Web.Areas.Admin.Factories
             return model;
         }
 
+        public virtual EditMyProfileModel PrepareEditMyProfileModel(EditMyProfileModel model, Customer customer)
+        {
+            if (customer != null)
+            {
+                //fill in model values from the entity
+                model ??= new EditMyProfileModel();
+
+                model.Id = customer.Id;
+
+     
+                    model.Email = customer.Email;
+                    model.Username = customer.Username;
+                    model.FirstName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.FirstNameAttribute);
+                    model.LastName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastNameAttribute);
+                    model.Gender = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.GenderAttribute);
+                    model.DateOfBirth = _genericAttributeService.GetAttribute<DateTime?>(customer, NopCustomerDefaults.DateOfBirthAttribute);                    
+                    model.StreetAddress = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.StreetAddressAttribute);
+                    model.StreetAddress2 = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.StreetAddress2Attribute);
+                    model.ZipPostalCode = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.ZipPostalCodeAttribute);
+                    model.City = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.CityAttribute);
+                    model.County = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.CountyAttribute);
+                    model.CountryId = _genericAttributeService.GetAttribute<int>(customer, NopCustomerDefaults.CountryIdAttribute);
+                    model.StateProvinceId = _genericAttributeService.GetAttribute<int>(customer, NopCustomerDefaults.StateProvinceIdAttribute);
+                    model.Phone = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.PhoneAttribute);                    
+                    model.TimeZoneId = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.TimeZoneIdAttribute);                    
+                 
+
+ 
+            }
+
+            model.CountryEnabled = _customerSettings.CountryEnabled;
+            //prepare available time zones
+            _baseAdminModelFactory.PrepareTimeZones(model.AvailableTimeZones, false);
+
+            //prepare available countries and states
+            if (_customerSettings.CountryEnabled)
+            {
+                _baseAdminModelFactory.PrepareCountries(model.AvailableCountries);
+                if (_customerSettings.StateProvinceEnabled)
+                    _baseAdminModelFactory.PrepareStatesAndProvinces(model.AvailableStates, model.CountryId == 0 ? null : (int?)model.CountryId);
+            }
+
+            return model;
+        }
+
         /// <summary>
         /// Prepare paged reward points list model
         /// </summary>

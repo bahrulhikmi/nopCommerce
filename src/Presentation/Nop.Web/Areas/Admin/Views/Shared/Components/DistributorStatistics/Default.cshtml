@@ -4,8 +4,8 @@
 @inject Nop.Services.Catalog.IPriceFormatter priceFormatter
 @inject IWorkContext workContext
 @{
-    const string panelId = "nopcommerce-common-statistics-box";
-    const string hidePanelAttributeName = "HideCommonStatisticsPanel";
+    const string panelId = "nopcommerce-distributor-statistics-box";
+    const string hidePanelAttributeName = "HideDistributorStatisticsPanel";
     var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
 }
 

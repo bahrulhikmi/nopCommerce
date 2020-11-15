@@ -521,6 +521,84 @@ namespace Nop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public virtual IActionResult EditMyProfile()
+        {
+            //prepare model
+            var model = _customerModelFactory.PrepareEditMyProfileModel(null, _workContext.CurrentCustomer);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [FormValueRequired("save")]
+        public virtual IActionResult EditMyProfile(EditMyProfileModel model, IFormCollection form)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                return AccessDeniedView();
+
+            //try to get a customer with the specified id
+            var customer = _customerService.GetCustomerById(model.Id);
+            if (customer == null || customer.Deleted)
+                return RedirectToAction("Index", "Home", null);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //email
+                    if (!string.IsNullOrWhiteSpace(model.Email))
+                        _customerRegistrationService.SetEmail(customer, model.Email, false);
+                    else
+                        customer.Email = model.Email;
+
+                    //username
+                    if (_customerSettings.UsernamesEnabled)
+                    {
+                        if (!string.IsNullOrWhiteSpace(model.Username))
+                            _customerRegistrationService.SetUsername(customer, model.Username);
+                        else
+                            customer.Username = model.Username;
+                    }
+
+                    //form fields
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.TimeZoneIdAttribute, model.TimeZoneId);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.GenderAttribute, model.Gender);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.FirstNameAttribute, model.FirstName);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.LastNameAttribute, model.LastName);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.DateOfBirthAttribute, model.DateOfBirth);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.StreetAddressAttribute, model.StreetAddress);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.StreetAddress2Attribute, model.StreetAddress2);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.ZipPostalCodeAttribute, model.ZipPostalCode);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.CityAttribute, model.City);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.CountyAttribute, model.County);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.CountryIdAttribute, model.CountryId);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.StateProvinceIdAttribute, model.StateProvinceId);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.PhoneAttribute, model.Phone);
+
+                    _customerService.UpdateCustomer(customer);
+
+                    //activity log
+                    _customerActivityService.InsertActivity("EditCustomer",
+                        string.Format(_localizationService.GetResource("ActivityLog.EditCustomer"), customer.Id), customer);
+
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.Updated"));
+
+                    return RedirectToAction("EditMyProfile");
+                }
+                catch (Exception exc)
+                {
+                    _notificationService.ErrorNotification(exc.Message);
+                }
+            }
+
+            //prepare model
+            model = _customerModelFactory.PrepareEditMyProfileModel(model, customer);
+
+            //if we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(CustomerModel model, bool continueEditing, IFormCollection form)
@@ -727,18 +805,18 @@ namespace Nop.Web.Areas.Admin.Controllers
                     var allWarehouse = _shippingService.GetAllWarehouses();
                     var currentCustomerWarehouseIds = _customerWarehouseService.GetCustomerWarehouseIds(customer.Id);
                     foreach (var warehouse in allWarehouse)
-                    {                        
-                        if(model.SelectedWarehouseIds != null && model.SelectedWarehouseIds.Contains(warehouse.Id))
+                    {
+                        if (model.SelectedWarehouseIds != null && model.SelectedWarehouseIds.Contains(warehouse.Id))
                         {
                             if (currentCustomerWarehouseIds.All(warehouseId => warehouseId != warehouse.Id))
                                 _customerWarehouseService.AddCustomerWarehouseMapping(customer.Id, warehouse.Id);
                         }
                         else
                         {
- 
+
                             if (currentCustomerWarehouseIds.Any(warehouseId => warehouseId == warehouse.Id))
                                 _customerWarehouseService.DeleteCustomerWarehouseMapping(customer.Id, warehouse.Id);
-                        }                        
+                        }
 
                     }
 
@@ -784,6 +862,33 @@ namespace Nop.Web.Areas.Admin.Controllers
             model = _customerModelFactory.PrepareCustomerModel(model, customer, true);
 
             //if we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [HttpPost, ActionName("EditMyProfile")]
+        [FormValueRequired("changepassword")]
+        public virtual IActionResult ChangePassword(EditMyProfileModel model)
+        {
+            if (!_customerService.IsRegistered(_workContext.CurrentCustomer))
+                return Challenge();
+
+            var customer = _workContext.CurrentCustomer;
+
+            if (ModelState.IsValid)
+            {
+                var changePasswordRequest = new ChangePasswordRequest(customer.Email,
+                    true, _customerSettings.DefaultPasswordFormat, model.Password, model.OldPassword);
+                var changePasswordResult = _customerRegistrationService.ChangePassword(changePasswordRequest);
+                if (changePasswordResult.Success)
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.PasswordChanged"));
+                else
+                    foreach (var error in changePasswordResult.Errors)
+                        _notificationService.ErrorNotification(error);
+
+                return RedirectToAction("EditMyProfile", new { id = customer.Id });
+            }
+
+            //If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -1195,7 +1300,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 ?? throw new ArgumentException("No customer found with the specified id", nameof(customerId));
 
             //try to get an address with the specified id
-            var address = _customerService.GetCustomerAddress(customer.Id, id);            
+            var address = _customerService.GetCustomerAddress(customer.Id, id);
 
             if (address == null)
                 return Content("No address found with the specified id");
@@ -1732,7 +1837,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 return AccessDeniedDataTablesJson();
-       
+
             //prepare model
             var model = _customerModelFactory.PrepareCustomerWarehouseListModel(searchModel);
 
