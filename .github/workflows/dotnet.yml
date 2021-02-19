@@ -17,7 +17,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1
-    - name: Restore dependencies
-      run: dotnet restore src/NopCommerce.sln
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Dotnet Publish
+      run: dotnet publish  src/NopCommerce.sln -c Release -o deploy
+    - name: Copy via ssh
+      uses: garygrossgarten/github-action-scp@v0.5.3
+      with:
+        local: /home/runner/work/nopCommerce/nopCommerce/src/deploy/
+        remote: ${{ secrets.REMOTE_TARGET }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
