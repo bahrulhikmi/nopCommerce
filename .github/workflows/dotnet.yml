@@ -13,7 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+    - name: Dotnet Publish
+      run: dotnet publish  nopCommerce/src/Presentation/Nop.Web/Nop.Web.csproj -c Release -o deploy
     - name: Pre Deploy
       uses: garygrossgarten/github-action-ssh@release
       with:
@@ -27,7 +28,7 @@ jobs:
     - name: Copy via ssh
       uses: garygrossgarten/github-action-scp@release
       with:
-        local: /home/runner/work/nopCommerce/nopCommerce/src/
+        local: /home/runner/work/nopCommerce/nopCommerce/deploy/
         remote: ${{ secrets.REMOTE_TARGET }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
