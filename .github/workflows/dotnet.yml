@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Dotnet Publish
-      run: dotnet publish  nopCommerce/src/Presentation/Nop.Web/Nop.Web.csproj -c Release -o deploy
+      run: dotnet publish  src/Presentation/Nop.Web/Nop.Web.csproj -c Release -o deploy
     - name: Pre Deploy
       uses: garygrossgarten/github-action-ssh@release
       with:
